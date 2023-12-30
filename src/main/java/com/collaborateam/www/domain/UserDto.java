@@ -13,12 +13,14 @@ public class UserDto {
     private Date upDate;
 
     public UserDto() {}
-    public UserDto(String id, String pwd, String email, String name, Date birth) {
+    public UserDto(String id, String pwd, String email, String name, Date birth, Date regDate, Date upDate) {
         this.id = id;
         this.pwd = pwd;
         this.email = email;
         this.name = name;
         this.birth = birth;
+        this.regDate = regDate;
+        this.upDate = upDate;
     }
 
     @Override
@@ -26,12 +28,12 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) && Objects.equals(pwd, userDto.pwd) && Objects.equals(email, userDto.email) && Objects.equals(name, userDto.name) && Objects.equals(birth, userDto.birth) && Objects.equals(regDate, userDto.regDate);
+        return Objects.equals(id, userDto.id) && Objects.equals(pwd, userDto.pwd) && Objects.equals(email, userDto.email) && Objects.equals(name, userDto.name) && Objects.equals(birth, userDto.birth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pwd, email, name, birth, regDate);
+        return Objects.hash(id, pwd, email, name, birth);
     }
 
     public String getId() {
