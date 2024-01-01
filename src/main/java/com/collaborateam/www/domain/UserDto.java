@@ -9,18 +9,14 @@ public class UserDto {
     private String email;
     private String name;
     private Date birth;
-    private Date regDate;
-    private Date upDate;
 
     public UserDto() {}
-    public UserDto(String id, String pwd, String email, String name, Date birth, Date regDate, Date upDate) {
+    public UserDto(String id, String pwd, String email, String name, Date birth) {
         this.id = id;
         this.pwd = pwd;
         this.email = email;
         this.name = name;
         this.birth = birth;
-        this.regDate = regDate;
-        this.upDate = upDate;
     }
 
     @Override
@@ -76,22 +72,6 @@ public class UserDto {
         this.birth = birth;
     }
 
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public Date getUpDate() {
-        return upDate;
-    }
-
-    public void setUpDate(Date upDate) {
-        this.upDate = upDate;
-    }
-
     @Override
     public String toString() {
         return "UserDto{" +
@@ -100,8 +80,6 @@ public class UserDto {
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", birth=" + birth +
-                ", regDate=" + regDate +
-                ", upDate=" + upDate +
                 '}';
     }
 }

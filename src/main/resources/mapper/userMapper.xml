@@ -7,6 +7,11 @@
         SELECT count(*) FROM user
     </select>
     
+    <select id="selectAllUser" resultType="UserDto">
+        SELECT *
+        FROM user
+    </select>
+    
     <delete id="deleteAllUser">
         DELETE FROM user
     </delete>
@@ -17,4 +22,20 @@
         VALUES
             (#{id}, #{pwd}, #{email}, #{name}, #{birth})
     </insert>
+
+    <select id="selectUser" parameterType="string" resultType="UserDto">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="UserDto">
+        UPDATE user
+        SET pwd = #{pwd}
+        ,   email = #{email}
+        ,   name = #{name}
+        ,   birth = #{birth}
+        ,   up_date = now()
+        where id = #{id}
+    </update>
 </mapper>
