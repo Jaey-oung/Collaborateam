@@ -24,4 +24,16 @@
 	<!--view-controller path="/register/add" view-name="registerForm"/--> <!-- GET 방식만 처리 -->
 	<context:component-scan base-package="com.collaborateam.www" />
 	<view-controller path="/" view-name="home" />
+
+	<annotation-driven validator="userValidator"/>
+	<beans:bean id="userValidator" class="com.collaborateam.www.domain.UserValidator"/>
+
+	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>error_message</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+	</beans:bean>
 </beans:beans>
