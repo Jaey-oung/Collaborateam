@@ -37,10 +37,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserDto selectUser(String id) throws Exception {
         return session.selectOne(namespace + "selectUser", id);
-    } // Read - C
+    } // Read - R
 
     @Override
     public int updateUser(UserDto userDto) throws Exception {
         return session.update(namespace + "updateUser", userDto);
     } // Update - U
+
+    @Override
+    public int deleteUser(String id) throws Exception {
+        return session.delete(namespace + "deleteUser", id);
+    } // Delete - D
+
 }

@@ -4,16 +4,18 @@
 
 <mapper namespace="com.collaborateam.www.dao.UserMapper">
     <select id="countUser" resultType="int">
-        SELECT count(*) FROM user
+        SELECT count(*)
+        FROM user
     </select>
-    
+
     <select id="selectAllUser" resultType="UserDto">
         SELECT *
         FROM user
     </select>
     
     <delete id="deleteAllUser">
-        DELETE FROM user
+        DELETE
+        FROM user
     </delete>
 
     <insert id="insertUser" parameterType="UserDto">
@@ -38,4 +40,10 @@
         ,   up_date = now()
         where id = #{id}
     </update>
+
+    <delete id="deleteUser" parameterType="string">
+        DELETE
+        FROM user
+        WHERE id = #{id}
+    </delete>
 </mapper>

@@ -134,4 +134,24 @@ public class UserDaoImplTest {
         UserDto userDto4 = userDao.selectUser(id);
         assertEquals(userDto2, userDto4);
     }
+
+    @Test
+    public void deleteUserTest() throws Exception {
+        userDao.deleteAllUser();
+        assertEquals(0, userDao.countUser());
+
+        assertEquals(1, userDao.insertUser(userDto1));
+        assertEquals(1, userDao.countUser());
+
+        assertEquals(1, userDao.insertUser(userDto2));
+        assertEquals(2, userDao.countUser());
+
+        assertEquals(1, userDao.deleteUser(userDto1.getId()));
+        assertEquals(1, userDao.countUser());
+        assertNull(userDao.selectUser(userDto1.getId()));
+
+        assertEquals(1, userDao.deleteUser(userDto2.getId()));
+        assertEquals(0, userDao.countUser());
+        assertNull(userDao.selectUser(userDto2.getId()));
+    }
 }
