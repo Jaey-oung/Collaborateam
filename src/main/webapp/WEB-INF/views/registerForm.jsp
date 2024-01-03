@@ -11,7 +11,7 @@
 <body>
     <form:form id="registerForm" modelAttribute="userDto">
         <div id="msg" class="msg">
-            <form:errors path="id"/>
+            <form:errors path="id"/>    <%--span id="id.errors"></span--%>
             <form:errors path="pwd"/>
             <form:errors path="name"/>
         </div>
@@ -49,7 +49,7 @@
         let year = document.getElementById("year").value;
         let month = document.getElementById("month").value;
         let day = document.getElementById("day").value;
-        document.getElementById("birth").value = day + "-" + month + "-" + year;
+        document.getElementById("birth").value = year + "-" + month + "-" + day;
 
         document.getElementById("registerForm").submit();
     }

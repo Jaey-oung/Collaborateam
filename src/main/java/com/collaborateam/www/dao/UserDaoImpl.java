@@ -14,39 +14,37 @@ public class UserDaoImpl implements UserDao {
     private static final String namespace = "com.collaborateam.www.dao.UserMapper.";
 
     @Override
-    public int countUser() throws Exception {
-        return session.selectOne(namespace + "countUser");
+    public int count() throws Exception {
+        return session.selectOne(namespace + "count");
     }
 
     @Override
-    public List<UserDto> selectAllUser() throws Exception {
-        return session.selectList(namespace + "selectAllUser");
-    }
-
-
-    @Override
-    public void deleteAllUser() throws Exception {
-        session.delete(namespace + "deleteAllUser");
+    public List<UserDto> selectAll() throws Exception {
+        return session.selectList(namespace + "selectAll");
     }
 
     @Override
-    public int insertUser(UserDto userDto) throws Exception {
-        return session.insert(namespace + "insertUser", userDto);
+    public void deleteAll() throws Exception {
+        session.delete(namespace + "deleteAll");
+    }
+
+    @Override
+    public int insert(UserDto userDto) throws Exception {
+        return session.insert(namespace + "insert", userDto);
     } // Create - C
 
     @Override
-    public UserDto selectUser(String id) throws Exception {
-        return session.selectOne(namespace + "selectUser", id);
+    public UserDto select(String id) throws Exception {
+        return session.selectOne(namespace + "select", id);
     } // Read - R
 
     @Override
-    public int updateUser(UserDto userDto) throws Exception {
-        return session.update(namespace + "updateUser", userDto);
+    public int update(UserDto userDto) throws Exception {
+        return session.update(namespace + "update", userDto);
     } // Update - U
 
     @Override
-    public int deleteUser(String id) throws Exception {
-        return session.delete(namespace + "deleteUser", id);
+    public int delete(String id) throws Exception {
+        return session.delete(namespace + "delete", id);
     } // Delete - D
-
 }

@@ -1,6 +1,5 @@
 package com.collaborateam.www.dao;
 
-
 import com.collaborateam.www.domain.UserDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,76 +33,88 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void selectAllUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void countTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        List<UserDto> userDtoList = userDao.selectAllUser();
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
+
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
+    }
+
+    @Test
+    public void selectAllTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
+
+        List<UserDto> userDtoList = userDao.selectAll();
         assertEquals(0, userDtoList.size());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        userDtoList = userDao.selectAllUser();
+        assertEquals(1, userDao.insert(userDto1));
+        userDtoList = userDao.selectAll();
         assertEquals(1, userDtoList.size());
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        userDtoList = userDao.selectAllUser();
+        assertEquals(1, userDao.insert(userDto2));
+        userDtoList = userDao.selectAll();
         assertEquals(2, userDtoList.size());
     }
 
     @Test
-    public void deleteAllUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void deleteAllTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        assertEquals(1, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        assertEquals(2, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
 
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
     }
 
     @Test
-    public void insertUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void insertTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        assertEquals(1, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        assertEquals(2, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
     }
 
     @Test
-    public void selectUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void selectTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        assertEquals(1, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
 
-        String id = userDao.selectAllUser().get(0).getId();
-        UserDto userDto3 = userDao.selectUser(id);
+        String id = userDao.selectAll().get(0).getId();
+        UserDto userDto3 = userDao.select(id);
         assertEquals(userDto1, userDto3);
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        assertEquals(2, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
 
-        id = userDao.selectAllUser().get(1).getId();
-        UserDto userDto4 = userDao.selectUser(id);
+        id = userDao.selectAll().get(1).getId();
+        UserDto userDto4 = userDao.select(id);
         assertEquals(userDto2, userDto4);
     }
 
     @Test
-    public void updateUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void updateTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        assertEquals(1, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
 
         birth.set(2002, Calendar.DECEMBER, 19);
 
@@ -112,14 +123,14 @@ public class UserDaoImplTest {
         userDto1.setName("user10");
         userDto1.setBirth(birth.getTime());
 
-        assertEquals(1, userDao.updateUser(userDto1));
+        assertEquals(1, userDao.update(userDto1));
 
-        String id = userDao.selectAllUser().get(0).getId();
-        UserDto userDto3 = userDao.selectUser(id);
+        String id = userDao.selectAll().get(0).getId();
+        UserDto userDto3 = userDao.select(id);
         assertEquals(userDto1, userDto3);
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        assertEquals(2, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
 
         birth.set(2004, Calendar.DECEMBER, 19);
 
@@ -128,30 +139,30 @@ public class UserDaoImplTest {
         userDto2.setName("user20");
         userDto2.setBirth(birth.getTime());
 
-        assertEquals(1, userDao.updateUser(userDto2));
+        assertEquals(1, userDao.update(userDto2));
 
-        id = userDao.selectAllUser().get(1).getId();
-        UserDto userDto4 = userDao.selectUser(id);
+        id = userDao.selectAll().get(1).getId();
+        UserDto userDto4 = userDao.select(id);
         assertEquals(userDto2, userDto4);
     }
 
     @Test
-    public void deleteUserTest() throws Exception {
-        userDao.deleteAllUser();
-        assertEquals(0, userDao.countUser());
+    public void deleteTest() throws Exception {
+        userDao.deleteAll();
+        assertEquals(0, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto1));
-        assertEquals(1, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto1));
+        assertEquals(1, userDao.count());
 
-        assertEquals(1, userDao.insertUser(userDto2));
-        assertEquals(2, userDao.countUser());
+        assertEquals(1, userDao.insert(userDto2));
+        assertEquals(2, userDao.count());
 
-        assertEquals(1, userDao.deleteUser(userDto1.getId()));
-        assertEquals(1, userDao.countUser());
-        assertNull(userDao.selectUser(userDto1.getId()));
+        assertEquals(1, userDao.delete(userDto1.getId()));
+        assertEquals(1, userDao.count());
+        assertNull(userDao.select(userDto1.getId()));
 
-        assertEquals(1, userDao.deleteUser(userDto2.getId()));
-        assertEquals(0, userDao.countUser());
-        assertNull(userDao.selectUser(userDto2.getId()));
+        assertEquals(1, userDao.delete(userDto2.getId()));
+        assertEquals(0, userDao.count());
+        assertNull(userDao.select(userDto2.getId()));
     }
 }

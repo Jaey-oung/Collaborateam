@@ -3,35 +3,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.collaborateam.www.dao.UserMapper">
-    <select id="countUser" resultType="int">
+    <select id="count" resultType="int">
         SELECT count(*)
         FROM user
     </select>
 
-    <select id="selectAllUser" resultType="UserDto">
+    <select id="selectAll" resultType="UserDto">
         SELECT *
         FROM user
     </select>
     
-    <delete id="deleteAllUser">
+    <delete id="deleteAll">
         DELETE
         FROM user
     </delete>
 
-    <insert id="insertUser" parameterType="UserDto">
+    <insert id="insert" parameterType="UserDto">
         INSERT INTO user
             (id, pwd, email, name, birth)
         VALUES
             (#{id}, #{pwd}, #{email}, #{name}, #{birth})
     </insert>
 
-    <select id="selectUser" parameterType="string" resultType="UserDto">
+    <select id="select" parameterType="string" resultType="UserDto">
         SELECT *
         FROM user
         WHERE id = #{id}
     </select>
 
-    <update id="updateUser" parameterType="UserDto">
+    <update id="update" parameterType="UserDto">
         UPDATE user
         SET pwd = #{pwd}
         ,   email = #{email}
@@ -41,7 +41,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteUser" parameterType="string">
+    <delete id="delete" parameterType="string">
         DELETE
         FROM user
         WHERE id = #{id}

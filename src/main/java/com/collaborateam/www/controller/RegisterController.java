@@ -1,7 +1,7 @@
 package com.collaborateam.www.controller;
 
-import com.collaborateam.www.dao.UserDao;
 import com.collaborateam.www.domain.UserDto;
+import com.collaborateam.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.util.Date;
 @RequestMapping("/register")
 public class RegisterController {
     @Autowired
-    UserDao userDao;
+    UserService userService;
 
     @GetMapping("/add")
     public String registerForm() {
@@ -29,12 +29,12 @@ public class RegisterController {
 
     @InitBinder
     public void toDate(WebDataBinder binder) {
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(df, false));
     }
 
     @PostMapping("/add")
-    public String registerResult(@Valid UserDto userDto, BindingResult result) throws Exception {
+    public String save(@Valid UserDto userDto, BindingResult result) throws Exception {
         System.out.println("result="+result);
         System.out.println("user="+userDto);
 
@@ -42,7 +42,7 @@ public class RegisterController {
             return "registerForm";
         }
 
-        userDao.insertUser(userDto);
+        userService.insertUser(userDto);
         return "registerInfo";
     }
 }
