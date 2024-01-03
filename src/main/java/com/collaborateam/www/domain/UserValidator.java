@@ -21,11 +21,6 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pwd", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
 
-//        if (!errors.hasFieldErrors("id") && (id.length() < 8 || id.length() > 12)) {
-//            errors.rejectValue("id", "invalidLength", new String[]{"8", "12"}, null);
-//        } else if (!errors.hasFieldErrors("pwd") && (pwd.length() < 8 || pwd.length() > 12)) {
-//            errors.rejectValue("pwd", "invalidLength", new String[]{"8", "12"}, null);
-//        }
         if (!errors.hasFieldErrors("id") && !errors.hasFieldErrors("pwd")) {
             if ((id.length() < 8 || id.length() > 12)) {
                 errors.rejectValue("id", "invalidLength", new String[]{"8", "12"}, null);
