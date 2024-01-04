@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <form:form id="registerForm" modelAttribute="userDto">
@@ -19,11 +20,11 @@
         <input type="text" id="email" name="email" value="<c:out value='${userDto.email}'/>" placeholder="example@example.com">
         <input type="text" id="name" name="name" value="<c:out value='${userDto.name}'/>" placeholder="Please enter your name">
         <h1>Birth</h1>
-        <select id="year" name="year" onchange="updateDay()"></select>
-        <select id="month" name="month" onchange="updateDay()"></select>
+        <select id="year" name="year"></select>
+        <select id="month" name="month"></select>
         <select id="day" name="day"></select>
         <input type="text" id="birth" name="birth" placeholder="Please enter your birth">
-        <button type="button" onclick="formatBirthAndSubmit()">Sign Up</button>
+        <button type="button" id="submitBtn">Sign Up</button>
     </form:form>
 
     <div>
@@ -32,67 +33,78 @@
     </div>
 </body>
 <script>
-    window.onload = function() {
+    $(document).ready(function() {
         updateYear();
         updateMonth();
         updateDay();
-    }
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
+        $("#year, #month").on("change", function() {
+            updateDay();
+        });
+
+        $("#submitBtn").on("click", function() {
+            formatBirthAndSubmit();
+        });
+    })
 
     function updateYear() {
-        let selectYear = document.getElementById("year");
+        let year = $("#year");
 
-        for (let year = currentYear; year >= currentYear - 100; year--) {
-            const yearOption = document.createElement("option");
-            yearOption.value = year;
-            yearOption.text = year;
-            selectYear.appendChild(yearOption);
+        const currentYear = new Date().getFullYear();
+
+        for (let lastYear = currentYear; lastYear >= currentYear - 100; lastYear--) {
+            year.append($("<option>", {
+                value: lastYear,
+                text: lastYear
+            }));
         }
+        year.val("");
     }
 
     function updateMonth() {
-        let selectMonth = document.getElementById("month");
+        let month = $("#month");
 
-        for (let month = 1; month <= 12; month++) {
-            const monthOption = document.createElement("option");
-            monthOption.value = month;
-            monthOption.text = month;
-            selectMonth.appendChild(monthOption);
+        for (let startMonth = 1; startMonth <= 12; startMonth++) {
+            month.append($("<option>", {
+                value: startMonth,
+                text: startMonth
+            }));
         }
+        month.val("");
     }
 
     function updateDay() {
-        let year = document.getElementById("year").value;
-        let month = document.getElementById("month").value;
-        let selectDay = document.getElementById("day");
+        let selectYear = $("#year").val();
+        let selectMonth = $("#month").val();
+        let day = $("#day");
+        day.empty();
 
-        selectDay.innerHTML = "";
+        const daysInMonth = new Date(selectYear, selectMonth, 0).getDate();
 
-        const daysInMonth = new Date(year, month, 0).getDate();
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayOption = document.createElement("option");
-            dayOption.value = day;
-            dayOption.text = day;
-            selectDay.appendChild(dayOption);
+        for (let startDay = 1; startDay <= daysInMonth; startDay++) {
+            day.append($("<option>", {
+                value: startDay,
+                text: startDay
+            }));
         }
+        day.val("");
     }
 
     function formatBirthAndSubmit() {
-        let year = document.getElementById("year").value;
-        let month = document.getElementById("month").value;
-        let day = document.getElementById("day").value;
+        let selectYear = $("#year").val();
+        let selectMonth = $("#month").val();
+        let selectDay = $("#day").val();
 
-        document.getElementById("birth").value = year + "-" + month + "-" + day;
+        let birth = selectYear + "-" + selectMonth + "-" + selectDay;
+        $("#birth").val(birth);
 
-        let selectBirth = new Date(document.getElementById('birth').value);
+        const currentDate = new Date();
+        let selectBirth = new Date(birth);
 
         if (selectBirth > currentDate) {
             alert("Please verify your date of birth");
         } else {
-            document.getElementById("registerForm").submit();
+            $("#registerForm").submit();
         }
     }
 </script>
