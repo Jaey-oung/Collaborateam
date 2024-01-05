@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <title>Board</title>
 </head>
 <body>
 <div>
@@ -23,9 +23,9 @@
     </ul>
 </div>
 <div>
-    <h1>This is HOME</h1>
-    <h1>This is HOME</h1>
-    <h1>This is HOME</h1>
+    <h1>This is BOARD</h1>
+    <h1>This is BOARD</h1>
+    <h1>This is BOARD</h1>
 </div>
 </body>
 </html>

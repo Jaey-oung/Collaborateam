@@ -50,6 +50,8 @@
     function updateYear() {
         let year = $("#year");
 
+        year.append('<option value="">--Select Year--</option>');
+
         const currentYear = new Date().getFullYear();
 
         for (let lastYear = currentYear; lastYear >= currentYear - 100; lastYear--) {
@@ -58,11 +60,12 @@
                 text: lastYear
             }));
         }
-        year.val("");
     }
 
     function updateMonth() {
         let month = $("#month");
+
+        month.append('<option value="">--Select Month--</option>');
 
         for (let startMonth = 1; startMonth <= 12; startMonth++) {
             month.append($("<option>", {
@@ -70,7 +73,6 @@
                 text: startMonth
             }));
         }
-        month.val("");
     }
 
     function updateDay() {
@@ -79,15 +81,18 @@
         let day = $("#day");
         day.empty();
 
-        const daysInMonth = new Date(selectYear, selectMonth, 0).getDate();
+        if (selectYear !== "" && selectMonth !== "") {
+            let daysInMonth = new Date(selectYear, selectMonth, 0).getDate();
 
-        for (let startDay = 1; startDay <= daysInMonth; startDay++) {
-            day.append($("<option>", {
-                value: startDay,
-                text: startDay
-            }));
+            for (let startDay = 1; startDay <= daysInMonth; startDay++) {
+                day.append($("<option>", {
+                    value: startDay,
+                    text: startDay
+                }));
+            }
+        } else {
+            day.append('<option value="">--Select Day--</option>');
         }
-        day.val("");
     }
 
     function formatBirthAndSubmit() {
@@ -95,16 +100,20 @@
         let selectMonth = $("#month").val();
         let selectDay = $("#day").val();
 
-        let birth = selectYear + "-" + selectMonth + "-" + selectDay;
-        $("#birth").val(birth);
-
-        const currentDate = new Date();
-        let selectBirth = new Date(birth);
-
-        if (selectBirth > currentDate) {
-            alert("Please verify your date of birth");
+        if (selectYear === "" || selectMonth === "" || selectDay === "") {
+            alert("Please select your date of birth");
         } else {
-            $("#registerForm").submit();
+            let birth = selectYear + "-" + selectMonth + "-" + selectDay;
+            $("#birth").val(birth);
+
+            const currentDate = new Date();
+            let selectBirth = new Date(birth);
+
+            if (selectBirth > currentDate) {
+                alert("Please verify your date of birth.");
+            } else {
+                $("#registerForm").submit();
+            }
         }
     }
 </script>
