@@ -10,17 +10,19 @@
 </head>
 <body>
 <form action="<c:url value='/login/login'/>" method="post">
-    <input type="text" id="id" name="id" value="${cookie.id.value}" placeholder="ID">
-    <input type="password" id="pwd" name="pwd" placeholder="Password">
-    <input type="URL" id="redirectUrl" name="redirectUrl" value="${param.redirectUrl}">
+    <input type="text" id="id" name="id" value="<c:out value='${id}'/>" placeholder="ID">
+    <input type="password" id="pwd" name="pwd" value="<c:out value='${pwd}'/>" placeholder="Password">
+    <input type="URL" id="redirectUrl" name="redirectUrl" value="<c:out value='${param.redirectUrl}'/>">
     <button>Login</button>
-    <input type="checkbox" id="rememberId" name="rememberId" ${empty cookie.id.value ? "":"checked"}> Remember ID
+    <input type="checkbox" id="rememberId" name="rememberId" ${empty cookie.id.value ? "": "checked"}> Remember ID
 </form>
 </body>
 <script>
     let msg = "${msg}";
     if(msg === "LOGIN_ERR") {
-        alert("Login Failed");
+        alert("Please verify your id and password");
+    } else if(msg === "EMPTY_FIELD") {
+        alert("Please fill in the empty field");
     }
 </script>
 </html>

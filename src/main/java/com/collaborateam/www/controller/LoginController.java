@@ -26,31 +26,37 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(String id, String pwd, RedirectAttributes redirectAttributes, String redirectUrl,
-                        boolean rememberId, HttpServletRequest request, HttpServletResponse response) {
-        if(!loginCheck(id, pwd)) {
-            redirectAttributes.addFlashAttribute("msg", "LOGIN_ERR");
-            return "redirect:/login/login?redirectUrl="+redirectUrl;
+    public String login(String id, String pwd, boolean rememberId, String redirectUrl,
+                        RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
+
+        // Check if id and pwd are null or empty
+        boolean isFieldNullOrEmpty = id == null || id.trim().isEmpty() || pwd == null || pwd.trim().isEmpty();
+
+        if(isFieldNullOrEmpty || !loginCheck(id, pwd)) {
+            redirectAttributes.addFlashAttribute("msg", isFieldNullOrEmpty ? "EMPTY_FIELD" : "LOGIN_ERR");
+            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("pwd", pwd);
+            return "redirect:/login/login?redirectUrl="+redirectUrl;    // Redirect to the login page
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("id", id);
+        session.setAttribute("id", id); // Set "id" in the session
 
         Cookie cookie = new Cookie("id", id);
         if (!rememberId) {
-            cookie.setMaxAge(0);
+            cookie.setMaxAge(0);    // Expires cookie
         }
         response.addCookie(cookie);
 
         redirectUrl = (redirectUrl == null || redirectUrl.isEmpty()) ? "/" : redirectUrl;
 
-        return "redirect:"+redirectUrl;
+        return "redirect:"+redirectUrl; // Redirect to the specified URL
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/";
+        return "redirect:/";    // Redirect to the home page
     }
 
     private boolean loginCheck(String id, String pwd) {
@@ -61,6 +67,6 @@ public class LoginController {
         } catch (Exception e) {
             return false;
         }
-        return userDto!=null && userDto.getPwd().equals(pwd);
+        return userDto != null && userDto.getPwd().equals(pwd);
     }
 }

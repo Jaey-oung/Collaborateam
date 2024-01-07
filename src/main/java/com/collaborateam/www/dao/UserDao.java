@@ -8,8 +8,8 @@ public interface UserDao {
     int count() throws Exception;
     List<UserDto> selectAll() throws Exception;
     void deleteAll() throws Exception;
-    int insert(UserDto userDto) throws Exception; // Create - C
+    int insert(UserDto userDto) throws Exception;   // Create - C
     UserDto select(String id) throws Exception; // Read - R
-    int update(UserDto userDto) throws Exception; // Update - U
+    int update(UserDto userDto) throws Exception;   // Update - U
     int delete(String id) throws Exception; // Delete - D
 }

@@ -1,7 +1,6 @@
 package com.collaborateam.www.domain;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class UserValidator implements Validator {
@@ -16,17 +15,24 @@ public class UserValidator implements Validator {
 
         String id = userDto.getId();
         String pwd = userDto.getPwd();
+        String name = userDto.getName();
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id",  "required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pwd", "required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
+        boolean isIdNullOrEmpty = id == null || id.trim().isEmpty();
+        boolean isPwdNullOrEmpty = pwd == null || pwd.trim().isEmpty();
+        boolean isNameNullOrEmpty = name == null || name.trim().isEmpty();
 
-        if (!errors.hasFieldErrors("id") && !errors.hasFieldErrors("pwd")) {
-            if ((id.length() < 8 || id.length() > 12)) {
-                errors.rejectValue("id", "invalidLength", new String[]{"8", "12"}, null);
+        if (isIdNullOrEmpty || isPwdNullOrEmpty || isNameNullOrEmpty) {
+            if (isIdNullOrEmpty) {
+                errors.rejectValue("id", "required");
+            } else if (isPwdNullOrEmpty) {
+                errors.rejectValue("pwd", "required");
+            } else {
+                errors.rejectValue("name", "required");
             }
-
-            if ((pwd.length() < 8 || pwd.length() > 12)) {
+        } else {
+            if (id.length() < 8 || id.length() > 12) {
+                errors.rejectValue("id", "invalidLength", new String[]{"8", "12"}, null);
+            } else if (pwd.length() < 8 || pwd.length() > 12) {
                 errors.rejectValue("pwd", "invalidLength", new String[]{"8", "12"}, null);
             }
         }

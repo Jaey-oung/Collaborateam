@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="loginInOut" value="${sessionScope.id==null ? 'Login' : 'Logout'}"/>
-<c:set var="loginInOutLink" value="${sessionScope.id==null ? '/login/login' : '/login/logout'}"/>
+<c:set var="loginId" value="${sessionScope.id}"/>
+<c:set var="loginInOut" value="${loginId==null ? 'Login' : 'Logout'}"/>
+<c:set var="loginInOutLink" value="${loginId==null ? '/login/login' : '/login/logout'}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
         <li><a href="">Team Management</a></li>
         <li><a href="">Contact Us</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>">${loginInOut}</a></li>
-        ${sessionScope.id}
+        ${loginId}
         <li><a href="">My Account</a></li>
     </ul>
 </div>
@@ -28,4 +29,10 @@
     <h1>This is HOME</h1>
 </div>
 </body>
+<script>
+    let msg = "${msg}";
+    if(msg === "SIGNUP_OK") {
+        alert("Registration has been successful")
+    }
+</script>
 </html>

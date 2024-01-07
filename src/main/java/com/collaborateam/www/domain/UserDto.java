@@ -24,7 +24,8 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) && Objects.equals(pwd, userDto.pwd) && Objects.equals(email, userDto.email) && Objects.equals(name, userDto.name) && Objects.equals(birth, userDto.birth);
+        return Objects.equals(id, userDto.id) && Objects.equals(pwd, userDto.pwd) &&
+                Objects.equals(email, userDto.email) && Objects.equals(name, userDto.name) && Objects.equals(birth, userDto.birth);
     }
 
     @Override

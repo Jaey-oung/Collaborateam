@@ -28,8 +28,8 @@ public class UserDaoImplTest {
         birth.clear();
         birth.set(2000, Calendar.DECEMBER, 19); // 2000-12-19
 
-        userDto1 = new UserDto("user1", "user1", "user1@user1.com", "user1", birth.getTime()); // Calendar -> Date
-        userDto2 = new UserDto("user2", "user2", "user2@user2.com", "user2", birth.getTime()); // Calendar -> Date
+        userDto1 = new UserDto("id1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
+        userDto2 = new UserDto("id2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
     }
 
     @Test
@@ -118,9 +118,9 @@ public class UserDaoImplTest {
 
         birth.set(2002, Calendar.DECEMBER, 19);
 
-        userDto1.setPwd("user10");
+        userDto1.setPwd("pwd10");
         userDto1.setEmail("user10@user10.com");
-        userDto1.setName("user10");
+        userDto1.setName("name10");
         userDto1.setBirth(birth.getTime());
 
         assertEquals(1, userDao.update(userDto1));
@@ -134,9 +134,9 @@ public class UserDaoImplTest {
 
         birth.set(2004, Calendar.DECEMBER, 19);
 
-        userDto2.setPwd("user20");
+        userDto2.setPwd("pwd20");
         userDto2.setEmail("user20@user20.com");
-        userDto2.setName("user20");
+        userDto2.setName("name20");
         userDto2.setBirth(birth.getTime());
 
         assertEquals(1, userDao.update(userDto2));
@@ -157,6 +157,9 @@ public class UserDaoImplTest {
         assertEquals(1, userDao.insert(userDto2));
         assertEquals(2, userDao.count());
 
+        assertEquals(0, userDao.delete(userDto1.getId() + "111"));
+        assertEquals(2, userDao.count());
+
         assertEquals(1, userDao.delete(userDto1.getId()));
         assertEquals(1, userDao.count());
         assertNull(userDao.select(userDto1.getId()));
@@ -164,5 +167,6 @@ public class UserDaoImplTest {
         assertEquals(1, userDao.delete(userDto2.getId()));
         assertEquals(0, userDao.count());
         assertNull(userDao.select(userDto2.getId()));
+        assertEquals(0, userDao.delete(userDto2.getId() + "222"));
     }
 }

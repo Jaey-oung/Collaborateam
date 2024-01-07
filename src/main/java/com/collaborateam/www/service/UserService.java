@@ -8,8 +8,8 @@ public interface UserService {
     int countUser() throws Exception;
     List<UserDto> selectAllUser() throws Exception;
     void deleteAllUser() throws Exception;
-    int insertUser(UserDto userDto) throws Exception;
-    UserDto selectUser(String id) throws Exception;
-    int updateUser(UserDto userDto) throws Exception;
-    int deleteUser(String id) throws Exception;
+    int insertUser(UserDto userDto) throws Exception;   // Create - C
+    UserDto selectUser(String id) throws Exception; // Read - R
+    int updateUser(UserDto userDto) throws Exception;   // Update - U
+    int deleteUser(String id) throws Exception; // Delete - D
 }

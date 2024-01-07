@@ -23,7 +23,7 @@
         <select id="year" name="year"></select>
         <select id="month" name="month"></select>
         <select id="day" name="day"></select>
-        <input type="text" id="birth" name="birth" placeholder="Please enter your birth">
+        <input type="text" id="birth" name="birth">
         <button type="button" id="submitBtn">Sign Up</button>
     </form:form>
 
@@ -34,6 +34,11 @@
 </body>
 <script>
     $(document).ready(function() {
+        let msg = "${msg}";
+        if(msg === "SIGNUP_ERR") {
+            alert("Registration has failed")
+        }
+
         updateYear();
         updateMonth();
         updateDay();

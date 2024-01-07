@@ -30,20 +30,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public int insertUser(UserDto userDto) throws Exception {
         return userDao.insert(userDto);
-    }
+    }   // Create - C
 
     @Override
     public UserDto selectUser(String id) throws Exception {
         return userDao.select(id);
-    }
+    }   // Read - R
 
     @Override
     public int updateUser(UserDto userDto) throws Exception {
         return userDao.update(userDto);
-    }
+    }   // Update - U
 
     @Override
     public int deleteUser(String id) throws Exception {
         return userDao.delete(id);
-    }
+    }   // Delete - D
 }

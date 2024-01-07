@@ -25,7 +25,7 @@
             (#{id}, #{pwd}, #{email}, #{name}, #{birth})
     </insert>
 
-    <select id="select" parameterType="string" resultType="UserDto">
+    <select id="select" parameterType="String" resultType="UserDto">
         SELECT *
         FROM user
         WHERE id = #{id}
@@ -33,15 +33,15 @@
 
     <update id="update" parameterType="UserDto">
         UPDATE user
-        SET pwd = #{pwd}
-        ,   email = #{email}
-        ,   name = #{name}
-        ,   birth = #{birth}
-        ,   up_date = now()
+        SET pwd = #{pwd},
+            email = #{email},
+            name = #{name},
+            birth = #{birth},
+            up_date = now()
         where id = #{id}
     </update>
 
-    <delete id="delete" parameterType="string">
+    <delete id="delete" parameterType="String">
         DELETE
         FROM user
         WHERE id = #{id}
