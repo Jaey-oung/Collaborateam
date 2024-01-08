@@ -12,4 +12,6 @@ public interface BoardDao {
     BoardDto select(Integer bno) throws Exception;  // Read - R
     int update(BoardDto boardDto) throws Exception;  // Update - U
     int delete(Integer bno, String writer) throws Exception;    // Delete - D
+    List<BoardDto> selectPage(Integer offset, Integer pageSize) throws Exception;
+    int increaseViewCnt(Integer bno) throws Exception;
 }

@@ -63,7 +63,7 @@ public class LoginController {
         UserDto userDto;
 
         try {
-            userDto = userService.selectUser(id);
+            userDto = userService.getUser(id);
         } catch (Exception e) {
             return false;
         }

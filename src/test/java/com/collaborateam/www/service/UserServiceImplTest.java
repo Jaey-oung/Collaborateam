@@ -33,88 +33,88 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void countUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void getCountTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
     }
 
     @Test
-    public void selectAllUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void getListTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        List<UserDto> userDtoList = userService.selectAllUser();
+        List<UserDto> userDtoList = userService.getList();
         assertEquals(0, userDtoList.size());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        userDtoList = userService.selectAllUser();
+        assertEquals(1, userService.addUser(userDto1));
+        userDtoList = userService.getList();
         assertEquals(1, userDtoList.size());
 
-        assertEquals(1, userService.insertUser(userDto2));
-        userDtoList = userService.selectAllUser();
+        assertEquals(1, userService.addUser(userDto2));
+        userDtoList = userService.getList();
         assertEquals(2, userDtoList.size());
     }
 
     @Test
-    public void deleteAllUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void removeAllUsersTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
 
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
     }
 
     @Test
-    public void insertUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void addUserTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
     }
 
     @Test
-    public void selectUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void getUserTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
-        String id = userService.selectAllUser().get(0).getId();
-        UserDto userDto3 = userService.selectUser(id);
+        String id = userService.getList().get(0).getId();
+        UserDto userDto3 = userService.getUser(id);
         assertEquals(userDto1, userDto3);
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
 
-        id = userService.selectAllUser().get(1).getId();
-        UserDto userDto4 = userService.selectUser(id);
+        id = userService.getList().get(1).getId();
+        UserDto userDto4 = userService.getUser(id);
         assertEquals(userDto2, userDto4);
     }
 
     @Test
     public void updateUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
         birth.set(2002, Calendar.DECEMBER, 19);
 
@@ -125,12 +125,12 @@ public class UserServiceImplTest {
 
         assertEquals(1, userService.updateUser(userDto1));
 
-        String id = userService.selectAllUser().get(0).getId();
-        UserDto userDto3 = userService.selectUser(id);
+        String id = userService.getList().get(0).getId();
+        UserDto userDto3 = userService.getUser(id);
         assertEquals(userDto1, userDto3);
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
 
         birth.set(2004, Calendar.DECEMBER, 19);
 
@@ -141,28 +141,34 @@ public class UserServiceImplTest {
 
         assertEquals(1, userService.updateUser(userDto2));
 
-        id = userService.selectAllUser().get(1).getId();
-        UserDto userDto4 = userService.selectUser(id);
+        id = userService.getList().get(1).getId();
+        UserDto userDto4 = userService.getUser(id);
         assertEquals(userDto2, userDto4);
     }
 
     @Test
-    public void deleteUserTest() throws Exception {
-        userService.deleteAllUser();
-        assertEquals(0, userService.countUser());
+    public void removeUserTest() throws Exception {
+        userService.removeAllUsers();
+        assertEquals(0, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto1));
-        assertEquals(1, userService.countUser());
+        assertEquals(1, userService.addUser(userDto1));
+        assertEquals(1, userService.getCount());
 
-        assertEquals(1, userService.insertUser(userDto2));
-        assertEquals(2, userService.countUser());
+        assertEquals(1, userService.addUser(userDto2));
+        assertEquals(2, userService.getCount());
 
-        assertEquals(1, userService.deleteUser(userDto1.getId()));
-        assertEquals(1, userService.countUser());
-        assertNull(userService.selectUser(userDto1.getId()));
+        assertEquals(0, userService.removeUser(userDto1.getId() + "111"));
+        assertEquals(2, userService.getCount());
 
-        assertEquals(1, userService.deleteUser(userDto2.getId()));
-        assertEquals(0, userService.countUser());
-        assertNull(userService.selectUser(userDto2.getId()));
+        assertEquals(1, userService.removeUser(userDto1.getId()));
+        assertEquals(1, userService.getCount());
+        assertNull(userService.getUser(userDto1.getId()));
+
+        assertEquals(1, userService.removeUser(userDto2.getId()));
+        assertEquals(0, userService.getCount());
+        assertNull(userService.getUser(userDto2.getId()));
+
+        assertEquals(0, userService.removeUser(userDto1.getId() + "222"));
+        assertEquals(0, userService.getCount());
     }
 }

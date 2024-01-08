@@ -90,7 +90,9 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.insert(boardDto1));
         assertEquals(1, boardDao.count());
 
-        Integer bno = boardDao.selectAll().get(0).getBno();
+        List<BoardDto> boardDtoList = boardDao.selectAll();
+
+        Integer bno = boardDtoList.get(0).getBno();
         boardDto1.setBno(bno);
 
         BoardDto boardDto3 = boardDao.select(bno);
@@ -99,7 +101,7 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.insert(boardDto2));
         assertEquals(2, boardDao.count());
 
-        bno = boardDao.selectAll().get(1).getBno();
+        bno = boardDao.selectAll().get(0).getBno();
         boardDto2.setBno(bno);
 
         BoardDto boardDto4 = boardDao.select(bno);
@@ -173,5 +175,57 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.delete(bno2, writer2));
         assertEquals(0, boardDao.count());
         assertNull(boardDao.select(bno2));
+    }
+
+    @Test
+    public void selectPageTest() throws Exception {
+        boardDao.deleteAll();
+
+        for (int i = 1; i <= 10; i++) {
+            BoardDto boardDto3 = new BoardDto("title"+i, "content"+i, "writer"+i);
+            assertEquals(1, boardDao.insert(boardDto3));
+        }
+
+        int offset = 0;
+        int pageSize = 3;
+
+        List<BoardDto> boardDtoList = boardDao.selectPage(offset, pageSize);
+        assertEquals("title10", boardDtoList.get(0).getTitle());
+        assertEquals("title9", boardDtoList.get(1).getTitle());
+        assertEquals("title8", boardDtoList.get(2).getTitle());
+
+        pageSize = 1;
+
+        boardDtoList = boardDao.selectPage(offset, pageSize);
+        assertEquals("title10", boardDtoList.get(0).getTitle());
+
+        offset = 7;
+        pageSize = 3;
+
+        boardDtoList = boardDao.selectPage(offset, pageSize);
+        assertEquals("title3", boardDtoList.get(0).getTitle());
+        assertEquals("title2", boardDtoList.get(1).getTitle());
+        assertEquals("title1", boardDtoList.get(2).getTitle());
+    }
+
+    @Test
+    public void increaseViewCntTest() throws Exception {
+        boardDao.deleteAll();
+        assertEquals(0, boardDao.count());
+
+        assertEquals(1, boardDao.insert(boardDto1));
+        assertEquals(1, boardDao.count());
+
+        Integer bno = boardDao.selectAll().get(0).getBno();
+
+        assertEquals(1, boardDao.increaseViewCnt(bno));
+        BoardDto boardDto3 = boardDao.select(bno);
+        assertNotNull(boardDto3);
+        assertEquals(1, boardDto3.getView_cnt());
+
+        assertEquals(1, boardDao.increaseViewCnt(bno));
+        boardDto3 = boardDao.select(bno);
+        assertNotNull(boardDto3);
+        assertEquals(2, boardDto3.getView_cnt());
     }
 }

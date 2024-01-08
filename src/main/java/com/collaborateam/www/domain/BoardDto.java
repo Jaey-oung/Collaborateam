@@ -8,10 +8,10 @@ public class BoardDto {
     private String title;
     private String content;
     private String writer;
-    private int viewCnt;
-    private int commentCnt;
-    private Date regDate;
-    private Date upDate;
+    private int view_cnt;
+    private int comment_cnt;
+    private Date reg_date;
+    private Date up_date;
 
     public BoardDto() {}
     public BoardDto(String title, String content, String writer) {
@@ -52,36 +52,36 @@ public class BoardDto {
         this.writer = writer;
     }
 
-    public int getViewCnt() {
-        return viewCnt;
+    public int getView_cnt() {
+        return view_cnt;
     }
 
-    public void setViewCnt(int viewCnt) {
-        this.viewCnt = viewCnt;
+    public void setView_cnt(int view_cnt) {
+        this.view_cnt = view_cnt;
     }
 
-    public int getCommentCnt() {
-        return commentCnt;
+    public int getComment_cnt() {
+        return comment_cnt;
     }
 
-    public void setCommentCnt(int commentCnt) {
-        this.commentCnt = commentCnt;
+    public void setComment_cnt(int comment_cnt) {
+        this.comment_cnt = comment_cnt;
     }
 
-    public Date getRegDate() {
-        return regDate;
+    public Date getReg_date() {
+        return reg_date;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setReg_date(Date reg_date) {
+        this.reg_date = reg_date;
     }
 
-    public Date getUpDate() {
-        return upDate;
+    public Date getUp_date() {
+        return up_date;
     }
 
-    public void setUpDate(Date upDate) {
-        this.upDate = upDate;
+    public void setUp_date(Date up_date) {
+        this.up_date = up_date;
     }
 
     @Override
@@ -105,10 +105,10 @@ public class BoardDto {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", writer='" + writer + '\'' +
-                ", viewCnt=" + viewCnt +
-                ", commentCnt=" + commentCnt +
-                ", regDate=" + regDate +
-                ", upDate=" + upDate +
+                ", view_cnt=" + view_cnt +
+                ", comment_cnt=" + comment_cnt +
+                ", reg_date=" + reg_date +
+                ", up_date=" + up_date +
                 '}';
     }
 }

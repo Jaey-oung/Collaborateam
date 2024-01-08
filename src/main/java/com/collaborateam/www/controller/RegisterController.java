@@ -42,7 +42,7 @@ public class RegisterController {
         }
 
         try {
-            int rowCnt = userService.insertUser(userDto);
+            int rowCnt = userService.addUser(userDto);
             if(rowCnt != 1)
                 throw new Exception("Sign Up Failed");
             redirectAttributes.addFlashAttribute("msg", "SIGNUP_OK");

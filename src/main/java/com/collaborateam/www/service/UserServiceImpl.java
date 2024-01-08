@@ -13,27 +13,27 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Override
-    public int countUser() throws Exception {
+    public int getCount() throws Exception {
         return userDao.count();
     }
 
     @Override
-    public List<UserDto> selectAllUser() throws Exception {
+    public List<UserDto> getList() throws Exception {
         return userDao.selectAll();
     }
 
     @Override
-    public void deleteAllUser() throws Exception {
+    public void removeAllUsers() throws Exception {
         userDao.deleteAll();
     }
 
     @Override
-    public int insertUser(UserDto userDto) throws Exception {
+    public int addUser(UserDto userDto) throws Exception {
         return userDao.insert(userDto);
     }   // Create - C
 
     @Override
-    public UserDto selectUser(String id) throws Exception {
+    public UserDto getUser(String id) throws Exception {
         return userDao.select(id);
     }   // Read - R
 
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }   // Update - U
 
     @Override
-    public int deleteUser(String id) throws Exception {
+    public int removeUser(String id) throws Exception {
         return userDao.delete(id);
     }   // Delete - D
 }

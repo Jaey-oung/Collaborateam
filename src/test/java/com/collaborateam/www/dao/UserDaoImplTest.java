@@ -167,6 +167,8 @@ public class UserDaoImplTest {
         assertEquals(1, userDao.delete(userDto2.getId()));
         assertEquals(0, userDao.count());
         assertNull(userDao.select(userDto2.getId()));
+
         assertEquals(0, userDao.delete(userDto2.getId() + "222"));
+        assertEquals(0, userDao.count());
     }
 }
