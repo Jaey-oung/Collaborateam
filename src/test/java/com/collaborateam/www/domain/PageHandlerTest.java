@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class PageHandlerTest {
     @Test
     public void test() {
-        PageHandler pageHandler = new PageHandler(200, 1);
+        PageHandler pageHandler = new PageHandler(200, 1, 10);
         pageHandler.print();
         assertFalse(pageHandler.isShowPrev());
         assertTrue(pageHandler.isShowNext());
@@ -18,7 +18,7 @@ public class PageHandlerTest {
 
     @Test
     public void test2() {
-        PageHandler pageHandler = new PageHandler(350, 11);
+        PageHandler pageHandler = new PageHandler(350, 11, 10);
         pageHandler.print();
         assertTrue(pageHandler.isShowPrev());
         assertTrue(pageHandler.isShowNext());
@@ -29,7 +29,7 @@ public class PageHandlerTest {
 
     @Test
     public void test3() {
-        PageHandler pageHandler = new PageHandler(555, 21);
+        PageHandler pageHandler = new PageHandler(555, 21, 10);
         pageHandler.print();
         assertTrue(pageHandler.isShowPrev());
         assertTrue(pageHandler.isShowNext());

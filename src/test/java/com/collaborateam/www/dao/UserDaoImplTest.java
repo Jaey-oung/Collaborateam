@@ -49,16 +49,16 @@ public class UserDaoImplTest {
         userDao.deleteAll();
         assertEquals(0, userDao.count());
 
-        List<UserDto> userDtoList = userDao.selectAll();
-        assertEquals(0, userDtoList.size());
+        List<UserDto> list = userDao.selectAll();
+        assertEquals(0, list.size());
 
         assertEquals(1, userDao.insert(userDto1));
-        userDtoList = userDao.selectAll();
-        assertEquals(1, userDtoList.size());
+        list = userDao.selectAll();
+        assertEquals(1, list.size());
 
         assertEquals(1, userDao.insert(userDto2));
-        userDtoList = userDao.selectAll();
-        assertEquals(2, userDtoList.size());
+        list = userDao.selectAll();
+        assertEquals(2, list.size());
     }
 
     @Test

@@ -27,6 +27,15 @@ public class BoardServiceImplTest {
     }
 
     @Test
+    public void insertData() throws Exception {
+        boardService.removeAllPosts();
+        for(int i=1; i<=220; i++) {
+            BoardDto boardDto = new BoardDto("title"+i, "content"+i, "writer");
+            boardService.write(boardDto);
+        }
+    }
+
+    @Test
     public void getCountTest() throws Exception {
         boardService.removeAllPosts();
         assertEquals(0, boardService.getCount());
@@ -43,16 +52,16 @@ public class BoardServiceImplTest {
         boardService.removeAllPosts();
         assertEquals(0, boardService.getCount());
 
-        List<BoardDto> boardDtoList = boardService.getList();
-        assertEquals(0, boardDtoList.size());
+        List<BoardDto> list = boardService.getList();
+        assertEquals(0, list.size());
 
         assertEquals(1, boardService.write(boardDto1));
-        boardDtoList = boardService.getList();
-        assertEquals(1, boardDtoList.size());
+        list = boardService.getList();
+        assertEquals(1, list.size());
 
         assertEquals(1, boardService.write(boardDto2));
-        boardDtoList = boardService.getList();
-        assertEquals(2, boardDtoList.size());
+        list = boardService.getList();
+        assertEquals(2, list.size());
     }
 
     @Test
@@ -90,9 +99,9 @@ public class BoardServiceImplTest {
         assertEquals(1, boardService.write(boardDto1));
         assertEquals(1, boardService.getCount());
 
-        List<BoardDto> boardDtoList = boardService.getList();
+        List<BoardDto> list = boardService.getList();
 
-        Integer bno = boardDtoList.get(0).getBno();
+        Integer bno = list.get(0).getBno();
         boardDto1.setBno(bno);
 
         BoardDto boardDto3 = boardService.read(bno);
@@ -189,22 +198,22 @@ public class BoardServiceImplTest {
         int offset = 0;
         int pageSize = 3;
 
-        List<BoardDto> boardDtoList = boardService.getPage(offset, pageSize);
-        assertEquals("title10", boardDtoList.get(0).getTitle());
-        assertEquals("title9", boardDtoList.get(1).getTitle());
-        assertEquals("title8", boardDtoList.get(2).getTitle());
+        List<BoardDto> list = boardService.getPage(offset, pageSize);
+        assertEquals("title10", list.get(0).getTitle());
+        assertEquals("title9", list.get(1).getTitle());
+        assertEquals("title8", list.get(2).getTitle());
 
         pageSize = 1;
 
-        boardDtoList = boardService.getPage(offset, pageSize);
-        assertEquals("title10", boardDtoList.get(0).getTitle());
+        list = boardService.getPage(offset, pageSize);
+        assertEquals("title10", list.get(0).getTitle());
 
         offset = 7;
         pageSize = 3;
 
-        boardDtoList = boardService.getPage(offset, pageSize);
-        assertEquals("title3", boardDtoList.get(0).getTitle());
-        assertEquals("title2", boardDtoList.get(1).getTitle());
-        assertEquals("title1", boardDtoList.get(2).getTitle());
+        list = boardService.getPage(offset, pageSize);
+        assertEquals("title3", list.get(0).getTitle());
+        assertEquals("title2", list.get(1).getTitle());
+        assertEquals("title1", list.get(2).getTitle());
     }
 }

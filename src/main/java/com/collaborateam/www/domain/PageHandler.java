@@ -3,7 +3,7 @@ package com.collaborateam.www.domain;
 public class PageHandler {
 
     private int page; // Current page
-    private int pageSize = 10;
+    private int pageSize;
     private int totalCnt;
     private int naviSize = 10;
     private int totalPage;
@@ -12,16 +12,24 @@ public class PageHandler {
     private boolean showPrev;
     private boolean showNext;
 
-
-    public PageHandler(int totalCnt, int page) {
+    public PageHandler(int totalCnt, int page, int pageSize) {
         this.totalCnt = totalCnt;
         this.page = page;
+        this.pageSize = pageSize;
 
         totalPage = (int)Math.ceil(totalCnt / (double)pageSize);
         beginPage = (page-1) / naviSize * naviSize + 1;
         endPage = Math.min(beginPage + naviSize - 1, totalPage);
         showPrev = beginPage != 1;
         showNext = endPage != totalPage;
+
+//        this.totalCnt = totalCnt;
+//
+//        totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+//        beginPage = (sc.getPage()-1) / naviSize * naviSize + 1;
+//        endPage = Math.min(beginPage + naviSize - 1, totalPage);
+//        showPrev = beginPage != 1;
+//        showNext = endPage != totalPage;
     }
 
     public int getPage() {

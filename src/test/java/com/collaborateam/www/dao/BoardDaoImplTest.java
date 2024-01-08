@@ -43,16 +43,16 @@ public class BoardDaoImplTest {
         boardDao.deleteAll();
         assertEquals(0, boardDao.count());
 
-        List<BoardDto> boardDtoList = boardDao.selectAll();
-        assertEquals(0, boardDtoList.size());
+        List<BoardDto> list = boardDao.selectAll();
+        assertEquals(0, list.size());
 
         assertEquals(1, boardDao.insert(boardDto1));
-        boardDtoList = boardDao.selectAll();
-        assertEquals(1, boardDtoList.size());
+        list = boardDao.selectAll();
+        assertEquals(1, list.size());
 
         assertEquals(1, boardDao.insert(boardDto2));
-        boardDtoList = boardDao.selectAll();
-        assertEquals(2, boardDtoList.size());
+        list = boardDao.selectAll();
+        assertEquals(2, list.size());
     }
 
     @Test
@@ -90,9 +90,9 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.insert(boardDto1));
         assertEquals(1, boardDao.count());
 
-        List<BoardDto> boardDtoList = boardDao.selectAll();
+        List<BoardDto> list = boardDao.selectAll();
 
-        Integer bno = boardDtoList.get(0).getBno();
+        Integer bno = list.get(0).getBno();
         boardDto1.setBno(bno);
 
         BoardDto boardDto3 = boardDao.select(bno);
@@ -189,23 +189,23 @@ public class BoardDaoImplTest {
         int offset = 0;
         int pageSize = 3;
 
-        List<BoardDto> boardDtoList = boardDao.selectPage(offset, pageSize);
-        assertEquals("title10", boardDtoList.get(0).getTitle());
-        assertEquals("title9", boardDtoList.get(1).getTitle());
-        assertEquals("title8", boardDtoList.get(2).getTitle());
+        List<BoardDto> list = boardDao.selectPage(offset, pageSize);
+        assertEquals("title10", list.get(0).getTitle());
+        assertEquals("title9", list.get(1).getTitle());
+        assertEquals("title8", list.get(2).getTitle());
 
         pageSize = 1;
 
-        boardDtoList = boardDao.selectPage(offset, pageSize);
-        assertEquals("title10", boardDtoList.get(0).getTitle());
+        list = boardDao.selectPage(offset, pageSize);
+        assertEquals("title10", list.get(0).getTitle());
 
         offset = 7;
         pageSize = 3;
 
-        boardDtoList = boardDao.selectPage(offset, pageSize);
-        assertEquals("title3", boardDtoList.get(0).getTitle());
-        assertEquals("title2", boardDtoList.get(1).getTitle());
-        assertEquals("title1", boardDtoList.get(2).getTitle());
+        list = boardDao.selectPage(offset, pageSize);
+        assertEquals("title3", list.get(0).getTitle());
+        assertEquals("title2", list.get(1).getTitle());
+        assertEquals("title1", list.get(2).getTitle());
     }
 
     @Test

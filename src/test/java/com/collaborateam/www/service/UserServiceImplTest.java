@@ -49,16 +49,16 @@ public class UserServiceImplTest {
         userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
-        List<UserDto> userDtoList = userService.getList();
-        assertEquals(0, userDtoList.size());
+        List<UserDto> list = userService.getList();
+        assertEquals(0, list.size());
 
         assertEquals(1, userService.addUser(userDto1));
-        userDtoList = userService.getList();
-        assertEquals(1, userDtoList.size());
+        list = userService.getList();
+        assertEquals(1, list.size());
 
         assertEquals(1, userService.addUser(userDto2));
-        userDtoList = userService.getList();
-        assertEquals(2, userDtoList.size());
+        list = userService.getList();
+        assertEquals(2, list.size());
     }
 
     @Test
