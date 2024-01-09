@@ -8,6 +8,7 @@
 <head>
 	<meta charset="UTF-8">
     <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div>
@@ -30,9 +31,16 @@
 </div>
 </body>
 <script>
-    let msg = "${msg}";
-    if(msg === "SIGNUP_OK") {
-        alert("Registration has been successful")
-    }
+    $(document).ready(function() {
+        let msg = "${msg}";
+
+        if(msg === "SIGN_UP_OK") {
+            alert("Successfully registered")
+        }
+
+        if(msg === "BOARD_LIST_LOAD_ERR") {
+            alert("Failed to load the board list");
+        }
+    })
 </script>
 </html>

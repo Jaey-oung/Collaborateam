@@ -42,16 +42,13 @@ public class RegisterController {
         }
 
         try {
-            int rowCnt = userService.addUser(userDto);
+            userService.addUser(userDto);
 
-            if(rowCnt != 1)
-                throw new Exception("Sign up failed");
-            
-            redirectAttributes.addFlashAttribute("msg", "SIGNUP_OK");
+            redirectAttributes.addFlashAttribute("msg", "SIGN_UP_OK");
             return "redirect:/";    // Redirect to the home page
         } catch (Exception e) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("msg", "SIGNUP_ERR");
+            model.addAttribute("msg", "SIGN_UP_ERR");
             return "registerForm";
         }
     }

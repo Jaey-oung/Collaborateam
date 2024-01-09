@@ -41,7 +41,15 @@
     $(document).ready(function() {
         $("#listBtn").on("click", function() {
             location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
-        })
-    })
+        });
+
+        $("#removeBtn").on("click", function() {
+            if(!confirm("Would you like to delete the board?")) return;
+            let form = $("#form");
+            form.attr("action", "<c:url value='/board/remove'/>?page=${page}&pageSize=${pageSize}");
+            form.attr("method", "post");
+            form.submit();
+        });
+    });
 </script>
 </html>

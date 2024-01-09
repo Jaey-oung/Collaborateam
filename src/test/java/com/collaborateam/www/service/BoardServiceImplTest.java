@@ -22,15 +22,15 @@ public class BoardServiceImplTest {
 
     @Before
     public void init() {
-        boardDto1 = new BoardDto("title1", "content1", "writer1");
-        boardDto2 = new BoardDto("title2", "content2", "writer2");
+        boardDto1 = new BoardDto("title1", "content1", "user1");
+        boardDto2 = new BoardDto("title2", "content2", "user2");
     }
 
     @Test
     public void insertData() throws Exception {
         boardService.removeAllPosts();
         for(int i=1; i<=220; i++) {
-            BoardDto boardDto = new BoardDto("title"+i, "content"+i, "writer");
+            BoardDto boardDto = new BoardDto("title"+i, "content"+i, "user1");
             boardService.write(boardDto);
         }
     }
@@ -167,21 +167,21 @@ public class BoardServiceImplTest {
         assertEquals(2, boardService.getCount());
 
         Integer bno1 = boardService.getList().get(0).getBno();
-        String writer1 = boardService.getList().get(0).getWriter();
+        String user1 = boardService.getList().get(0).getWriter();
         Integer bno2 = boardService.getList().get(1).getBno();
-        String writer2 = boardService.getList().get(1).getWriter();
+        String user2 = boardService.getList().get(1).getWriter();
 
-        assertEquals(0, boardService.remove(bno1 + 111, writer1));
-        assertEquals(0, boardService.remove(bno1, writer1 + "111"));
-        assertEquals(0, boardService.remove(bno1 + 111, writer1 + "111"));
-        assertEquals(1, boardService.remove(bno1, writer1));
+        assertEquals(0, boardService.remove(bno1 + 111, user1));
+        assertEquals(0, boardService.remove(bno1, user1 + "111"));
+        assertEquals(0, boardService.remove(bno1 + 111, user1 + "111"));
+        assertEquals(1, boardService.remove(bno1, user1));
         assertEquals(1, boardService.getCount());
         assertNull(boardService.read(bno1));
 
-        assertEquals(0, boardService.remove(bno2 + 222, writer2));
-        assertEquals(0, boardService.remove(bno2, writer2 + "222"));
-        assertEquals(0, boardService.remove(bno2 + 222, writer2 + "222"));
-        assertEquals(1, boardService.remove(bno2, writer2));
+        assertEquals(0, boardService.remove(bno2 + 222, user2));
+        assertEquals(0, boardService.remove(bno2, user2 + "222"));
+        assertEquals(0, boardService.remove(bno2 + 222, user2 + "222"));
+        assertEquals(1, boardService.remove(bno2, user2));
         assertEquals(0, boardService.getCount());
         assertNull(boardService.read(bno2));
     }

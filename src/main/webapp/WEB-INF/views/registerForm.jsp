@@ -35,8 +35,8 @@
 <script>
     $(document).ready(function() {
         let msg = "${msg}";
-        if(msg === "SIGNUP_ERR") {
-            alert("Registration has failed")
+        if(msg === "SIGN_UP_ERR") {
+            alert("Failed to register");
         }
 
         updateYear();

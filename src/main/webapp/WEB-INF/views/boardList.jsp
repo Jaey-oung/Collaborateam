@@ -59,13 +59,14 @@
 <script>
     $(document).ready(function() {
         let msg = "${msg}";
-        if(msg === "LIST_LOAD_ERR") {
-            alert("List load has failed")
-        }
-        if(msg === "BOARD_LOAD_ERR") {
-            alert("Board load has failed")
+
+        if(msg === "BOARD_DEL_OK") {
+            alert("Successfully deleted the board");
         }
 
+        if(msg === "BOARD_DEL_ERR") {
+            alert("Failed to delete the board");
+        }
     })
 </script>
 </html>
