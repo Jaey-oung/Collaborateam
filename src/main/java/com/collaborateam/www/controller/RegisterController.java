@@ -43,8 +43,10 @@ public class RegisterController {
 
         try {
             int rowCnt = userService.addUser(userDto);
+
             if(rowCnt != 1)
-                throw new Exception("Sign Up Failed");
+                throw new Exception("Sign up failed");
+            
             redirectAttributes.addFlashAttribute("msg", "SIGNUP_OK");
             return "redirect:/";    // Redirect to the home page
         } catch (Exception e) {

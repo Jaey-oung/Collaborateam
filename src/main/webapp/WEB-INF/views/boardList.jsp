@@ -7,7 +7,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Board</title>
+    <title>BoardList</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div>
@@ -32,27 +33,39 @@
             <th>Register Date</th>
             <th>View Count</th>
         </tr>
-        <c:forEach var="board" items="${list}">
+        <c:forEach var="boardDto" items="${list}">
         <tr>
-            <td>${board.bno}</td>
-            <td>${board.title}</td>
-            <td>${board.writer}</td>
-            <td>${board.reg_date}</td>
-            <td>${board.view_cnt}</td>
+            <td><c:out value="${boardDto.bno}"/></td>
+            <td><a href="<c:url value='/board/read'/>?bno=${boardDto.bno}&page=${page}&pageSize=${pageSize}"><c:out value="${boardDto.title}"/></a></td>
+            <td><c:out value="${boardDto.writer}"/></td>
+            <td><c:out value="${boardDto.reg_date}"/></td>
+            <td><c:out value="${boardDto.view_cnt}"/></td>
         </tr>
         </c:forEach>
     </table>
     <div>
-        <c:if test="${ph.showPrev}">
-            <a href="<c:url value='/board/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>">&lt;</a>
+        <c:if test="${pagination.showPrev}">
+            <a href="<c:url value='/board/list'/>?page=${pagination.beginPage-1}&pageSize=${pagination.pageSize}">&lt;</a>
         </c:if>
-        <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-            <a href="<c:url value='/board/list?page=${i}&pageSize=${ph.pageSize}'/>">${i}</a>
+        <c:forEach var="i" begin="${pagination.beginPage}" end="${pagination.endPage}">
+            <a href="<c:url value='/board/list'/>?page=${i}&pageSize=${pagination.pageSize}">${i}</a>
         </c:forEach>
-        <c:if test="${ph.showNext}">
-            <a href="<c:url value='/board/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}'/>">&gt;</a>
+        <c:if test="${pagination.showNext}">
+            <a href="<c:url value='/board/list'/>?page=${pagination.endPage+1}&pageSize=${pagination.pageSize}">&gt;</a>
         </c:if>
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function() {
+        let msg = "${msg}";
+        if(msg === "LIST_LOAD_ERR") {
+            alert("List load has failed")
+        }
+        if(msg === "BOARD_LOAD_ERR") {
+            alert("Board load has failed")
+        }
+
+    })
+</script>
 </html>

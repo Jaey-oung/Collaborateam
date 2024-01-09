@@ -1,7 +1,6 @@
 package com.collaborateam.www.domain;
 
-public class PageHandler {
-
+public class Pagination {
     private int page; // Current page
     private int pageSize;
     private int totalCnt;
@@ -12,7 +11,7 @@ public class PageHandler {
     private boolean showPrev;
     private boolean showNext;
 
-    public PageHandler(int totalCnt, int page, int pageSize) {
+    public Pagination(int totalCnt, int page, int pageSize) {
         this.totalCnt = totalCnt;
         this.page = page;
         this.pageSize = pageSize;
@@ -22,14 +21,6 @@ public class PageHandler {
         endPage = Math.min(beginPage + naviSize - 1, totalPage);
         showPrev = beginPage != 1;
         showNext = endPage != totalPage;
-
-//        this.totalCnt = totalCnt;
-//
-//        totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
-//        beginPage = (sc.getPage()-1) / naviSize * naviSize + 1;
-//        endPage = Math.min(beginPage + naviSize - 1, totalPage);
-//        showPrev = beginPage != 1;
-//        showNext = endPage != totalPage;
     }
 
     public int getPage() {
@@ -115,7 +106,7 @@ public class PageHandler {
 
     @Override
     public String toString() {
-        return "PageHandler{" +
+        return "Pagination{" +
                 "page=" + page +
                 ", pageSize=" + pageSize +
                 ", totalCnt=" + totalCnt +

@@ -61,12 +61,11 @@ public class LoginController {
 
     private boolean loginCheck(String id, String pwd) {
         UserDto userDto;
-
         try {
             userDto = userService.getUser(id);
         } catch (Exception e) {
             return false;
         }
-        return userDto != null && userDto.getPwd().equals(pwd);
+        return userDto!=null && userDto.getPwd().equals(pwd);
     }
 }
