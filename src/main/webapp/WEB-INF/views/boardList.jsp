@@ -62,8 +62,8 @@
         let msg = "${msg}";
 
         if(msg === "BOARD_DEL_OK") alert("Successfully deleted the board");
-        if(msg === "BOARD_DEL_ERR") alert("Failed to delete the board");
         if(msg === "BOARD_WRT_OK") alert("Successfully created the board");
+        if(msg === "BOARD_MOD_OK") alert("Successfully modified the board");
 
         $("#writeBtn").on("click", function() {
             location.href = "<c:url value='/board/write'/>";

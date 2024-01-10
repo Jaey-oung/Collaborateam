@@ -21,9 +21,39 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @GetMapping("/list")
+    public String list(Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+        if(!loginCheck(request))    // If not logged in
+            return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
+
+        if(page==null) page = 1;
+        if(pageSize==null) pageSize = 10;
+
+        int offset = (page-1) * pageSize;
+
+        try {
+            int rowCnt = boardService.getCount();
+
+            if(rowCnt < 0)
+                throw new Exception("Board list load failed");
+
+            Pagination pagination = new Pagination(rowCnt, page, pageSize);
+            List<BoardDto> list = boardService.getPage(offset, pageSize);
+
+            model.addAttribute("list", list);
+            model.addAttribute("pagination", pagination);
+            model.addAttribute("page", page);
+            model.addAttribute("pageSize", pageSize);
+            return "boardList";
+        } catch (Exception e) {
+            rattr.addFlashAttribute("msg", "BOARD_LIST_LOAD_ERR");
+            return "redirect:/";
+        }
+    }
+
     @GetMapping("/write")
     public String write(Model model) {
-        model.addAttribute("mode", "WRITE_BOARD");
+        model.addAttribute("mode", "WRT_BOARD");
         return "board";
     }
 
@@ -33,7 +63,11 @@ public class BoardController {
         boardDto.setWriter(writer);
 
         try {
-            boardService.write(boardDto);
+            int rowCnt = boardService.write(boardDto);
+
+            if(rowCnt !=1)
+                throw new Exception("Board write failed");
+
             rattr.addFlashAttribute("msg", "BOARD_WRT_OK");
             return "redirect:/board/list";
         } catch (Exception e) {
@@ -41,25 +75,6 @@ public class BoardController {
             model.addAttribute("msg", "BOARD_WRT_ERR");
             return "board";
         }
-    }
-
-    @PostMapping("/remove")
-    public String remove(Integer bno, Integer page, Integer pageSize, RedirectAttributes rattr, HttpSession session) {
-        String writer = (String)session.getAttribute("id");
-
-        try {
-            int rowCnt = boardService.remove(bno, writer);
-
-            if(rowCnt != 1)
-                throw new Exception("Board remove failed");
-
-            rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
-        } catch (Exception e) {
-            rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
-        }
-        rattr.addFlashAttribute("page", page);
-        rattr.addFlashAttribute("pageSize", pageSize);
-        return "redirect:/board/list";
     }
 
     @GetMapping("/read")
@@ -73,6 +88,7 @@ public class BoardController {
             model.addAttribute("boardDto", boardDto);
             model.addAttribute("page", page);
             model.addAttribute("pageSize", pageSize);
+            model.addAttribute("mode", "READ_BOARD");
             return "board";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_LOAD_ERR");
@@ -80,34 +96,41 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/list")
-    public String list(Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpServletRequest request) {
-        if(!loginCheck(request))    // If not logged in
-            return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
-
-        if(page==null) page = 1;
-        if(pageSize==null) pageSize = 10;
-
-        int offset = (page-1) * pageSize;
+    @PostMapping("/modify")
+    public String modify(BoardDto boardDto, Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpSession session) {
+        String writer = (String)session.getAttribute("id");
+        boardDto.setWriter(writer);
 
         try {
-            int boardCnt = boardService.getCount();
+            int rowCnt = boardService.modify(boardDto);
 
-            if(boardCnt < 0)
-                throw new Exception("Board list load failed");
+            if(rowCnt !=1)
+                throw new Exception("Board modify failed");
 
-            Pagination pagination = new Pagination(boardCnt, page, pageSize);
-            List<BoardDto> list = boardService.getPage(offset, pageSize);
-
-            model.addAttribute("list", list);
-            model.addAttribute("pagination", pagination);
-            model.addAttribute("page", page);
-            model.addAttribute("pageSize", pageSize);
-            return "boardList";
+            rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
+            return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
         } catch (Exception e) {
-            rattr.addFlashAttribute("msg", "BOARD_LIST_LOAD_ERR");
-            return "redirect:/";
+            model.addAttribute("boardDto", boardDto);
+            model.addAttribute("msg", "BOARD_MOD_ERR");
+            return "board";
         }
+    }
+
+    @PostMapping("/remove")
+    public String remove(Integer bno, Integer page, Integer pageSize, RedirectAttributes rattr, HttpSession session) {
+        String writer = (String)session.getAttribute("id");
+
+        try {
+            int rowCnt = boardService.remove(bno, writer);
+
+            if(rowCnt != 1)
+                throw new Exception("Board delete failed");
+
+            rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
+        } catch (Exception e) {
+            rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
+        }
+        return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
     }
 
     private boolean loginCheck(HttpServletRequest request) {
