@@ -36,7 +36,7 @@ public class RegisterController {
     }
 
     @PostMapping("/add")
-    public String save(@Valid UserDto userDto, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+    public String save(@Valid UserDto userDto, BindingResult result, RedirectAttributes rattr, Model model) {
         if(result.hasErrors()) {
             return "registerForm";
         }
@@ -44,7 +44,7 @@ public class RegisterController {
         try {
             userService.addUser(userDto);
 
-            redirectAttributes.addFlashAttribute("msg", "SIGN_UP_OK");
+            rattr.addFlashAttribute("msg", "SIGN_UP_OK");
             return "redirect:/";    // Redirect to the home page
         } catch (Exception e) {
             model.addAttribute("userDto", userDto);

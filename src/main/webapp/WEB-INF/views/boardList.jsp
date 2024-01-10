@@ -25,6 +25,7 @@
     </ul>
 </div>
 <div>
+    <button type="button" id="writeBtn">New Board</button>
     <table border="1">
         <tr>
             <th>No</th>
@@ -60,13 +61,13 @@
     $(document).ready(function() {
         let msg = "${msg}";
 
-        if(msg === "BOARD_DEL_OK") {
-            alert("Successfully deleted the board");
-        }
+        if(msg === "BOARD_DEL_OK") alert("Successfully deleted the board");
+        if(msg === "BOARD_DEL_ERR") alert("Failed to delete the board");
+        if(msg === "BOARD_WRT_OK") alert("Successfully created the board");
 
-        if(msg === "BOARD_DEL_ERR") {
-            alert("Failed to delete the board");
-        }
+        $("#writeBtn").on("click", function() {
+            location.href = "<c:url value='/board/write'/>";
+        });
     })
 </script>
 </html>

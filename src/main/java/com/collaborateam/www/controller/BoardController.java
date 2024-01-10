@@ -21,45 +21,67 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @GetMapping("/write")
+    public String write(Model model) {
+        model.addAttribute("mode", "WRITE_BOARD");
+        return "board";
+    }
+
+    @PostMapping("/write")
+    public String write(BoardDto boardDto, Model model, RedirectAttributes rattr, HttpSession session) {
+        String writer = (String)session.getAttribute("id");
+        boardDto.setWriter(writer);
+
+        try {
+            boardService.write(boardDto);
+            rattr.addFlashAttribute("msg", "BOARD_WRT_OK");
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            model.addAttribute("boardDto", boardDto);
+            model.addAttribute("msg", "BOARD_WRT_ERR");
+            return "board";
+        }
+    }
+
     @PostMapping("/remove")
-    public String remove(Integer bno, Integer page, Integer pageSize, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String remove(Integer bno, Integer page, Integer pageSize, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
 
         try {
             int rowCnt = boardService.remove(bno, writer);
 
             if(rowCnt != 1)
-                throw new Exception("Board remove error");
+                throw new Exception("Board remove failed");
 
-            redirectAttributes.addFlashAttribute("msg", "BOARD_DEL_OK");
+            rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg", "BOARD_DEL_ERR");
+            rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
         }
-        redirectAttributes.addFlashAttribute("page", page);
-        redirectAttributes.addFlashAttribute("pageSize", pageSize);
+        rattr.addFlashAttribute("page", page);
+        rattr.addFlashAttribute("pageSize", pageSize);
         return "redirect:/board/list";
     }
 
     @GetMapping("/read")
-    public String read(Integer bno, Integer page, Integer pageSize, Model model, RedirectAttributes redirectAttributes) {
+    public String read(Integer bno, Integer page, Integer pageSize, Model model, RedirectAttributes rattr) {
         try {
             BoardDto boardDto = boardService.read(bno);
 
             if(boardDto == null)
-                throw new Exception("Board load error");
+                throw new Exception("Board load failed");
 
             model.addAttribute("boardDto", boardDto);
+            model.addAttribute("page", page);
+            model.addAttribute("pageSize", pageSize);
+            return "board";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg", "BOARD_LOAD_ERR");
+            rattr.addFlashAttribute("msg", "BOARD_LOAD_ERR");
             return "redirect:/board/list";
         }
-        model.addAttribute("page", page);
-        model.addAttribute("pageSize", pageSize);
-        return "board";
     }
 
     @GetMapping("/list")
-    public String list(Integer page, Integer pageSize, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String list(Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpServletRequest request) {
         if(!loginCheck(request))    // If not logged in
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
@@ -72,7 +94,7 @@ public class BoardController {
             int boardCnt = boardService.getCount();
 
             if(boardCnt < 0)
-                throw new Exception("Board list load error");
+                throw new Exception("Board list load failed");
 
             Pagination pagination = new Pagination(boardCnt, page, pageSize);
             List<BoardDto> list = boardService.getPage(offset, pageSize);
@@ -81,11 +103,11 @@ public class BoardController {
             model.addAttribute("pagination", pagination);
             model.addAttribute("page", page);
             model.addAttribute("pageSize", pageSize);
+            return "boardList";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg", "BOARD_LIST_LOAD_ERR");
+            rattr.addFlashAttribute("msg", "BOARD_LIST_LOAD_ERR");
             return "redirect:/";
         }
-        return "boardList";
     }
 
     private boolean loginCheck(HttpServletRequest request) {

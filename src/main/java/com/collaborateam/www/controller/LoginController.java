@@ -27,15 +27,15 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(String id, String pwd, boolean rememberId, String redirectUrl,
-                        RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
+                        RedirectAttributes rattr, HttpServletRequest request, HttpServletResponse response) {
 
         // Check if id and pwd are null or empty
         boolean isFieldNullOrEmpty = id == null || id.trim().isEmpty() || pwd == null || pwd.trim().isEmpty();
 
         if(isFieldNullOrEmpty || !loginCheck(id, pwd)) {
-            redirectAttributes.addFlashAttribute("msg", isFieldNullOrEmpty ? "EMPTY_FIELD" : "LOGIN_ERR");
-            redirectAttributes.addFlashAttribute("id", id);
-            redirectAttributes.addFlashAttribute("pwd", pwd);
+            rattr.addFlashAttribute("msg", isFieldNullOrEmpty ? "EMPTY_FIELD" : "LOGIN_ERR");
+            rattr.addFlashAttribute("id", id);
+            rattr.addFlashAttribute("pwd", pwd);
             return "redirect:/login/login?redirectUrl="+redirectUrl;    // Redirect to the login page
         }
 

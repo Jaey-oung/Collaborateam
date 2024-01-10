@@ -25,11 +25,11 @@
     </ul>
 </div>
 <div>
-    <h1>Read Post</h1>
+    <h1>${mode == "NEW_BOARD" ? "Write" : "Read"} Board</h1>
     <form action="" id="form">
-        <input type="text" name="bno" value="<c:out value='${boardDto.bno}'/>" readonly="readonly">
-        <input type="text" name="title" value="<c:out value='${boardDto.title}'/>" readonly="readonly">
-        <textarea name="content" id="" cols="30" rows="10" value="<c:out value='${boardDto.content}'/>" readonly="readonly"></textarea>
+        <input type="text" name="bno" value="<c:out value='${boardDto.bno}'/>" readonly>
+        <input type="text" id="title" name="title" value="<c:out value='${boardDto.title}'/>" readonly>
+        <textarea name="content" id="content" cols="30" rows="10" value="<c:out value='${boardDto.content}'/>" readonly></textarea>
         <button type="button" id="writeBtn" class="btn">Write</button>
         <button type="button" id="modifyBtn" class="btn">Modify</button>
         <button type="button" id="removeBtn" class="btn">Remove</button>
@@ -39,16 +39,45 @@
 </body>
 <script>
     $(document).ready(function() {
-        $("#listBtn").on("click", function() {
-            location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
+        let msg = "${msg}";
+        let mode = "${mode}";
+
+        if(msg === "BOARD_WRT_ERR") alert("Failed to create the board");
+
+        let title = $("#title");
+        let content = $("#content");
+        let writeBtn = $("#writeBtn");
+        let modifyBtn = $("#modifyBtn");
+        let removeBtn = $("#removeBtn");
+        let listBtn = $("#listBtn");
+
+        if (mode === "WRITE_BOARD") {
+            title.attr("readonly", false);
+            content.attr("readonly", false);
+            modifyBtn.hide();
+            removeBtn.hide();
+            listBtn.hide();
+        } else {
+            writeBtn.hide();
+        }
+
+        writeBtn.on("click", function() {
+            let form = $("#form");
+            form.attr("action", "<c:url value='/board/write'/>");
+            form.attr("method", "post");
+            form.submit();
         });
 
-        $("#removeBtn").on("click", function() {
+        removeBtn.on("click", function() {
             if(!confirm("Would you like to delete the board?")) return;
             let form = $("#form");
             form.attr("action", "<c:url value='/board/remove'/>?page=${page}&pageSize=${pageSize}");
             form.attr("method", "post");
             form.submit();
+        });
+
+        listBtn.on("click", function() {
+            location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
         });
     });
 </script>
