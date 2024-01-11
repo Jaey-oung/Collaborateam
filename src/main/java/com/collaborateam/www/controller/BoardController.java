@@ -2,6 +2,7 @@ package com.collaborateam.www.controller;
 
 import com.collaborateam.www.domain.BoardDto;
 import com.collaborateam.www.domain.Pagination;
+import com.collaborateam.www.domain.SearchCondition;
 import com.collaborateam.www.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,33 +23,25 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/list")
-    public String list(Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String list(SearchCondition sc, Model model, HttpServletRequest request) {
         if(!loginCheck(request))    // If not logged in
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
-        if(page==null) page = 1;
-        if(pageSize==null) pageSize = 10;
-
-        int offset = (page-1) * pageSize;
-
         try {
-            int rowCnt = boardService.getCount();
+            int rowCnt = boardService.getSearchResultCnt(sc);
 
-            if(rowCnt < 0)
+            if(rowCnt == 0)
                 throw new Exception("Board list load failed");
 
-            Pagination pagination = new Pagination(rowCnt, page, pageSize);
-            List<BoardDto> list = boardService.getPage(offset, pageSize);
+            Pagination pagination = new Pagination(rowCnt, sc);
+            List<BoardDto> list = boardService.getSearchResultPage(sc);
 
             model.addAttribute("list", list);
             model.addAttribute("pagination", pagination);
-            model.addAttribute("page", page);
-            model.addAttribute("pageSize", pageSize);
-            return "boardList";
         } catch (Exception e) {
-            rattr.addFlashAttribute("msg", "BOARD_LIST_LOAD_ERR");
-            return "redirect:/";
-        }
+            model.addAttribute("msg", "BOARD_LIST_LOAD_ERR");
+    }
+        return "boardList";
     }
 
     @GetMapping("/write")
@@ -78,7 +71,7 @@ public class BoardController {
     }
 
     @GetMapping("/read")
-    public String read(Integer bno, Integer page, Integer pageSize, Model model, RedirectAttributes rattr) {
+    public String read(Integer bno, SearchCondition sc, Model model, RedirectAttributes rattr) {
         try {
             BoardDto boardDto = boardService.read(bno);
 
@@ -86,18 +79,16 @@ public class BoardController {
                 throw new Exception("Board load failed");
 
             model.addAttribute("boardDto", boardDto);
-            model.addAttribute("page", page);
-            model.addAttribute("pageSize", pageSize);
             model.addAttribute("mode", "READ_BOARD");
             return "board";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_LOAD_ERR");
-            return "redirect:/board/list";
+            return "redirect:/board/list"+sc.getQueryString();
         }
     }
 
     @PostMapping("/modify")
-    public String modify(BoardDto boardDto, Integer page, Integer pageSize, Model model, RedirectAttributes rattr, HttpSession session) {
+    public String modify(BoardDto boardDto, SearchCondition sc, Model model, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
         boardDto.setWriter(writer);
 
@@ -108,7 +99,7 @@ public class BoardController {
                 throw new Exception("Board modify failed");
 
             rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
-            return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
+            return "redirect:/board/list"+sc.getQueryString();
         } catch (Exception e) {
             model.addAttribute("boardDto", boardDto);
             model.addAttribute("msg", "BOARD_MOD_ERR");
@@ -117,7 +108,7 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
-    public String remove(Integer bno, Integer page, Integer pageSize, RedirectAttributes rattr, HttpSession session) {
+    public String remove(Integer bno, SearchCondition sc, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
 
         try {
@@ -127,10 +118,11 @@ public class BoardController {
                 throw new Exception("Board delete failed");
 
             rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
+            return "redirect:/board/list"+sc.getQueryString();
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
+            return "boardList";
         }
-        return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
     }
 
     private boolean loginCheck(HttpServletRequest request) {

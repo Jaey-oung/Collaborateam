@@ -2,6 +2,7 @@ package com.collaborateam.www.service;
 
 import com.collaborateam.www.dao.BoardDao;
 import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.SearchCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void removeAllPosts() throws Exception {
+    public void removeAllBoards() throws Exception {
         boardDao.deleteAll();
     }
 
@@ -52,5 +53,15 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDto> getPage(Integer offset, Integer pageSize) throws Exception {
         return boardDao.selectPage(offset, pageSize);
+    }
+
+    @Override
+    public List<BoardDto> getSearchResultPage(SearchCondition sc) throws Exception {
+        return boardDao.searchResultPage(sc);
+    }
+
+    @Override
+    public int getSearchResultCnt(SearchCondition sc) throws Exception {
+        return boardDao.searchResultCnt(sc);
     }
 }

@@ -1,6 +1,7 @@
 package com.collaborateam.www.service;
 
 import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.SearchCondition;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void insertData() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         for(int i=1; i<=220; i++) {
             BoardDto boardDto = new BoardDto("title"+i, "content"+i, "user1");
             boardService.write(boardDto);
@@ -37,7 +38,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void getCountTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -49,7 +50,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void getListTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         List<BoardDto> list = boardService.getList();
@@ -65,8 +66,8 @@ public class BoardServiceImplTest {
     }
 
     @Test
-    public void removeAllPostsTest() throws Exception {
-        boardService.removeAllPosts();
+    public void removeAllBoardsTest() throws Exception {
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -75,13 +76,13 @@ public class BoardServiceImplTest {
         assertEquals(1, boardService.write(boardDto2));
         assertEquals(2, boardService.getCount());
 
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
     }
 
     @Test
     public void writeTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -93,7 +94,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void readTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -119,7 +120,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void modifyTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -157,7 +158,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void removeTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
         assertEquals(0, boardService.getCount());
 
         assertEquals(1, boardService.write(boardDto1));
@@ -188,7 +189,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void getPageTest() throws Exception {
-        boardService.removeAllPosts();
+        boardService.removeAllBoards();
 
         for (int i = 1; i <= 10; i++) {
             BoardDto boardDto3 = new BoardDto("title"+i, "content"+i, "writer"+i);
@@ -215,5 +216,107 @@ public class BoardServiceImplTest {
         assertEquals("title3", list.get(0).getTitle());
         assertEquals("title2", list.get(1).getTitle());
         assertEquals("title1", list.get(2).getTitle());
+    }
+
+    @Test
+    public void getSearchResultPageTest() throws Exception {
+        boardService.removeAllBoards();
+
+        String[] titles = {"title1", "title2"};
+        String[] contents = {"content1", "content2"};
+        String[] writers = {"writer1", "writer2"};
+
+        for (String title : titles) {
+            for (String content : contents) {
+                for (String writer : writers) {
+                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    boardService.write(boardDto);
+                }   // title1, content1, writer1 / title1, content1, writer2
+            }       // title1, content2, writer1 / title1, content2, writer2
+        }           // title2, content1, writer1 / title2, content1, writer2
+        // title2, content2, writer1 / title2, content2, writer2
+
+        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        List<BoardDto> list = boardService.getSearchResultPage(sc);    // LIMIT #{offset}, #{pageSize}
+        assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
+
+        sc = new SearchCondition(1, 10, "T", "test");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(0, list.size());
+
+        sc = new SearchCondition(1, 10, "T", "title");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "T", "title2");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(4, list.size());
+
+        sc = new SearchCondition(1, 10, "W", "writer");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "W", "writer2");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(4, list.size());
+
+        sc = new SearchCondition(1, 10, "A", "title");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "A", "content2");
+        list = boardService.getSearchResultPage(sc);
+        assertEquals(4, list.size());
+    }
+
+    @Test
+    public void getSearchResultCntTest() throws Exception {
+        boardService.removeAllBoards();
+
+        String[] titles = {"title1", "title2"};
+        String[] contents = {"content1", "content2"};
+        String[] writers = {"writer1", "writer2"};
+
+        for (String title : titles) {
+            for (String content : contents) {
+                for (String writer : writers) {
+                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    boardService.write(boardDto);
+                }   // title1, content1, writer1 / title1, content1, writer2
+            }       // title1, content2, writer1 / title1, content2, writer2
+        }           // title2, content1, writer1 / title2, content1, writer2
+        // title2, content2, writer1 / title2, content2, writer2
+
+        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        int cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "test");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(0, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "title");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "title2");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(4, cnt);
+
+        sc = new SearchCondition(1, 10, "W", "writer");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "W", "writer2");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(4, cnt);
+
+        sc = new SearchCondition(1, 10, "A", "title");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "A", "content2");
+        cnt = boardService.getSearchResultCnt(sc);
+        assertEquals(4, cnt);
     }
 }

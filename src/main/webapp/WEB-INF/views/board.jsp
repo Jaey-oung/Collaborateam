@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="loginId" value="${sessionScope.id}"/>
-<c:set var="loginInOut" value="${loginId==null ? 'Login' : 'Logout'}"/>
-<c:set var="loginInOutLink" value="${loginId==null ? '/login/login' : '/login/logout'}"/>
+<c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
+<c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
         <li><a href="">Team Management</a></li>
         <li><a href="">Contact Us</a></li>
-        <li><a href="<c:url value='${loginInOutLink}'/>">${loginInOut}</a></li>
+        <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
         ${loginId}
         <li><a href="">My Account</a></li>
     </ul>
@@ -55,7 +55,6 @@
         if(msg === "BOARD_DEL_ERR") alert("Failed to delete the board");
         if(msg === "BOARD_MOD_ERR") alert("Failed to modify the board");
 
-
         if(mode === "WRT_BOARD") {
             $("h1").html("Write Board");
             title.attr("readonly", false);
@@ -87,7 +86,7 @@
                 return;
             }
 
-            form.attr("action", "<c:url value='/board/modify'/>?page=${page}&pageSize=${pageSize}");
+            form.attr("action", "<c:url value='/board/modify${searchCondition.queryString}'/>");
             form.attr("method", "post");
             form.submit();
         });
@@ -96,13 +95,13 @@
             if(!confirm("Would you like to delete the board?")) return;
             let form = $("#form");
 
-            form.attr("action", "<c:url value='/board/remove'/>?page=${page}&pageSize=${pageSize}");
+            form.attr("action", "<c:url value='/board/remove${searchCondition.queryString}'/>");
             form.attr("method", "post");
             form.submit();
         });
 
         listBtn.on("click", function() {
-            location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
+            location.href = "<c:url value='/board/list${searchCondition.queryString}'/>";
         });
     });
 </script>

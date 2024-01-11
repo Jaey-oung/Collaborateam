@@ -37,10 +37,6 @@
         if(msg === "SIGN_UP_OK") {
             alert("Successfully registered")
         }
-
-        if(msg === "BOARD_LIST_LOAD_ERR") {
-            alert("Failed to load the board list");
-        }
     })
 </script>
 </html>

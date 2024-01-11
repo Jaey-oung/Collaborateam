@@ -1,42 +1,38 @@
 package com.collaborateam.www.domain;
 
 public class Pagination {
-    private int page; // Current page
-    private int pageSize;
+    private SearchCondition sc;
     private int totalCnt;
-    private int naviSize = 10;
     private int totalPage;
     private int beginPage;
     private int endPage;
     private boolean showPrev;
     private boolean showNext;
 
-    public Pagination(int totalCnt, int page, int pageSize) {
+    public Pagination(int totalCnt, SearchCondition sc) {
         this.totalCnt = totalCnt;
-        this.page = page;
-        this.pageSize = pageSize;
+        this.sc = sc;
 
-        totalPage = (int)Math.ceil(totalCnt / (double)pageSize);
-        beginPage = (page-1) / naviSize * naviSize + 1;
-        endPage = Math.min(beginPage + naviSize - 1, totalPage);
-        showPrev = beginPage != 1;
-        showNext = endPage != totalPage;
+        paging(totalCnt, sc);
     }
 
-    public int getPage() {
-        return page;
+    public void paging(int totalCnt, SearchCondition sc) {
+        final int NAVI_SIZE = 10;
+
+        this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0 ? 0 : 1);
+        this.sc.setPage(Math.min(sc.getPage(), totalPage));
+        this.beginPage = (this.sc.getPage() - 1) / NAVI_SIZE * NAVI_SIZE + 1;
+        this.endPage = Math.min(beginPage + NAVI_SIZE - 1, totalPage);
+        this.showPrev = beginPage != 1;
+        this.showNext = endPage != totalPage;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public SearchCondition getSc() {
+        return sc;
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setSc(SearchCondition sc) {
+        this.sc = sc;
     }
 
     public int getTotalCnt() {
@@ -45,14 +41,6 @@ public class Pagination {
 
     public void setTotalCnt(int totalCnt) {
         this.totalCnt = totalCnt;
-    }
-
-    public int getNaviSize() {
-        return naviSize;
-    }
-
-    public void setNaviSize(int naviSize) {
-        this.naviSize = naviSize;
     }
 
     public int getTotalPage() {
@@ -96,7 +84,7 @@ public class Pagination {
     }
 
     void print() {
-        System.out.println("page = " + page);
+        System.out.println("page = " + sc.getPage());
         System.out.print(showPrev ? "< " : "");
         for(int i=beginPage; i<=endPage; i++) {
             System.out.print(i + " ");
@@ -107,10 +95,8 @@ public class Pagination {
     @Override
     public String toString() {
         return "Pagination{" +
-                "page=" + page +
-                ", pageSize=" + pageSize +
+                "sc=" + sc +
                 ", totalCnt=" + totalCnt +
-                ", naviSize=" + naviSize +
                 ", totalPage=" + totalPage +
                 ", beginPage=" + beginPage +
                 ", endPage=" + endPage +

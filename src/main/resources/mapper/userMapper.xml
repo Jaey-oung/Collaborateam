@@ -8,9 +8,13 @@
         FROM user
     </select>
 
-    <select id="selectAll" resultType="UserDto">
+    <sql id="selectFromUser">
         SELECT id, pwd, email, name, birth, reg_date, up_date
         FROM user
+    </sql>
+
+    <select id="selectAll" resultType="UserDto">
+        <include refid="selectFromUser"/>
     </select>
     
     <delete id="deleteAll">
@@ -26,8 +30,7 @@
     </insert>
 
     <select id="select" parameterType="String" resultType="UserDto">
-        SELECT id, pwd, email, name, birth, reg_date, up_date
-        FROM user
+        <include refid="selectFromUser"/>
         WHERE id = #{id}
     </select>
 
@@ -38,7 +41,7 @@
             name = #{name},
             birth = #{birth},
             up_date = now()
-        where id = #{id}
+        WHERE id = #{id}
     </update>
 
     <delete id="delete" parameterType="String">

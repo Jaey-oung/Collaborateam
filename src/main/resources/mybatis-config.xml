@@ -6,5 +6,6 @@
     <typeAliases>
         <typeAlias alias="UserDto" type="com.collaborateam.www.domain.UserDto"/>
         <typeAlias alias="BoardDto" type="com.collaborateam.www.domain.BoardDto"/>
+        <typeAlias alias="SearchCondition" type="com.collaborateam.www.domain.SearchCondition"/>
     </typeAliases>
 </configuration>

@@ -1,6 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.SearchCondition;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ public class BoardDaoImpl implements BoardDao {
     private SqlSession session;
     private static final String namespace = "com.collaborateam.www.dao.BoardMapper.";
 
+    @Override
     public int count() throws Exception {
         return session.selectOne(namespace+"count");
     }
@@ -63,5 +65,15 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public int increaseViewCnt(Integer bno) throws Exception {
         return session.update(namespace+"increaseViewCnt", bno);
+    }
+
+    @Override
+    public List<BoardDto> searchResultPage(SearchCondition sc) throws Exception {
+        return session.selectList(namespace+"searchResultPage", sc);
+    }
+
+    @Override
+    public int searchResultCnt(SearchCondition sc) throws Exception {
+        return session.selectOne(namespace+"searchResultCnt", sc);
     }
 }

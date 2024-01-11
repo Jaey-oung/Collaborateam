@@ -1,6 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.SearchCondition;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -227,5 +228,107 @@ public class BoardDaoImplTest {
         boardDto3 = boardDao.select(bno);
         assertNotNull(boardDto3);
         assertEquals(2, boardDto3.getView_cnt());
+    }
+
+    @Test
+    public void searchResultPageTest() throws Exception {
+        boardDao.deleteAll();
+
+        String[] titles = {"title1", "title2"};
+        String[] contents = {"content1", "content2"};
+        String[] writers = {"writer1", "writer2"};
+
+        for (String title : titles) {
+            for (String content : contents) {
+                for (String writer : writers) {
+                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    boardDao.insert(boardDto);
+                }   // title1, content1, writer1 / title1, content1, writer2
+            }       // title1, content2, writer1 / title1, content2, writer2
+        }           // title2, content1, writer1 / title2, content1, writer2
+                    // title2, content2, writer1 / title2, content2, writer2
+
+        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        List<BoardDto> list = boardDao.searchResultPage(sc);    // LIMIT #{offset}, #{pageSize}
+        assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
+
+        sc = new SearchCondition(1, 10, "T", "test");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(0, list.size());
+
+        sc = new SearchCondition(1, 10, "T", "title");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "T", "title2");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(4, list.size());
+
+        sc = new SearchCondition(1, 10, "W", "writer");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "W", "writer2");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(4, list.size());
+
+        sc = new SearchCondition(1, 10, "A", "title");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(8, list.size());
+
+        sc = new SearchCondition(1, 10, "A", "content2");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(4, list.size());
+    }
+
+    @Test
+    public void searchResultCntTest() throws Exception {
+        boardDao.deleteAll();
+
+        String[] titles = {"title1", "title2"};
+        String[] contents = {"content1", "content2"};
+        String[] writers = {"writer1", "writer2"};
+
+        for (String title : titles) {
+            for (String content : contents) {
+                for (String writer : writers) {
+                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    boardDao.insert(boardDto);
+                }   // title1, content1, writer1 / title1, content1, writer2
+            }       // title1, content2, writer1 / title1, content2, writer2
+        }           // title2, content1, writer1 / title2, content1, writer2
+                    // title2, content2, writer1 / title2, content2, writer2
+
+        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        int cnt = boardDao.searchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "test");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(0, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "title");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "T", "title2");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(4, cnt);
+
+        sc = new SearchCondition(1, 10, "W", "writer");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "W", "writer2");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(4, cnt);
+
+        sc = new SearchCondition(1, 10, "A", "title");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(8, cnt);
+
+        sc = new SearchCondition(1, 10, "A", "content2");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(4, cnt);
     }
 }
