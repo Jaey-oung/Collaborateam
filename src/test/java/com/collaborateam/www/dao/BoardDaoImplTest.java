@@ -331,4 +331,25 @@ public class BoardDaoImplTest {
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(4, cnt);
     }
+
+    @Test
+    public void updateCommentCntTest() throws Exception {
+        boardDao.deleteAll();
+        assertEquals(0, boardDao.count());
+
+        assertEquals(1, boardDao.insert(boardDto1));
+        assertEquals(1, boardDao.count());
+
+        Integer bno = boardDao.selectAll().get(0).getBno();
+
+        assertEquals(1, boardDao.updateCommentCnt(bno, 1));
+        BoardDto boardDto3 = boardDao.select(bno);
+        assertNotNull(boardDto3);
+        assertEquals(1, boardDto3.getComment_cnt());
+
+        assertEquals(1, boardDao.updateCommentCnt(bno, -1));
+        boardDto3 = boardDao.select(bno);
+        assertNotNull(boardDto3);
+        assertEquals(0, boardDto3.getComment_cnt());
+    }
 }

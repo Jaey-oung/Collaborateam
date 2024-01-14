@@ -1,5 +1,6 @@
 package com.collaborateam.www.dao;
 
+import com.collaborateam.www.domain.BoardDto;
 import com.collaborateam.www.domain.CommentDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,80 +17,89 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 public class CommentDaoImplTest {
     @Autowired
+    BoardDao boardDao;
+    @Autowired
     CommentDao commentDao;
+    Integer bno;
+    BoardDto boardDto1;
     CommentDto commentDto1;
     CommentDto commentDto2;
+
     @Before
-    public void init() {
-        commentDto1 = new CommentDto(1, 0, "comment1", "commenter1");
-        commentDto2 = new CommentDto(1, 0, "comment2", "commenter2");
+    public void init() throws Exception {
+        boardDto1 = new BoardDto("title1", "content1", "writer1");
+        boardDao.insert(boardDto1);
+
+        bno = boardDao.selectAll().get(0).getBno();
+        commentDto1 = new CommentDto(bno, 0, "comment1", "commenter1");
+        commentDto2 = new CommentDto(bno, 0, "comment2", "commenter2");
     }
 
     @Test
     public void countTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
     }
 
     @Test
     public void selectAllTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
-        List<CommentDto> list = commentDao.selectAll(1);
+        List<CommentDto> list = commentDao.selectAll(bno);
         assertEquals(0, list.size());
 
         assertEquals(1, commentDao.insert(commentDto1));
-        list = commentDao.selectAll(1);
+        list = commentDao.selectAll(bno);
         assertEquals(1, list.size());
 
         assertEquals(1, commentDao.insert(commentDto2));
-        list = commentDao.selectAll(1);
+        list = commentDao.selectAll(bno);
         assertEquals(2, list.size());
     }
 
     @Test
     public void deleteAllTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
 
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
     }
 
     @Test
     public void insertTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
     }
 
     @Test
     public void selectTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
-        List<CommentDto> list = commentDao.selectAll(1);
+        List<CommentDto> list = commentDao.selectAll(bno);
 
         Integer cno = list.get(0).getCno();
         commentDto1.setCno(cno);
@@ -98,9 +108,9 @@ public class CommentDaoImplTest {
         assertEquals(commentDto1, commentDto3);
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
 
-        list = commentDao.selectAll(1);
+        list = commentDao.selectAll(bno);
 
         cno = list.get(1).getCno();
         commentDto2.setCno(cno);
@@ -111,14 +121,14 @@ public class CommentDaoImplTest {
 
     @Test
     public void updateTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
-        Integer cno = commentDao.selectAll(1).get(0).getCno();
-        String commenter = commentDao.selectAll(1).get(0).getCommenter();
+        Integer cno = commentDao.selectAll(bno).get(0).getCno();
+        String commenter = commentDao.selectAll(bno).get(0).getCommenter();
 
         commentDto1.setCno(cno);
         commentDto1.setComment("comment10");
@@ -130,10 +140,10 @@ public class CommentDaoImplTest {
         assertEquals(commentDto1, commentDto3);
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
 
-        cno = commentDao.selectAll(1).get(1).getCno();
-        commenter = commentDao.selectAll(1).get(1).getCommenter();
+        cno = commentDao.selectAll(bno).get(1).getCno();
+        commenter = commentDao.selectAll(bno).get(1).getCommenter();
 
         commentDto2.setCno(cno);
         commentDto2.setComment("comment20");
@@ -147,32 +157,32 @@ public class CommentDaoImplTest {
 
     @Test
     public void deleteTest() throws Exception {
-        commentDao.deleteAll(1);
-        assertEquals(0, commentDao.count(1));
+        commentDao.deleteAll(bno);
+        assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto2));
-        assertEquals(2, commentDao.count(1));
+        assertEquals(2, commentDao.count(bno));
 
-        Integer cno1 = commentDao.selectAll(1).get(0).getCno();
-        String commenter1 = commentDao.selectAll(1).get(0).getCommenter();
-        Integer cno2 = commentDao.selectAll(1).get(1).getCno();
-        String commenter2 = commentDao.selectAll(1).get(1).getCommenter();
+        Integer cno1 = commentDao.selectAll(bno).get(0).getCno();
+        String commenter1 = commentDao.selectAll(bno).get(0).getCommenter();
+        Integer cno2 = commentDao.selectAll(bno).get(1).getCno();
+        String commenter2 = commentDao.selectAll(bno).get(1).getCommenter();
 
         assertEquals(0, commentDao.delete(cno1 + 111, commenter1));
         assertEquals(0, commentDao.delete(cno1, commenter1 + "111"));
         assertEquals(0, commentDao.delete(cno1 + 111, commenter1 + "111"));
         assertEquals(1, commentDao.delete(cno1, commenter1));
-        assertEquals(1, commentDao.count(1));
+        assertEquals(1, commentDao.count(bno));
         assertNull(commentDao.select(cno1));
 
         assertEquals(0, commentDao.delete(cno2 + 222, commenter2));
         assertEquals(0, commentDao.delete(cno2, commenter2 + "222"));
         assertEquals(0, commentDao.delete(cno2 + 222, commenter2 + "222"));
         assertEquals(1, commentDao.delete(cno2, commenter2));
-        assertEquals(0, commentDao.count(1));
+        assertEquals(0, commentDao.count(bno));
         assertNull(commentDao.select(cno2));
     }
 }

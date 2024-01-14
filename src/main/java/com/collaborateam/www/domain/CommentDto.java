@@ -7,8 +7,8 @@ public class CommentDto {
     private Integer cno;
     private Integer bno;
     private Integer pcno;
-    private String  comment;
-    private String  commenter;
+    private String comment;
+    private String commenter;
     private Date reg_date;
     private Date up_date;
 
