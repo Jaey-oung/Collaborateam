@@ -28,8 +28,7 @@ public class CommentController {
 
     @PostMapping("/comments")
     public ResponseEntity<String> write(@RequestBody CommentDto commentDto, Integer bno, HttpSession session) {
-//        String commenter = (String)session.getAttribute("id");
-        String commenter = "commenter1";
+        String commenter = (String)session.getAttribute("id");
         commentDto.setBno(bno);
         commentDto.setCommenter(commenter);
 
@@ -39,16 +38,15 @@ public class CommentController {
             if(rowCnt != 1)
                 throw new Exception("Comment write failed");
 
-            return new ResponseEntity<>("COMMENT_WRT_OK", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully written the comment", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("COMMENT_WRT_ERR", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to write the comment", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/comments/{cno}")
-    public ResponseEntity<String> modify(@PathVariable Integer cno, @RequestBody CommentDto commentDto) {
-        //        String commenter = (String)session.getAttribute("id");
-        String commenter = "commenter1";
+    public ResponseEntity<String> modify(@PathVariable Integer cno, @RequestBody CommentDto commentDto, HttpSession session) {
+        String commenter = (String)session.getAttribute("id");
         commentDto.setCno(cno);
         commentDto.setCommenter(commenter);
 
@@ -57,17 +55,17 @@ public class CommentController {
 
             if(rowCnt != 1)
                 throw new Exception("Comment modify failed");
+//            throw new Exception("");
 
-            return new ResponseEntity<>("COMMENT_MOD_OK", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully modified the comment", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("COMMENT_MOD_ERR", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to modify the comment", HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/comments/{cno}")
     public ResponseEntity<String> remove(@PathVariable Integer cno, Integer bno, HttpSession session) {
-//        String commenter = (String)session.getAttribute("id");
-        String commenter = "commenter1";
+        String commenter = (String)session.getAttribute("id");
 
         try {
             int rowCnt = commentService.remove(cno, bno, commenter);
@@ -75,9 +73,9 @@ public class CommentController {
             if(rowCnt != 1)
                 throw new Exception("Comment delete failed");
 
-            return new ResponseEntity<>("COMMENT_DEL_OK", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted the comment", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("COMMENT_DEL_ERR", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to delete the comment", HttpStatus.BAD_REQUEST);
         }
     }
 }

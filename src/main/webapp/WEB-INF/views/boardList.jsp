@@ -74,7 +74,7 @@
         let msg = "${msg}";
 
         if(msg === "BOARD_DEL_OK") alert("Successfully deleted the board");
-        if(msg === "BOARD_WRT_OK") alert("Successfully created the board");
+        if(msg === "BOARD_WRT_OK") alert("Successfully written the board");
         if(msg === "BOARD_MOD_OK") alert("Successfully modified the board");
         if(msg === "BOARD_LIST_LOAD_ERR") alert("Failed to load the board list");
 
