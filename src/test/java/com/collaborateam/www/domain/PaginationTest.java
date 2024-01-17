@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class PaginationTest {
     @Test
     public void test() {
-        SearchCondition sc = new SearchCondition(1, 10, "", "");
+        SearchCondition sc = new SearchCondition(1, 10, "IT", "Web Development", "", "");
         Pagination pagination = new Pagination(200, sc);
 
         pagination.print();
@@ -20,7 +20,7 @@ public class PaginationTest {
 
     @Test
     public void test2() {
-        SearchCondition sc = new SearchCondition(11, 10, "", "");
+        SearchCondition sc = new SearchCondition(11, 10, "IT", "Web Development", "", "");
         Pagination pagination = new Pagination(350, sc);
 
         pagination.print();
@@ -30,10 +30,10 @@ public class PaginationTest {
         assertTrue(pagination.isShowPrev());
         assertTrue(pagination.isShowNext());
     }
-//
+
     @Test
     public void test3() {
-        SearchCondition sc = new SearchCondition(21, 10, "", "");
+        SearchCondition sc = new SearchCondition(21, 10, "IT", "Web Development", "", "");
         Pagination pagination = new Pagination(555, sc);
 
         pagination.print();

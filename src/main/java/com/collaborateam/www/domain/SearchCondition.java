@@ -5,28 +5,34 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchCondition {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private String option = "";
+    private String field = "A";
+    private String specialization = "A";
+    private String option = "A";
     private String keyword = "";
 
     public SearchCondition() {}
-    public SearchCondition(Integer page, Integer pageSize, String option, String keyword) {
+    public SearchCondition(Integer page, Integer pageSize, String field, String specialization, String option, String keyword) {
         this.page = page;
         this.pageSize = pageSize;
+        this.field = field;
+        this.specialization = specialization;
         this.option = option;
         this.keyword = keyword;
     }
 
-    public String getQueryString(Integer page) {    // ?page=?&pageSize=?&option=?&keyword=?
+    public String getQueryString(Integer page, String field, String specialization) {    // ?page=?&pageSize=?&option=?&keyword=?
         return UriComponentsBuilder.newInstance()
                 .queryParam("page", page)
                 .queryParam("pageSize", pageSize)
+                .queryParam("field", field)
+                .queryParam("specialization", specialization)
                 .queryParam("option", option)
                 .queryParam("keyword", keyword)
                 .build().toString();
     }
 
     public String getQueryString() {    // ?page=?&pageSize=?&option=?&keyword=?
-        return getQueryString(page);
+        return getQueryString(page, field, specialization);
     }
 
     public Integer getPage() {
@@ -47,6 +53,22 @@ public class SearchCondition {
 
     public Integer getOffset() {
         return (page-1) * pageSize;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public String getOption() {
@@ -71,6 +93,8 @@ public class SearchCondition {
                 "page=" + page +
                 ", pageSize=" + pageSize +
                 ", offset=" + getOffset() +
+                ", field='" + field + '\'' +
+                ", specialization='" + specialization + '\'' +
                 ", option='" + option + '\'' +
                 ", keyword='" + keyword + '\'' +
                 '}';

@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class BoardDto {
     private Integer bno;
+    private String field;
+    private String specialization;
     private String title;
     private String content;
     private String writer;
@@ -14,7 +16,9 @@ public class BoardDto {
     private Date up_date;
 
     public BoardDto() {}
-    public BoardDto(String title, String content, String writer) {
+    public BoardDto(String field, String specialization, String title, String content, String writer) {
+        this.field = field;
+        this.specialization = specialization;
         this.title = title;
         this.content = content;
         this.writer = writer;
@@ -26,6 +30,22 @@ public class BoardDto {
 
     public void setBno(Integer bno) {
         this.bno = bno;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public String getTitle() {
@@ -89,19 +109,22 @@ public class BoardDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoardDto boardDto = (BoardDto) o;
-        return Objects.equals(bno, boardDto.bno) && Objects.equals(title, boardDto.title) &&
+        return Objects.equals(bno, boardDto.bno) && Objects.equals(field, boardDto.field) &&
+                Objects.equals(specialization, boardDto.specialization) && Objects.equals(title, boardDto.title) &&
                 Objects.equals(content, boardDto.content) && Objects.equals(writer, boardDto.writer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bno, title, content, writer);
+        return Objects.hash(bno, field, specialization, title, content, writer);
     }
 
     @Override
     public String toString() {
         return "BoardDto{" +
                 "bno=" + bno +
+                ", field='" + field + '\'' +
+                ", specialization='" + specialization + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", writer='" + writer + '\'' +

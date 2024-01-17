@@ -9,7 +9,7 @@
     </select>
 
     <sql id="selectFromBoard">
-        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date, up_date
+        SELECT bno, field, specialization, title, content, writer, view_cnt, comment_cnt, reg_date, up_date
         FROM board
     </sql>
 
@@ -25,9 +25,9 @@
 
     <insert id="insert" parameterType="BoardDto">
         INSERT INTO board
-            (title, content, writer)
+            (field, specialization, title, content, writer)
         VALUES
-            (#{title}, #{content}, #{writer})
+            (#{field}, #{specialization}, #{title}, #{content}, #{writer})
     </insert>
 
     <select id="select" parameterType="int" resultType="BoardDto">
@@ -37,7 +37,9 @@
 
     <update id="update" parameterType="BoardDto">
         UPDATE board
-        SET title = #{title},
+        SET field = #{field},
+            specialization = #{specialization},
+            title = #{title},
             content = #{content},
             up_date = now()
         WHERE bno = #{bno} and writer = #{writer}
@@ -62,18 +64,26 @@
     </update>
 
     <sql id="searchCondition">
-        <choose>
-            <when test='option=="T"'>
-                AND title LIKE concat('%', #{keyword}, '%')
-            </when>
-            <when test='option=="W"'>
-                AND writer LIKE concat('%', #{keyword}, '%')
-            </when>
-            <otherwise>
-                AND (title LIKE concat('%', #{keyword}, '%')
-                OR content LIKE concat('%', #{keyword}, '%'))
-            </otherwise>
-        </choose>
+        <if test='field!="A"'>
+            AND field = #{field}
+        </if>
+        <if test='specialization!="A"'>
+            AND specialization = #{specialization}
+        </if>
+        <if test='option!="A"'>
+            <choose>
+                <when test='option=="T"'>
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test='option=="W"'>
+                    AND writer LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test='option=="TC"'>
+                    AND (title LIKE concat('%', #{keyword}, '%')
+                    OR content LIKE concat('%', #{keyword}, '%'))
+                </when>
+            </choose>
+        </if>
     </sql>
 
     <select id="searchResultPage" parameterType="SearchCondition" resultType="BoardDto">

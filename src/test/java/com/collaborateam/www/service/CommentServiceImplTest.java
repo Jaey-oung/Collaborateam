@@ -27,7 +27,7 @@ public class CommentServiceImplTest {
 
     @Before
     public void init() throws Exception {
-        boardDto1 = new BoardDto("title1", "content1", "writer1");
+        boardDto1 = new BoardDto("IT", "Web Development", "title1", "content1", "writer1");
         boardService.write(boardDto1);
 
         bno = boardService.getList().get(0).getBno();

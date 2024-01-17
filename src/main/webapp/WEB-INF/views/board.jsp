@@ -3,6 +3,11 @@
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
 <c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
+<c:set var="field" value="${{'A' : 'All', 'IT' : 'IT', 'FN' : 'Finance'}}"/>
+<c:set var="spec" value="${{'A' : 'All', 'WD' : 'Web Development', 'SD' : 'Software Development', 'FA': 'Financial Analysis', 'RM' : 'Risk Management'}}"/>
+<c:set var="selectedField" value="${boardDto.field}"/>
+<c:set var="selectedSpec" value="${boardDto.specialization}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +32,16 @@
 <div>
     <form action="" id="form">
         <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
+        <select name="field">
+            <c:forEach var="i" items="${field}">
+                <option value="${i.key}" ${i.key == selectedField ? 'selected' : ''}>${i.value}</option>
+            </c:forEach>
+        </select>
+        <select name="specialization">
+            <c:forEach var="i" items="${spec}">
+                <option value="${i.key}" ${i.key == selectedSpec ? 'selected' : ''}>${i.value}</option>
+            </c:forEach>
+        </select>
         <input type="text" name="bno" value="<c:out value='${boardDto.bno}'/>" readonly>
         <input type="text" name="title" value="<c:out value='${boardDto.title}'/>" readonly>
         <textarea name="content" cols="30" rows="10" readonly><c:out value="${boardDto.content}"/></textarea>
@@ -40,13 +55,15 @@
 </div>
 <br>
 <br>
-comment: <input type="text" name="comment">
-<button type="button" id="commentWrtBtn">Write</button>
-<button type="button" id="commentUpdBtn">Modify</button>
-<div id="commentList"></div>
-<div id="replyComment" style="display: none">
-    <input type="text" name="replyComment">
-    <button type="button" id="commentWrtRepBtn">Write</button>
+<div id="commentFunction">
+    comment: <input type="text" name="comment">
+    <button type="button" id="commentWrtBtn">Write</button>
+    <button type="button" id="commentUpdBtn">Modify</button>
+    <div id="commentList"></div>
+    <div id="replyComment" style="display: none">
+        <input type="text" name="replyComment">
+        <button type="button" id="commentWrtRepBtn">Write</button>
+    </div>
 </div>
 </body>
 <script>
@@ -69,6 +86,8 @@ comment: <input type="text" name="comment">
         if(mode === "WRT_BOARD") {
             title.attr("readonly", false);
             content.attr("readonly", false);
+
+            $("#commentFunction").css("display", "none");
         }
 
         if(mode === "READ_BOARD") {
@@ -256,7 +275,7 @@ comment: <input type="text" name="comment">
         let tmp = "<ul>";
         let user = "${loginId}";
 
-        comments.forEach(function(comment){
+        comments.forEach(function(comment) {
             tmp += "<li data-cno=" + comment.cno
             tmp += " data-pcno=" + comment.pcno
             tmp += " data-bno=" + comment.bno + ">"

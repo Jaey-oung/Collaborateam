@@ -23,8 +23,8 @@ public class BoardDaoImplTest {
 
     @Before
     public void init() {
-        boardDto1 = new BoardDto("title1", "content1", "writer1");
-        boardDto2 = new BoardDto("title2", "content2", "writer2");
+        boardDto1 = new BoardDto("IT", "Web Development", "title1", "content1", "writer1");
+        boardDto2 = new BoardDto("IT", "Software Development", "title2", "content2", "writer2");
     }
 
     @Test
@@ -121,6 +121,8 @@ public class BoardDaoImplTest {
         String writer = boardDao.selectAll().get(0).getWriter();
 
         boardDto1.setBno(bno);
+        boardDto1.setField("Finance");
+        boardDto1.setSpecialization("Accounting");
         boardDto1.setTitle("title10");
         boardDto1.setContent("content10");
         boardDto1.setWriter(writer);
@@ -133,10 +135,12 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.insert(boardDto2));
         assertEquals(2, boardDao.count());
 
-        bno = boardDao.selectAll().get(1).getBno();
-        writer = boardDao.selectAll().get(1).getWriter();
+        bno = boardDao.selectAll().get(0).getBno();
+        writer = boardDao.selectAll().get(0).getWriter();
 
         boardDto2.setBno(bno);
+        boardDto2.setField("Finance");
+        boardDto2.setSpecialization("Financial Analysis");
         boardDto2.setTitle("title20");
         boardDto2.setContent("content20");
         boardDto2.setWriter(writer);
@@ -158,10 +162,10 @@ public class BoardDaoImplTest {
         assertEquals(1, boardDao.insert(boardDto2));
         assertEquals(2, boardDao.count());
 
-        Integer bno1 = boardDao.selectAll().get(0).getBno();
-        String writer1 = boardDao.selectAll().get(0).getWriter();
-        Integer bno2 = boardDao.selectAll().get(1).getBno();
-        String writer2 = boardDao.selectAll().get(1).getWriter();
+        Integer bno1 = boardDao.selectAll().get(1).getBno();
+        String writer1 = boardDao.selectAll().get(1).getWriter();
+        Integer bno2 = boardDao.selectAll().get(0).getBno();
+        String writer2 = boardDao.selectAll().get(0).getWriter();
 
         assertEquals(0, boardDao.delete(bno1 + 111, writer1));
         assertEquals(0, boardDao.delete(bno1, writer1 + "111"));
@@ -183,7 +187,7 @@ public class BoardDaoImplTest {
         boardDao.deleteAll();
 
         for (int i = 1; i <= 10; i++) {
-            BoardDto boardDto3 = new BoardDto("title"+i, "content"+i, "writer"+i);
+            BoardDto boardDto3 = new BoardDto("IT", "Web Development", "title"+i, "content"+i, "writer"+i);
             assertEquals(1, boardDao.insert(boardDto3));
         }
 
@@ -241,44 +245,48 @@ public class BoardDaoImplTest {
         for (String title : titles) {
             for (String content : contents) {
                 for (String writer : writers) {
-                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    BoardDto boardDto = new BoardDto("IT", "Web Development", title, content, writer);
                     boardDao.insert(boardDto);
                 }   // title1, content1, writer1 / title1, content1, writer2
             }       // title1, content2, writer1 / title1, content2, writer2
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        SearchCondition sc = new SearchCondition(1, 5, "IT", "Web Development", "T", "title");
         List<BoardDto> list = boardDao.searchResultPage(sc);    // LIMIT #{offset}, #{pageSize}
         assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
 
-        sc = new SearchCondition(1, 10, "T", "test");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "test");
         list = boardDao.searchResultPage(sc);
         assertEquals(0, list.size());
 
-        sc = new SearchCondition(1, 10, "T", "title");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "title");
         list = boardDao.searchResultPage(sc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "T", "title2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "title2");
         list = boardDao.searchResultPage(sc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "W", "writer");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "W", "writer");
         list = boardDao.searchResultPage(sc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "W", "writer2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "W", "writer2");
         list = boardDao.searchResultPage(sc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "A", "title");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "A", "title");
         list = boardDao.searchResultPage(sc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "A", "content2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "A", "content2");
         list = boardDao.searchResultPage(sc);
         assertEquals(4, list.size());
+
+        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
+        list = boardDao.searchResultPage(sc);
+        assertEquals(0, list.size());
     }
 
     @Test
@@ -292,44 +300,48 @@ public class BoardDaoImplTest {
         for (String title : titles) {
             for (String content : contents) {
                 for (String writer : writers) {
-                    BoardDto boardDto = new BoardDto(title, content, writer);
+                    BoardDto boardDto = new BoardDto("IT", "Web Development", title, content, writer);
                     boardDao.insert(boardDto);
                 }   // title1, content1, writer1 / title1, content1, writer2
             }       // title1, content2, writer1 / title1, content2, writer2
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "T", "title");
+        SearchCondition sc = new SearchCondition(1, 5, "IT", "Web Development", "T", "title");
         int cnt = boardDao.searchResultCnt(sc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "T", "test");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "test");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(0, cnt);
 
-        sc = new SearchCondition(1, 10, "T", "title");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "title");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "T", "title2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "T", "title2");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "W", "writer");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "W", "writer");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "W", "writer2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "W", "writer2");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "A", "title");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "A", "title");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "A", "content2");
+        sc = new SearchCondition(1, 10, "IT", "Web Development", "A", "content2");
         cnt = boardDao.searchResultCnt(sc);
         assertEquals(4, cnt);
+
+        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
+        cnt = boardDao.searchResultCnt(sc);
+        assertEquals(0, cnt);
     }
 
     @Test

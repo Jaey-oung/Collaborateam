@@ -13,7 +13,7 @@
         SELECT cno, bno, ifnull(pcno, cno) as pcno, comment, commenter, reg_date, up_date
         FROM comment
         WHERE bno = #{bno}
-        ORDER BY pcno ASC, cno ASC;
+        ORDER BY pcno, cno;
     </select>
 
     <delete id="deleteAll" parameterType="int">
