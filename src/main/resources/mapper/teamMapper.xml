@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.TeamMapper">
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM team
+    </select>
+
+    <sql id="selectFromTeam">
+        SELECT tno, leader, name, description, reg_date, up_date
+        FROM team
+    </sql>
+
+    <select id="selectAll" resultType="TeamDto">
+        <include refid="selectFromTeam"/>
+    </select>
+
+    <delete id="deleteAll">
+        DELETE
+        FROM team
+    </delete>
+
+    <insert id="insert" parameterType="TeamDto">
+        INSERT INTO team
+            (leader, name, description, reg_date, up_date)
+        VALUES
+            (#{leader}, #{name}, #{description}, now(), now())
+    </insert>
+
+    <select id="select" parameterType="int" resultType="TeamDto">
+        <include refid="selectFromTeam"/>
+        WHERE tno = #{tno}
+    </select>
+
+    <update id="update" parameterType="TeamDto">
+        UPDATE team
+        SET name = #{name},
+            description = #{description},
+            up_date = #{reg_date}
+        WHERE tno = #{tno}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE
+        FROM team
+        WHERE tno = #{tno} and leader = #{leader}
+    </delete>
+</mapper>

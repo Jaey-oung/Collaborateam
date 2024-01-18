@@ -23,10 +23,12 @@ public class UserServiceImplTest {
     UserDto userDto2;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         birth = Calendar.getInstance();
         birth.clear();
         birth.set(2000, Calendar.DECEMBER, 19); // 2000-12-19
+
+        userService.removeAllUsers();
 
         userDto1 = new UserDto("user1", "user1", "user1@user1.com", "user1", birth.getTime()); // Calendar -> Date
         userDto2 = new UserDto("user2", "user2", "user2@user2.com", "user2", birth.getTime()); // Calendar -> Date
@@ -34,7 +36,6 @@ public class UserServiceImplTest {
 
     @Test
     public void getCountTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));
@@ -46,7 +47,6 @@ public class UserServiceImplTest {
 
     @Test
     public void getListTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         List<UserDto> list = userService.getList();
@@ -63,7 +63,6 @@ public class UserServiceImplTest {
 
     @Test
     public void removeAllUsersTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));
@@ -78,7 +77,6 @@ public class UserServiceImplTest {
 
     @Test
     public void addUserTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));
@@ -90,7 +88,6 @@ public class UserServiceImplTest {
 
     @Test
     public void getUserTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));
@@ -110,7 +107,6 @@ public class UserServiceImplTest {
 
     @Test
     public void updateUserTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));
@@ -148,7 +144,6 @@ public class UserServiceImplTest {
 
     @Test
     public void removeUserTest() throws Exception {
-        userService.removeAllUsers();
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.addUser(userDto1));

@@ -27,17 +27,20 @@ public class CommentDaoImplTest {
 
     @Before
     public void init() throws Exception {
+        boardDao.deleteAll();
+
         boardDto1 = new BoardDto("IT", "Web Development", "title1", "content1", "writer1");
         boardDao.insert(boardDto1);
 
         bno = boardDao.selectAll().get(0).getBno();
+        commentDao.deleteAll(bno);
+
         commentDto1 = new CommentDto(bno, 0, "comment1", "commenter1");
         commentDto2 = new CommentDto(bno, 0, "comment2", "commenter2");
     }
 
     @Test
     public void countTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
@@ -49,7 +52,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void selectAllTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         List<CommentDto> list = commentDao.selectAll(bno);
@@ -66,7 +68,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void deleteAllTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
@@ -81,7 +82,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void insertTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
@@ -93,7 +93,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void selectTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
@@ -121,7 +120,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void updateTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));
@@ -157,7 +155,6 @@ public class CommentDaoImplTest {
 
     @Test
     public void deleteTest() throws Exception {
-        commentDao.deleteAll(bno);
         assertEquals(0, commentDao.count(bno));
 
         assertEquals(1, commentDao.insert(commentDto1));

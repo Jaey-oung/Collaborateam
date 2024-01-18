@@ -27,17 +27,20 @@ public class CommentServiceImplTest {
 
     @Before
     public void init() throws Exception {
+        boardService.removeAllBoards();
+
         boardDto1 = new BoardDto("IT", "Web Development", "title1", "content1", "writer1");
         boardService.write(boardDto1);
 
         bno = boardService.getList().get(0).getBno();
+        commentService.removeAllComments(bno);
+
         commentDto1 = new CommentDto(bno, 0, "comment1", "commenter1");
         commentDto2 = new CommentDto(bno, 0, "comment2", "commenter2");
     }
 
     @Test
     public void getCountTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));
@@ -49,7 +52,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void getListTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         List<CommentDto> list = commentService.getList(bno);
@@ -66,7 +68,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void removeAllCommentsTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));
@@ -81,7 +82,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void writeTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));
@@ -93,7 +93,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void readTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));
@@ -121,7 +120,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void modifyTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));
@@ -157,7 +155,6 @@ public class CommentServiceImplTest {
 
     @Test
     public void removeTest() throws Exception {
-        commentService.removeAllComments(bno);
         assertEquals(0, commentService.getCount(bno));
 
         assertEquals(1, commentService.write(commentDto1));

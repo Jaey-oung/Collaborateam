@@ -23,10 +23,12 @@ public class UserDaoImplTest {
     UserDto userDto2;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         birth = Calendar.getInstance();
         birth.clear();
         birth.set(2000, Calendar.DECEMBER, 19); // 2000-12-19
+
+        userDao.deleteAll();
 
         userDto1 = new UserDto("id1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
         userDto2 = new UserDto("id2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
@@ -34,7 +36,6 @@ public class UserDaoImplTest {
 
     @Test
     public void countTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));
@@ -46,7 +47,6 @@ public class UserDaoImplTest {
 
     @Test
     public void selectAllTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         List<UserDto> list = userDao.selectAll();
@@ -63,7 +63,6 @@ public class UserDaoImplTest {
 
     @Test
     public void deleteAllTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));
@@ -78,7 +77,6 @@ public class UserDaoImplTest {
 
     @Test
     public void insertTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));
@@ -90,7 +88,6 @@ public class UserDaoImplTest {
 
     @Test
     public void selectTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));
@@ -110,7 +107,6 @@ public class UserDaoImplTest {
 
     @Test
     public void updateTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));
@@ -148,7 +144,6 @@ public class UserDaoImplTest {
 
     @Test
     public void deleteTest() throws Exception {
-        userDao.deleteAll();
         assertEquals(0, userDao.count());
 
         assertEquals(1, userDao.insert(userDto1));

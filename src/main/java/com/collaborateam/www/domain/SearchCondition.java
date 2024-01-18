@@ -20,7 +20,7 @@ public class SearchCondition {
         this.keyword = keyword;
     }
 
-    public String getQueryString(Integer page, String field, String specialization) {    // ?page=?&pageSize=?&option=?&keyword=?
+    public String getQueryString(Integer page, String field, String specialization) {    // ?page=?&pageSize=?field=?&specialization=?&option=?&keyword=?
         return UriComponentsBuilder.newInstance()
                 .queryParam("page", page)
                 .queryParam("pageSize", pageSize)
