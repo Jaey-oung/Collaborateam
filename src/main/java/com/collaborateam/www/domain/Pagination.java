@@ -1,7 +1,7 @@
 package com.collaborateam.www.domain;
 
 public class Pagination {
-    private SearchCondition sc;
+    private PageCondition pc;
     private int totalCnt;
     private int totalPage;
     private int beginPage;
@@ -9,30 +9,30 @@ public class Pagination {
     private boolean showPrev;
     private boolean showNext;
 
-    public Pagination(int totalCnt, SearchCondition sc) {
+    public Pagination(int totalCnt, PageCondition pc) {
         this.totalCnt = totalCnt;
-        this.sc = sc;
+        this.pc = pc;
 
-        paging(totalCnt, sc);
+        paging(totalCnt, pc);
     }
 
-    public void paging(int totalCnt, SearchCondition sc) {
+    public void paging(int totalCnt, PageCondition pc) {
         final int NAVI_SIZE = 10;
 
-        this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0 ? 0 : 1);
-        this.sc.setPage(Math.min(sc.getPage(), totalPage));
-        this.beginPage = (this.sc.getPage() - 1) / NAVI_SIZE * NAVI_SIZE + 1;
+        this.totalPage = totalCnt / pc.getPageSize() + (totalCnt % pc.getPageSize()==0 ? 0 : 1);
+        this.pc.setPage(Math.min(pc.getPage(), totalPage));
+        this.beginPage = (this.pc.getPage() - 1) / NAVI_SIZE * NAVI_SIZE + 1;
         this.endPage = Math.min(beginPage + NAVI_SIZE - 1, totalPage);
         this.showPrev = beginPage != 1;
         this.showNext = endPage != totalPage;
     }
 
-    public SearchCondition getSc() {
-        return sc;
+    public PageCondition getPc() {
+        return pc;
     }
 
-    public void setSc(SearchCondition sc) {
-        this.sc = sc;
+    public void setPc(PageCondition pc) {
+        this.pc = pc;
     }
 
     public int getTotalCnt() {
@@ -84,7 +84,7 @@ public class Pagination {
     }
 
     void print() {
-        System.out.println("page = " + sc.getPage());
+        System.out.println("page = " + pc.getPage());
         System.out.print(showPrev ? "< " : "");
         for(int i=beginPage; i<=endPage; i++) {
             System.out.print(i + " ");
@@ -95,7 +95,7 @@ public class Pagination {
     @Override
     public String toString() {
         return "Pagination{" +
-                "sc=" + sc +
+                "pc=" + pc +
                 ", totalCnt=" + totalCnt +
                 ", totalPage=" + totalPage +
                 ", beginPage=" + beginPage +

@@ -4,11 +4,11 @@
 <c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
 <c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
 <c:set var="field" value="${{'A' : 'All', 'IT' : 'IT', 'FN' : 'Finance'}}"/>
-<c:set var="selectedField" value="${pagination.sc.field}"/>
+<c:set var="selectedField" value="${pagination.pc.field}"/>
 <c:set var="spec" value="${{'A' : 'All', 'WD' : 'Web Development', 'SD' : 'Software Development', 'FA': 'Financial Analysis', 'RM' : 'Risk Management'}}"/>
-<c:set var="selectedSpec" value="${pagination.sc.specialization}"/>
+<c:set var="selectedSpec" value="${pagination.pc.specialization}"/>
 <c:set var="option" value="${{'A' : 'All', 'TC' : 'Title+Content', 'T' : 'Title', 'W' : 'Writer'}}"/>
-<c:set var="selectedOption" value="${pagination.sc.option}"/>
+<c:set var="selectedOption" value="${pagination.pc.option}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,13 +42,13 @@
                 <option value="${i.key}" ${i.key == selectedSpec ? 'selected' : ''}>${i.value}</option>
             </c:forEach>
         </select>
-        sc = ${pagination.sc}
+        pc = ${pagination.pc}
         <select name="option">
             <c:forEach var="i" items="${option}">
                 <option value="${i.key}" ${i.key == selectedOption ? 'selected' : ''}>${i.value}</option>
             </c:forEach>
         </select>
-        <input type="text" name="keyword" value="<c:out value='${pagination.sc.keyword}'/>" placeholder="Search">
+        <input type="text" name="keyword" value="<c:out value='${pagination.pc.keyword}'/>" placeholder="Search">
         <input type="submit" value="Search">
     </form>
     <button type="button" id="writeBtn">New Board</button>
@@ -63,7 +63,7 @@
         <c:forEach var="boardDto" items="${list}">
         <tr>
             <td><c:out value="${boardDto.bno}"/></td>
-            <td><a href="<c:url value='/board/read${pagination.sc.queryString}&bno=${boardDto.bno}'/>"><c:out value="${boardDto.title}"/></a></td>
+            <td><a href="<c:url value='/board/read${pagination.pc.queryString}&bno=${boardDto.bno}'/>"><c:out value="${boardDto.title}"/></a></td>
             <td><c:out value="${boardDto.writer}"/></td>
             <td><c:out value="${boardDto.reg_date}"/></td>
             <td><c:out value="${boardDto.view_cnt}"/></td>
@@ -72,13 +72,13 @@
     </table>
     <div>
         <c:if test="${pagination.showPrev}">
-            <a href="<c:url value='/board/list${pagination.sc.getQueryString(pagination.beginPage-1, pagination.sc.field, pagination.sc.specialization)}'/>">&lt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.beginPage-1, pagination.pc.field, pagination.pc.specialization)}'/>">&lt;</a>
         </c:if>
         <c:forEach var="i" begin="${pagination.beginPage}" end="${pagination.endPage}">
-            <a href="<c:url value='/board/list${pagination.sc.getQueryString(i, pagination.sc.field, pagination.sc.specialization)}'/>">${i}</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(i, pagination.pc.option, pagination.pc.keyword, pagination.pc.field, pagination.pc.specialization)}'/>">${i}</a>
         </c:forEach>
         <c:if test="${pagination.showNext}">
-            <a href="<c:url value='/board/list${pagination.sc.getQueryString(pagination.endPage+1, pagination.sc.field, pagination.sc.specialization)}'/>">&gt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.endPage+1, pagination.pc.field, pagination.pc.specialization)}'/>">&gt;</a>
         </c:if>
     </div>
 </div>

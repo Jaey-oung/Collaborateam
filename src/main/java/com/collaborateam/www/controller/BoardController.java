@@ -1,8 +1,8 @@
 package com.collaborateam.www.controller;
 
 import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.BoardListCondition;
 import com.collaborateam.www.domain.Pagination;
-import com.collaborateam.www.domain.SearchCondition;
 import com.collaborateam.www.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,18 +23,18 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/list")
-    public String list(SearchCondition sc, Model model, HttpServletRequest request) {
+    public String list(BoardListCondition blc, Model model, HttpServletRequest request) {
         if(!loginCheck(request))    // If not logged in
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
         try {
-            int rowCnt = boardService.getSearchResultCnt(sc);
+            int rowCnt = boardService.getSearchResultCnt(blc);
 
             if(rowCnt == 0)
                 throw new Exception("Board list load failed");
 
-            Pagination pagination = new Pagination(rowCnt, sc);
-            List<BoardDto> list = boardService.getSearchResultPage(sc);
+            Pagination pagination = new Pagination(rowCnt, blc);
+            List<BoardDto> list = boardService.getSearchResultPage(blc);
 
             model.addAttribute("list", list);
             model.addAttribute("pagination", pagination);
@@ -71,7 +71,7 @@ public class BoardController {
     }
 
     @GetMapping("/read")
-    public String read(Integer bno, SearchCondition sc, Model model, RedirectAttributes rattr) {
+    public String read(Integer bno, BoardListCondition blc, Model model, RedirectAttributes rattr) {
         try {
             BoardDto boardDto = boardService.read(bno);
 
@@ -83,23 +83,23 @@ public class BoardController {
             return "board";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_LOAD_ERR");
-            return "redirect:/board/list"+sc.getQueryString();
+            return "redirect:/board/list"+blc.getQueryString();
         }
     }
 
     @PostMapping("/modify")
-    public String modify(BoardDto boardDto, SearchCondition sc, Model model, RedirectAttributes rattr, HttpSession session) {
+    public String modify(BoardDto boardDto, BoardListCondition blc, Model model, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
         boardDto.setWriter(writer);
 
         try {
             int rowCnt = boardService.modify(boardDto);
 
-            if(rowCnt !=1)
+            if(rowCnt != 1)
                 throw new Exception("Board modify failed");
 
             rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
-            return "redirect:/board/list"+sc.getQueryString();
+            return "redirect:/board/list"+blc.getQueryString();
         } catch (Exception e) {
             model.addAttribute("boardDto", boardDto);
             model.addAttribute("msg", "BOARD_MOD_ERR");
@@ -108,7 +108,7 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
-    public String remove(Integer bno, SearchCondition sc, RedirectAttributes rattr, HttpSession session) {
+    public String remove(Integer bno, BoardListCondition blc, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
 
         try {
@@ -118,7 +118,7 @@ public class BoardController {
                 throw new Exception("Board delete failed");
 
             rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
-            return "redirect:/board/list"+sc.getQueryString();
+            return "redirect:/board/list"+blc.getQueryString();
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
             return "boardList";

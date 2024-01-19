@@ -1,7 +1,7 @@
 package com.collaborateam.www.service;
 
 import com.collaborateam.www.domain.BoardDto;
-import com.collaborateam.www.domain.SearchCondition;
+import com.collaborateam.www.domain.BoardListCondition;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -231,40 +231,40 @@ public class BoardServiceImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
         // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "IT", "WD", "T", "title");
-        List<BoardDto> list = boardService.getSearchResultPage(sc);    // LIMIT #{offset}, #{pageSize}
+        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        List<BoardDto> list = boardService.getSearchResultPage(blc);    // LIMIT #{offset}, #{pageSize}
         assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "test");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(0, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title2");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer2");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "title");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "content2");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
-        list = boardService.getSearchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        list = boardService.getSearchResultPage(blc);
         assertEquals(0, list.size());
     }
 
@@ -286,40 +286,40 @@ public class BoardServiceImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
         // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "IT", "WD", "T", "title");
-        int cnt = boardService.getSearchResultCnt(sc);
+        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        int cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "test");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(0, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title2");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer2");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "title");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "content2");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
-        cnt = boardService.getSearchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        cnt = boardService.getSearchResultCnt(blc);
         assertEquals(0, cnt);
     }
 }

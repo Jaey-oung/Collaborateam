@@ -2,37 +2,38 @@ package com.collaborateam.www.domain;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class SearchCondition {
-    private Integer page = 1;
-    private Integer pageSize = 10;
-    private String field = "A";
-    private String specialization = "A";
-    private String option = "A";
-    private String keyword = "";
+public abstract class PageCondition {
+    protected Integer page;
+    protected Integer pageSize;
+    protected String option;
+    protected String keyword;
 
-    public SearchCondition() {}
-    public SearchCondition(Integer page, Integer pageSize, String field, String specialization, String option, String keyword) {
+    public PageCondition() {
+        this.page = 1;
+        this.option = "A";
+        this.keyword = "";
+    }
+
+    public PageCondition(Integer page, Integer pageSize, String option, String keyword) {
         this.page = page;
         this.pageSize = pageSize;
-        this.field = field;
-        this.specialization = specialization;
         this.option = option;
         this.keyword = keyword;
     }
 
-    public String getQueryString(Integer page, String field, String specialization) {    // ?page=?&pageSize=?field=?&specialization=?&option=?&keyword=?
+    public abstract String getQueryString(Integer page, String option, String keyword, String field, String specialization);
+
+    public String getQueryString(Integer page, String option, String keyword) {
         return UriComponentsBuilder.newInstance()
                 .queryParam("page", page)
                 .queryParam("pageSize", pageSize)
-                .queryParam("field", field)
-                .queryParam("specialization", specialization)
                 .queryParam("option", option)
                 .queryParam("keyword", keyword)
                 .build().toString();
     }
 
-    public String getQueryString() {    // ?page=?&pageSize=?&option=?&keyword=?
-        return getQueryString(page, field, specialization);
+    public String getQueryString() {
+        return getQueryString(page, option, keyword);
     }
 
     public Integer getPage() {
@@ -55,22 +56,6 @@ public class SearchCondition {
         return (page-1) * pageSize;
     }
 
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
     public String getOption() {
         return option;
     }
@@ -89,12 +74,10 @@ public class SearchCondition {
 
     @Override
     public String toString() {
-        return "SearchCondition{" +
+        return "PageCondition{" +
                 "page=" + page +
                 ", pageSize=" + pageSize +
                 ", offset=" + getOffset() +
-                ", field='" + field + '\'' +
-                ", specialization='" + specialization + '\'' +
                 ", option='" + option + '\'' +
                 ", keyword='" + keyword + '\'' +
                 '}';

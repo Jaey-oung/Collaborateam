@@ -1,7 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.BoardDto;
-import com.collaborateam.www.domain.SearchCondition;
+import com.collaborateam.www.domain.BoardListCondition;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -241,40 +241,40 @@ public class BoardDaoImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "IT", "WD", "T", "title");
-        List<BoardDto> list = boardDao.searchResultPage(sc);    // LIMIT #{offset}, #{pageSize}
+        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        List<BoardDto> list = boardDao.searchResultPage(blc);    // LIMIT #{offset}, #{pageSize}
         assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "test");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(0, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title2");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer2");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "title");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "content2");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
-        list = boardDao.searchResultPage(sc);
+        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        list = boardDao.searchResultPage(blc);
         assertEquals(0, list.size());
     }
 
@@ -294,40 +294,40 @@ public class BoardDaoImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        SearchCondition sc = new SearchCondition(1, 5, "IT", "WD", "T", "title");
-        int cnt = boardDao.searchResultCnt(sc);
+        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        int cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "test");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(0, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "T", "title2");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "W", "writer2");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "title");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        sc = new SearchCondition(1, 10, "IT", "WD", "TC", "content2");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        sc = new SearchCondition(1, 10, "TEST", "TEST", "A", "content2");
-        cnt = boardDao.searchResultCnt(sc);
+        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        cnt = boardDao.searchResultCnt(blc);
         assertEquals(0, cnt);
     }
 

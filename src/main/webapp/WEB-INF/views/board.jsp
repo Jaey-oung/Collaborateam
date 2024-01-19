@@ -114,7 +114,7 @@
                 return;
             }
 
-            form.attr("action", "<c:url value='/board/modify${searchCondition.queryString}'/>");
+            form.attr("action", "<c:url value='/board/modify${boardListCondition.queryString}'/>");
             form.attr("method", "post");
             form.submit();
         });
@@ -123,13 +123,13 @@
             if(!confirm("Would you like to delete the board?")) return;
             let form = $("#form");
 
-            form.attr("action", "<c:url value='/board/remove${searchCondition.queryString}'/>");
+            form.attr("action", "<c:url value='/board/remove${boardListCondition.queryString}'/>");
             form.attr("method", "post");
             form.submit();
         });
 
         boardListBtn.on("click", function() {
-            location.href = "<c:url value='/board/list${searchCondition.queryString}'/>";
+            location.href = "<c:url value='/board/list${boardListCondition.queryString}'/>";
         });
 
         commentList.on("click", "#commentModBtn", function() {

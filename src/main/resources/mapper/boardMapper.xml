@@ -63,7 +63,7 @@
         WHERE bno = #{bno}
     </update>
 
-    <sql id="searchCondition">
+    <sql id="boardListCondition">
         <if test='field!="A"'>
             AND field = #{field}
         </if>
@@ -86,19 +86,19 @@
         </if>
     </sql>
 
-    <select id="searchResultPage" parameterType="SearchCondition" resultType="BoardDto">
+    <select id="searchResultPage" parameterType="BoardListCondition" resultType="BoardDto">
         <include refid="selectFromBoard"/>
         WHERE true
-        <include refid="searchCondition"/>
+        <include refid="boardListCondition"/>
         ORDER BY reg_date DESC, bno DESC
         LIMIT #{offset}, #{pageSize}
     </select>
 
-    <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
+    <select id="searchResultCnt" parameterType="BoardListCondition" resultType="int">
         SELECT count(*)
         FROM board
         WHERE true
-        <include refid="searchCondition"/>
+        <include refid="boardListCondition"/>
     </select>
     
     <update id="updateCommentCnt" parameterType="map">

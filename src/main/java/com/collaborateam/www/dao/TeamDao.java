@@ -7,7 +7,6 @@ import java.util.List;
 public interface TeamDao {
     int count() throws Exception;
     List<TeamDto> selectAll() throws Exception;
-    List<TeamDto> selectUserTeam(String leader) throws Exception;
     void deleteAll() throws Exception;
     int insert(TeamDto teamDto) throws Exception;  // Create - C
     TeamDto select(Integer tno) throws Exception;  // Read - R

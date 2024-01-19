@@ -17,11 +17,6 @@
         <include refid="selectFromTeam"/>
     </select>
 
-    <select id="selectUserTeam" parameterType="String" resultType="TeamDto">
-        <include refid="selectFromTeam"/>
-        WHERE leader = #{leader}
-    </select>
-
     <delete id="deleteAll">
         DELETE
         FROM team

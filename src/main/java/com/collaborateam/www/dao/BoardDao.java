@@ -1,7 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.BoardDto;
-import com.collaborateam.www.domain.SearchCondition;
+import com.collaborateam.www.domain.BoardListCondition;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface BoardDao {
     int delete(Integer bno, String writer) throws Exception;    // Delete - D
     List<BoardDto> selectPage(Integer offset, Integer pageSize) throws Exception;
     int increaseViewCnt(Integer bno) throws Exception;
-    List<BoardDto> searchResultPage(SearchCondition sc) throws Exception;
-    int searchResultCnt(SearchCondition sc) throws Exception;
+    List<BoardDto> searchResultPage(BoardListCondition blc) throws Exception;
+    int searchResultCnt(BoardListCondition blc) throws Exception;
     int updateCommentCnt(Integer bno, int cnt);
 }

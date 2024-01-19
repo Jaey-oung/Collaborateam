@@ -1,7 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.BoardDto;
-import com.collaborateam.www.domain.SearchCondition;
+import com.collaborateam.www.domain.BoardListCondition;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -68,13 +68,13 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     @Override
-    public List<BoardDto> searchResultPage(SearchCondition sc) throws Exception {
-        return session.selectList(namespace+"searchResultPage", sc);
+    public List<BoardDto> searchResultPage(BoardListCondition blc) throws Exception {
+        return session.selectList(namespace+"searchResultPage", blc);
     }
 
     @Override
-    public int searchResultCnt(SearchCondition sc) throws Exception {
-        return session.selectOne(namespace+"searchResultCnt", sc);
+    public int searchResultCnt(BoardListCondition blc) throws Exception {
+        return session.selectOne(namespace+"searchResultCnt", blc);
     }
 
     @Override

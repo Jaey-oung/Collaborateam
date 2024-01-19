@@ -71,7 +71,7 @@ public class TeamDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TeamDto teamDto = (TeamDto) o;
-        return tno == teamDto.tno && Objects.equals(leader, teamDto.leader) && Objects.equals(name, teamDto.name) &&
+        return Objects.equals(tno, teamDto.tno) && Objects.equals(leader, teamDto.leader) && Objects.equals(name, teamDto.name) &&
                 Objects.equals(description, teamDto.description);
     }
 

@@ -2,7 +2,7 @@ package com.collaborateam.www.service;
 
 import com.collaborateam.www.dao.BoardDao;
 import com.collaborateam.www.domain.BoardDto;
-import com.collaborateam.www.domain.SearchCondition;
+import com.collaborateam.www.domain.BoardListCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +56,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDto> getSearchResultPage(SearchCondition sc) throws Exception {
-        return boardDao.searchResultPage(sc);
+    public List<BoardDto> getSearchResultPage(BoardListCondition blc) throws Exception {
+        return boardDao.searchResultPage(blc);
     }
 
     @Override
-    public int getSearchResultCnt(SearchCondition sc) throws Exception {
-        return boardDao.searchResultCnt(sc);
+    public int getSearchResultCnt(BoardListCondition blc) throws Exception {
+        return boardDao.searchResultCnt(blc);
     }
 }

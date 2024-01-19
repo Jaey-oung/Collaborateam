@@ -8,6 +8,6 @@
         <typeAlias alias="BoardDto" type="com.collaborateam.www.domain.BoardDto"/>
         <typeAlias alias="CommentDto" type="com.collaborateam.www.domain.CommentDto"/>
         <typeAlias alias="TeamDto" type="com.collaborateam.www.domain.TeamDto"/>
-        <typeAlias alias="SearchCondition" type="com.collaborateam.www.domain.SearchCondition"/>
+        <typeAlias alias="BoardListCondition" type="com.collaborateam.www.domain.BoardListCondition"/>
     </typeAliases>
 </configuration>

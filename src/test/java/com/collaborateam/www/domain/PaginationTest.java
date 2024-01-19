@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 public class PaginationTest {
     @Test
     public void test() {
-        SearchCondition sc = new SearchCondition(1, 10, "IT", "Web Development", "", "");
-        Pagination pagination = new Pagination(200, sc);
+        BoardListCondition blc = new BoardListCondition(1, 10, "IT", "WD", "", "");
+        Pagination pagination = new Pagination(200, blc);
 
         pagination.print();
         assertEquals(20, pagination.getTotalPage());
@@ -20,8 +20,8 @@ public class PaginationTest {
 
     @Test
     public void test2() {
-        SearchCondition sc = new SearchCondition(11, 10, "IT", "Web Development", "", "");
-        Pagination pagination = new Pagination(350, sc);
+        BoardListCondition blc = new BoardListCondition(11, 10, "IT", "Web Development", "", "");
+        Pagination pagination = new Pagination(350, blc);
 
         pagination.print();
         assertEquals(35, pagination.getTotalPage());
@@ -33,8 +33,8 @@ public class PaginationTest {
 
     @Test
     public void test3() {
-        SearchCondition sc = new SearchCondition(21, 10, "IT", "Web Development", "", "");
-        Pagination pagination = new Pagination(555, sc);
+        BoardListCondition blc = new BoardListCondition(21, 10, "IT", "Web Development", "", "");
+        Pagination pagination = new Pagination(555, blc);
 
         pagination.print();
         assertEquals(56, pagination.getTotalPage());
