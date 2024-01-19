@@ -55,7 +55,6 @@ public class CommentController {
 
             if(rowCnt != 1)
                 throw new Exception("Comment modify failed");
-//            throw new Exception("");
 
             return new ResponseEntity<>("Successfully modified the comment", HttpStatus.OK);
         } catch (Exception e) {

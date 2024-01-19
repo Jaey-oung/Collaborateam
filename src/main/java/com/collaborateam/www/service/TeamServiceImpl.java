@@ -23,6 +23,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<TeamDto> getUserTeam(String leader) throws Exception {
+        return teamDao.selectUserTeam(leader);
+    }
+
+
+    @Override
     public void removeAllTeams() throws Exception {
         teamDao.deleteAll();
     }

@@ -75,6 +75,22 @@ public class TeamServiceImplTest {
     }
 
     @Test
+    public void getUserTeamTest() throws Exception {
+        List<TeamDto> list = teamService.getUserTeam(userDto1.getId());
+        assertEquals(0, list.size());
+
+        assertEquals(1, teamService.create(teamDto1));
+        list = teamService.getUserTeam(userDto1.getId());
+        assertEquals(1, list.size());
+
+        Integer tno = teamService.getList().get(0).getTno();
+
+        assertEquals(1, teamService.remove(tno, userDto1.getId()));
+        list = teamService.getUserTeam(userDto1.getId());
+        assertEquals(0, list.size());
+    }
+
+    @Test
     public void removeAllTeamsTest() throws Exception {
         assertEquals(0, teamService.getCount());
 

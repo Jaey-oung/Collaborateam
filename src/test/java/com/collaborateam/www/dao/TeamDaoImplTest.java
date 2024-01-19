@@ -75,6 +75,22 @@ public class TeamDaoImplTest {
     }
 
     @Test
+    public void selectUserTeamTest() throws Exception {
+        List<TeamDto> list = teamDao.selectUserTeam(userDto1.getId());
+        assertEquals(0, list.size());
+
+        assertEquals(1, teamDao.insert(teamDto1));
+        list = teamDao.selectUserTeam(userDto1.getId());
+        assertEquals(1, list.size());
+
+        Integer tno = teamDao.selectAll().get(0).getTno();
+
+        assertEquals(1, teamDao.delete(tno, userDto1.getId()));
+        list = teamDao.selectUserTeam(userDto1.getId());
+        assertEquals(0, list.size());
+    }
+
+    @Test
     public void deleteAllTest() throws Exception {
         assertEquals(0, teamDao.count());
 

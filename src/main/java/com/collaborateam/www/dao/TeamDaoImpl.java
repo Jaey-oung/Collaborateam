@@ -22,6 +22,10 @@ public class TeamDaoImpl implements TeamDao {
         return session.selectList(namespace+"selectAll");
     }
 
+    public List<TeamDto> selectUserTeam(String leader) throws Exception {
+        return session.selectList(namespace+"selectUserTeam", leader);
+    }
+
     public void deleteAll() throws Exception {
         session.delete(namespace+"deleteAll");
     }
