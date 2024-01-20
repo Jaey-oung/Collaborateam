@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void removeAllComments(Integer bno) throws Exception {
+    public void removeAllComments(Integer bno) {
         commentDao.deleteAll(bno);
     }
 

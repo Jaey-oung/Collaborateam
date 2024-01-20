@@ -22,7 +22,7 @@
         FROM team
     </delete>
 
-    <insert id="insert" parameterType="TeamDto">
+    <insert id="insert" parameterType="TeamDto" useGeneratedKeys="true" keyProperty="tno">
         INSERT INTO team
             (leader, name, description, reg_date, up_date)
         VALUES

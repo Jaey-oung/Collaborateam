@@ -53,6 +53,6 @@
     <select id="exist" parameterType="map" resultType="int">
         SELECT count(*)
         FROM member
-        WHERE tno = #{tno} AND id = #{id}
+        WHERE tno = #{tno} and id = #{id}
     </select>
 </mapper>

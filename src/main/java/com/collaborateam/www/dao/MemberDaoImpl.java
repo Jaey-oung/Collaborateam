@@ -25,7 +25,7 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public int deleteAll(Integer tno) {
+    public int deleteAll(Integer tno) throws Exception {
         return session.delete(namespace+"deleteAll", tno);
     }
 
@@ -36,7 +36,7 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public MemberDto select(Integer mno) throws Exception {
-        return session.selectOne(namespace + "select", mno);
+        return session.selectOne(namespace+"select", mno);
     }
 
     @Override
@@ -57,7 +57,6 @@ public class MemberDaoImpl implements MemberDao {
         Map<String, Object> map = new HashMap<>();
         map.put("tno", tno);
         map.put("id", id);
-        Integer cnt = session.selectOne(namespace+"exist", map);
-        return cnt > 0;
+        return (Integer)session.selectOne(namespace+"exist", map) > 0;
     }
 }

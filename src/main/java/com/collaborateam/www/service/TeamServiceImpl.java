@@ -1,9 +1,12 @@
 package com.collaborateam.www.service;
 
+import com.collaborateam.www.dao.MemberDao;
 import com.collaborateam.www.dao.TeamDao;
+import com.collaborateam.www.domain.MemberDto;
 import com.collaborateam.www.domain.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,6 +14,8 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
     @Autowired
     TeamDao teamDao;
+    @Autowired
+    MemberDao memberDao;
 
     @Override
     public int getCount() throws Exception {
@@ -28,8 +33,14 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int create(TeamDto teamDto) throws Exception {
-        return teamDao.insert(teamDto);
+        int rowCnt = teamDao.insert(teamDto);
+        if(rowCnt == 1) {
+            MemberDto leader = new MemberDto(teamDto.getTno(), teamDto.getLeader(), "Leader");
+            rowCnt = memberDao.insert(leader);
+        }
+        return rowCnt;
     }
 
     @Override
