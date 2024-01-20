@@ -3,25 +3,18 @@ package com.collaborateam.www.domain;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public abstract class PageCondition {
-    protected Integer page;
+    protected Integer page = 1;
     protected Integer pageSize;
-    protected String option;
-    protected String keyword;
+    protected String option = "A";
+    protected String keyword = "";
 
-    public PageCondition() {
-        this.page = 1;
-        this.option = "A";
-        this.keyword = "";
-    }
-
+    public PageCondition() {}
     public PageCondition(Integer page, Integer pageSize, String option, String keyword) {
         this.page = page;
         this.pageSize = pageSize;
         this.option = option;
         this.keyword = keyword;
     }
-
-    public abstract String getQueryString(Integer page, String option, String keyword, String field, String specialization);
 
     public String getQueryString(Integer page, String option, String keyword) {
         return UriComponentsBuilder.newInstance()

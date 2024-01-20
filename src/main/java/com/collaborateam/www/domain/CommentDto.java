@@ -20,6 +20,14 @@ public class CommentDto {
         this.commenter = commenter;
     }
 
+    public Integer getCno() {
+        return cno;
+    }
+
+    public void setCno(Integer cno) {
+        this.cno = cno;
+    }
+
     public Integer getBno() {
         return bno;
     }
@@ -66,14 +74,6 @@ public class CommentDto {
 
     public void setUp_date(Date up_date) {
         this.up_date = up_date;
-    }
-
-    public Integer getCno() {
-        return cno;
-    }
-
-    public void setCno(Integer cno) {
-        this.cno = cno;
     }
 
     @Override

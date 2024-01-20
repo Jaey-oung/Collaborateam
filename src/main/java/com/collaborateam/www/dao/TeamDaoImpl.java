@@ -14,6 +14,7 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     private SqlSession session;
     private static final String namespace = "com.collaborateam.www.dao.TeamMapper.";
+
     public int count() throws Exception {
         return session.selectOne(namespace+"count");
     }

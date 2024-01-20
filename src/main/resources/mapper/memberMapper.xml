@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.MemberMapper">
+    <select id="count" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM member
+        WHERE tno = #{tno}
+    </select>
+
+    <sql id="selectFromMember">
+        SELECT mno, tno, id, role, reg_date, up_date
+        FROM member
+    </sql>
+
+    <select id="selectAll" parameterType="int" resultType="MemberDto">
+        <include refid="selectFromMember"/>
+        WHERE tno = #{tno}
+    </select>
+
+    <delete id="deleteAll" parameterType="int">
+        DELETE
+        FROM member
+        WHERE tno = #{tno}
+    </delete>
+
+    <insert id="insert" parameterType="MemberDto">
+        INSERT INTO member
+            (tno, id, role, reg_date, up_date)
+        VALUES
+            (#{tno}, #{id}, #{role}, now(), now())
+    </insert>
+
+    <select id="select" parameterType="int" resultType="MemberDto">
+        <include refid="selectFromMember"/>
+        WHERE mno = #{mno}
+    </select>
+
+    <update id="update" parameterType="MemberDto">
+        UPDATE member
+        SET role = #{role},
+            up_date = now()
+        WHERE mno = #{mno} and id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE
+        FROM member
+        WHERE mno = #{mno} and id = #{id}
+    </delete>
+
+    <select id="exist" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM member
+        WHERE tno = #{tno} AND id = #{id}
+    </select>
+</mapper>

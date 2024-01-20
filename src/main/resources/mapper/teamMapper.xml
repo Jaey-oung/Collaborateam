@@ -38,7 +38,7 @@
         UPDATE team
         SET name = #{name},
             description = #{description},
-            up_date = #{reg_date}
+            up_date = now()
         WHERE tno = #{tno}
     </update>
 

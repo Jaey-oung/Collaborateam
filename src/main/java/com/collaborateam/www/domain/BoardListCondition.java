@@ -17,7 +17,6 @@ public class BoardListCondition extends PageCondition {
         this.specialization = specialization;
     }
 
-    @Override
     public String getQueryString(Integer page, String option, String keyword, String field, String specialization) {
         return UriComponentsBuilder.fromUriString(super.getQueryString(page, option, keyword))
                 .queryParam("field", field)
