@@ -72,13 +72,13 @@
     </table>
     <div>
         <c:if test="${pagination.showPrev}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.beginPage-1, pagination.pc.field, pagination.pc.specialization)}'/>">&lt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.beginPage-1, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">&lt;</a>
         </c:if>
         <c:forEach var="i" begin="${pagination.beginPage}" end="${pagination.endPage}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(i, pagination.pc.option, pagination.pc.keyword, pagination.pc.field, pagination.pc.specialization)}'/>">${i}</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(i, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">${i}</a>
         </c:forEach>
         <c:if test="${pagination.showNext}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.endPage+1, pagination.pc.field, pagination.pc.specialization)}'/>">&gt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.endPage+1, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">&gt;</a>
         </c:if>
     </div>
 </div>

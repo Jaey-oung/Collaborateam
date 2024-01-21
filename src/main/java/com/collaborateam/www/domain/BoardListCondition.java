@@ -5,27 +5,33 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class BoardListCondition extends PageCondition {
     private String field = "A";
     private String specialization = "A";
+    private String option = "A";
+    private String keyword = "";
 
     public BoardListCondition() {
         super();
         this.pageSize = 10;
     }
 
-    public BoardListCondition(Integer page, Integer pageSize, String option, String keyword, String field, String specialization) {
-        super(page, pageSize, option, keyword);
+    public BoardListCondition(Integer page, Integer pageSize, String field, String specialization, String option, String keyword) {
+        super(page, pageSize);
         this.field = field;
         this.specialization = specialization;
+        this.option = option;
+        this.keyword = keyword;
     }
 
-    public String getQueryString(Integer page, String option, String keyword, String field, String specialization) {
-        return UriComponentsBuilder.fromUriString(super.getQueryString(page, option, keyword))
+    public String getQueryString(Integer page, String field, String specialization, String option, String keyword) {
+        return UriComponentsBuilder.fromUriString(super.getQueryString(page))
                 .queryParam("field", field)
                 .queryParam("specialization", specialization)
+                .queryParam("option", option)
+                .queryParam("keyword", keyword)
                 .build().toString();
     }
 
     public String getQueryString() {
-        return getQueryString(page, option, keyword, field, specialization);
+        return getQueryString(page, field, specialization, option, keyword);
     }
 
     public String getField() {
@@ -42,6 +48,22 @@ public class BoardListCondition extends PageCondition {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public String getOption() {
+        return option;
+    }
+
+    public void setOption(String option) {
+        this.option = option;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     @Override

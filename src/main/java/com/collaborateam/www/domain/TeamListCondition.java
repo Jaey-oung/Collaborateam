@@ -8,28 +8,24 @@ public class TeamListCondition extends PageCondition {
         this.pageSize = 4;
     }
 
-    public TeamListCondition(Integer page, Integer pageSize, String option, String keyword) {
-        super(page, pageSize, option, keyword);
+    public TeamListCondition(Integer page, Integer pageSize) {
+        super(page, pageSize);
     }
 
-    @Override
-    public String getQueryString(Integer page, String option, String keyword) {
-        return UriComponentsBuilder.fromUriString(super.getQueryString(page, option, keyword))
+    public String getQueryString(Integer page) {
+        return UriComponentsBuilder.fromUriString(super.getQueryString(page))
                 .build().toString();
     }
 
     public String getQueryString() {
-        return getQueryString(page, option, keyword);
+        return getQueryString(page);
     }
-
 
     @Override
     public String toString() {
         return "TeamListCondition{" +
                 "page=" + page +
                 ", pageSize=" + pageSize +
-                ", option='" + option + '\'' +
-                ", keyword='" + keyword + '\'' +
                 '}';
     }
 }

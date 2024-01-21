@@ -241,39 +241,39 @@ public class BoardDaoImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
         List<BoardDto> list = boardDao.searchResultPage(blc);    // LIMIT #{offset}, #{pageSize}
         assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
 
-        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
         list = boardDao.searchResultPage(blc);
         assertEquals(0, list.size());
 
-        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
         list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
         list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
         list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
         list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
         list = boardDao.searchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
         list = boardDao.searchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
         list = boardDao.searchResultPage(blc);
         assertEquals(0, list.size());
     }
@@ -294,39 +294,39 @@ public class BoardDaoImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
                     // title2, content2, writer1 / title2, content2, writer2
 
-        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
         int cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(0, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
         cnt = boardDao.searchResultCnt(blc);
         assertEquals(0, cnt);
     }
