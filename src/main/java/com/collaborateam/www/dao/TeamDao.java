@@ -15,4 +15,5 @@ public interface TeamDao {
     int delete(Integer tno, String leader) throws Exception;    // Delete - D
     List<TeamDto> teamPage(String id, TeamListCondition tlc) throws Exception;
     int teamCnt(String id) throws Exception;
+    List<TeamDto> getLeaderTeam(String id) throws Exception;
 }

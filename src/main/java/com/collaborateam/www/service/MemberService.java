@@ -14,4 +14,5 @@ public interface MemberService {
     MemberDto read(Integer mno) throws Exception;
     int modify(MemberDto memberDto) throws Exception;
     int remove(Integer mno, String id) throws Exception;
+    boolean exist(Integer tno, String id) throws Exception;
 }

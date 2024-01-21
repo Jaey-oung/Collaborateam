@@ -48,4 +48,9 @@ public class MemberServiceImpl implements MemberService {
     public int remove(Integer mno, String id) throws Exception {
         return memberDao.delete(mno, id);
     }
+
+    @Override
+    public boolean exist(Integer tno, String id) throws Exception {
+        return memberDao.exist(tno, id);
+    }
 }

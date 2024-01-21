@@ -63,4 +63,9 @@
             JOIN member m ON t.tno = m.tno
         WHERE m.id = #{id}
     </select>
+
+    <select id="getTeam" parameterType="string" resultType="TeamDto">
+        <include refid="selectFromTeam"/>
+        WHERE leader = #{id}
+    </select>
 </mapper>

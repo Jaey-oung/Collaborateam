@@ -59,4 +59,10 @@ public class TeamDaoImpl implements TeamDao {
     public int teamCnt(String id) throws Exception {
         return session.selectOne(namespace+"teamCnt", id);
     }
+
+    @Override
+    public List<TeamDto> getLeaderTeam(String id) throws Exception {
+        return session.selectList(namespace+"getTeam", id);
+    }
+
 }

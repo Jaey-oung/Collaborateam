@@ -68,4 +68,10 @@ public class TeamServiceImpl implements TeamService {
     public int getTeamCnt(String id) throws Exception {
         return teamDao.teamCnt(id);
     }
+
+    @Override
+    public List<TeamDto> retrieveLeaderTeam(String id) throws Exception {
+        return teamDao.getLeaderTeam(id);
+    }
+
 }

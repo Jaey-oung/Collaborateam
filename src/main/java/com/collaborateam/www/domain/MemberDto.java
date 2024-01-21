@@ -11,6 +11,7 @@ public class MemberDto {
     private Date reg_date;
     private Date up_date;
 
+    public MemberDto() {}
     public MemberDto(Integer tno, String id, String role) {
         this.tno = tno;
         this.id = id;

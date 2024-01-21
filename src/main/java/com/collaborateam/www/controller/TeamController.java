@@ -3,13 +3,17 @@ package com.collaborateam.www.controller;
 import com.collaborateam.www.domain.Pagination;
 import com.collaborateam.www.domain.TeamDto;
 import com.collaborateam.www.domain.TeamListCondition;
+import com.collaborateam.www.service.MemberService;
 import com.collaborateam.www.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +25,8 @@ import java.util.List;
 public class TeamController {
     @Autowired
     TeamService teamService;
+    @Autowired
+    MemberService memberService;
 
     @GetMapping("/list")
     public String list(TeamListCondition tlc, Model model, HttpServletRequest request, HttpSession session) {
@@ -124,6 +130,17 @@ public class TeamController {
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "TEAM_DEL_ERR");
             return "teamList";
+        }
+    }
+
+    @RequestMapping("/teams")
+    @ResponseBody
+    public ResponseEntity<List<TeamDto>> getMyTeams(String leader) {
+        try {
+            List<TeamDto> list = teamService.retrieveLeaderTeam(leader);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

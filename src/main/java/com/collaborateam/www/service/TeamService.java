@@ -15,4 +15,5 @@ public interface TeamService {
     int remove(Integer tno, String leader) throws Exception;
     List<TeamDto> getTeamPage(String id, TeamListCondition tlc) throws Exception;
     int getTeamCnt(String id) throws Exception;
+    List<TeamDto> retrieveLeaderTeam(String id) throws Exception;
 }

@@ -27,6 +27,7 @@
         ${loginId}
     </ul>
 </div>
+<button id="test">TEST</button>
 <div>
     <form action="" id="form">
         <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
@@ -51,6 +52,8 @@
         <button type="button" id="boardListBtn" class="btn">List</button>
     </form>
 </div>
+<button type="button" id="inviteBtn" class="btn">Invite</button>
+<div id="teams"></div>
 <br>
 <br>
 <div id="commentFunction">
@@ -239,6 +242,21 @@
                 }
             });
         });
+
+        $("#inviteBtn").on("click", function() {
+            let leader = "${loginId}";
+
+            $.ajax({
+                type: "GET",
+                url: "/collaborateam/team/teams?leader="+leader,
+                success: function(result){
+                    $("#teams").html(formatTeam(result))
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
     });
 
     function displayMsg(msg) {
@@ -268,6 +286,43 @@
             error : function(){ alert("Failed to load the comment list")}
         });
     }
+
+    function formatTeam(teams) {
+        let tmp = "";
+
+        teams.forEach(function(team) {
+            tmp += "<ul>"
+            tmp += "<li data-tno=" + team.tno + ">"
+            tmp += " team : <span class='team'>" + team.name + "</span>"
+            tmp += "</li>"
+            tmp += "</ul>"
+        })
+        tmp += "<button type='button' id='teamSelectBtn' class='btn'>Confirm</button>"
+        return tmp
+    }
+
+    $("#teams").on("click", "li", function() {
+        $(this).addClass("selected");
+        alert($(this).data("tno"));
+    });
+
+    $("#teams").on("click", "#teamSelectBtn", function () {
+        let writer= "${boardDto.writer}";
+        let tno = $("#teams li.selected").data("tno");
+
+        $.ajax({
+            type: "POST",
+            url: "/collaborateam/members",
+            contentType: "application/json",
+            data: JSON.stringify({ tno: tno, id: writer, role: "M" }),
+            success: function(result){
+                alert(result)
+            },
+            error: function(jqXHR) {
+                alert(jqXHR.responseText);
+            }
+        });
+    })
 
     function formatComment(comments) {
         let tmp = "<ul>";
