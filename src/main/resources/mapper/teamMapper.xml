@@ -47,4 +47,20 @@
         FROM team
         WHERE tno = #{tno} and leader = #{leader}
     </delete>
+
+    <select id="teamPage" parameterType="map" resultType="TeamDto">
+        SELECT t.*
+        FROM team t
+            JOIN member m ON t.tno = m.tno
+        WHERE m.id = #{id}
+        ORDER BY t.reg_date DESC, t.tno DESC
+        LIMIT #{tlc.offset}, #{tlc.pageSize}
+    </select>
+
+    <select id="teamCnt" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM team t
+            JOIN member m ON t.tno = m.tno
+        WHERE m.id = #{id}
+    </select>
 </mapper>

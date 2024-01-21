@@ -1,6 +1,7 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,4 +46,17 @@ public class TeamDaoImpl implements TeamDao {
         map.put("leader", leader);
         return session.delete(namespace+"delete", map);
     }   // Delete - D
+
+    @Override
+    public List<TeamDto> teamPage(String id, TeamListCondition tlc) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("tlc", tlc);
+        return session.selectList(namespace+"teamPage", map);
+    }
+
+    @Override
+    public int teamCnt(String id) throws Exception {
+        return session.selectOne(namespace+"teamCnt", id);
+    }
 }

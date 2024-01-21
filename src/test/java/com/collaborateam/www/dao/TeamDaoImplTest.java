@@ -1,7 +1,9 @@
 package com.collaborateam.www.dao;
 
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 import com.collaborateam.www.domain.UserDto;
+import com.collaborateam.www.service.TeamServiceImplTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +38,7 @@ public class TeamDaoImplTest {
 
         userDao.deleteAll();
         teamDao.deleteAll();
+//        memberDao.deleteAll()
 
         userDto1 = new UserDto("id1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
         userDto2 = new UserDto("id2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
@@ -188,4 +191,8 @@ public class TeamDaoImplTest {
         assertEquals(0, teamDao.count());
         assertNull(teamDao.select(tno2));
     }
+
+//    Skipped teamPageTest and teamPageCnt
+//    Because the transactions are not tied up
+//    Move to TeamServiceImplTest
 }

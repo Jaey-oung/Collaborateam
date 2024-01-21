@@ -40,7 +40,7 @@ public class BoardController {
             model.addAttribute("pagination", pagination);
         } catch (Exception e) {
             model.addAttribute("msg", "BOARD_LIST_LOAD_ERR");
-    }
+        }
         return "boardList";
     }
 

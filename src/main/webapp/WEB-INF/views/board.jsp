@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
@@ -22,11 +22,9 @@
         <li><a href="<c:url value='/'/>">Home</a></li>
         <li><a href="">About</a></li>
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
-        <li><a href="">Team Management</a></li>
-        <li><a href="">Contact Us</a></li>
+        <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
         ${loginId}
-        <li><a href="">My Account</a></li>
     </ul>
 </div>
 <div>

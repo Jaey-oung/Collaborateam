@@ -1,6 +1,7 @@
 package com.collaborateam.www.service;
 
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface TeamService {
     TeamDto read(Integer tno) throws Exception;
     int modify(TeamDto teamDto) throws Exception;
     int remove(Integer tno, String leader) throws Exception;
+    List<TeamDto> getTeamPage(String id, TeamListCondition tlc) throws Exception;
+    int getTeamCnt(String id) throws Exception;
 }

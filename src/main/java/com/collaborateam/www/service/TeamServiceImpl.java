@@ -4,6 +4,7 @@ import com.collaborateam.www.dao.MemberDao;
 import com.collaborateam.www.dao.TeamDao;
 import com.collaborateam.www.domain.MemberDto;
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,5 +57,15 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public int remove(Integer tno, String leader) throws Exception {
         return teamDao.delete(tno, leader);
+    }
+
+    @Override
+    public List<TeamDto> getTeamPage(String id, TeamListCondition tlc) throws Exception {
+        return teamDao.teamPage(id, tlc);
+    }
+
+    @Override
+    public int getTeamCnt(String id) throws Exception {
+        return teamDao.teamCnt(id);
     }
 }

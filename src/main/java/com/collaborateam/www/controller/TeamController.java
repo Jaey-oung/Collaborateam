@@ -1,6 +1,8 @@
 package com.collaborateam.www.controller;
 
+import com.collaborateam.www.domain.Pagination;
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 import com.collaborateam.www.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/team")
@@ -20,10 +23,26 @@ public class TeamController {
     TeamService teamService;
 
     @GetMapping("/list")
-    public String list(HttpServletRequest request) {
+    public String list(TeamListCondition tlc, Model model, HttpServletRequest request, HttpSession session) {
         if(!loginCheck(request))    // If not logged in
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
+        String id = (String)session.getAttribute("id");
+
+        try {
+            int rowCnt = teamService.getTeamCnt(id);
+
+            if(rowCnt == 0)
+                throw new Exception("Team list load failed");
+
+            Pagination pagination = new Pagination(rowCnt, tlc);
+            List<TeamDto> list = teamService.getTeamPage(id, tlc);
+
+            model.addAttribute("list", list);
+            model.addAttribute("pagination", pagination);
+        } catch (Exception e) {
+            model.addAttribute("msg", "TEAM_LIST_LOAD_ERR");
+        }
         return "teamList";
     }
 

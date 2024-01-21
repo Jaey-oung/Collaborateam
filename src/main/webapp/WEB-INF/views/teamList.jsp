@@ -18,18 +18,46 @@
         <li><a href="">About</a></li>
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
         <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
-        <li><a href="">Contact Us</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
         ${loginId}
-        <li><a href="">My Account</a></li>
     </ul>
 </div>
 <button type="button" id="crtBtn">New Team</button>
+<div>
+    <table border="1">
+        <tr>
+            <th>Leader</th>
+            <th>Team</th>
+            <th>Name</th>
+            <th>Register Date</th>
+        </tr>
+        <c:forEach var="teamDto" items="${list}">
+            <tr>
+                <td><c:out value="${teamDto.leader}"/></td>
+                <td><a href="<c:url value='/team/read${pagination.pc.queryString}&bno=${boardDto.bno}'/>"><c:out value="${boardDto.title}"/></a></td>
+                <td><c:out value="${teamDto.name}"/></td>
+                <td><c:out value="${teamDto.reg_date}"/></td>
+            </tr>
+        </c:forEach>
+    </table>
+    <div>
+        <c:if test="${pagination.showPrev}">
+            <a href="<c:url value='/team/list${pagination.pc.getQueryString(pagination.beginPage-1)}'/>">&lt;</a>
+        </c:if>
+        <c:forEach var="i" begin="${pagination.beginPage}" end="${pagination.endPage}">
+            <a href="<c:url value='/team/list${pagination.pc.getQueryString(i)}'/>">${i}</a>
+        </c:forEach>
+        <c:if test="${pagination.showNext}">
+            <a href="<c:url value='/team/list${pagination.pc.getQueryString(pagination.endPage+1)}'/>">&gt;</a>
+        </c:if>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         let msg = "${msg}";
 
         if(msg === "TEAM_CRT_OK") alert("Successfully created the team");
+        if(msg === "TEAM_LIST_LOAD_ERR") alert("Failed to load the team list");
 
         $("#crtBtn").on("click", function() {
             location.href = "<c:url value='/team/create'/>";

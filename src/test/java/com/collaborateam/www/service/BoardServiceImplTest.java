@@ -231,39 +231,39 @@ public class BoardServiceImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
         // title2, content2, writer1 / title2, content2, writer2
 
-        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
         List<BoardDto> list = boardService.getSearchResultPage(blc);    // LIMIT #{offset}, #{pageSize}
         assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
 
-        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
         list = boardService.getSearchResultPage(blc);
         assertEquals(0, list.size());
 
-        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
         list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
         list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
         list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
         list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
         list = boardService.getSearchResultPage(blc);
         assertEquals(8, list.size());
 
-        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
         list = boardService.getSearchResultPage(blc);
         assertEquals(4, list.size());
 
-        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
         list = boardService.getSearchResultPage(blc);
         assertEquals(0, list.size());
     }
@@ -286,39 +286,39 @@ public class BoardServiceImplTest {
         }           // title2, content1, writer1 / title2, content1, writer2
         // title2, content2, writer1 / title2, content2, writer2
 
-        BoardListCondition blc = new BoardListCondition(1, 5, "T", "title", "IT", "WD");
+        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
         int cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "test", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(0, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "T", "title2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "W", "writer", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "W", "writer2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "TC", "title", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(8, cnt);
 
-        blc = new BoardListCondition(1, 10, "TC", "content2", "IT", "WD");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(4, cnt);
 
-        blc = new BoardListCondition(1, 10, "A", "content2", "TEST", "TEST");
+        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
         cnt = boardService.getSearchResultCnt(blc);
         assertEquals(0, cnt);
     }

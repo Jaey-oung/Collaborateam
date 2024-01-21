@@ -1,6 +1,7 @@
 package com.collaborateam.www.service;
 
 import com.collaborateam.www.domain.TeamDto;
+import com.collaborateam.www.domain.TeamListCondition;
 import com.collaborateam.www.domain.UserDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,14 +38,22 @@ public class TeamServiceImplTest {
         userService.removeAllUsers();
         teamService.removeAllTeams();
 
-        userDto1 = new UserDto("id1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
-        userDto2 = new UserDto("id2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
+        userDto1 = new UserDto("user1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
+        userDto2 = new UserDto("user2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
 
         userService.addUser(userDto1);
         userService.addUser(userDto2);
 
         teamDto1 = new TeamDto(userDto1.getId(), "team1", "description1");
         teamDto2 = new TeamDto(userDto2.getId(), "team2", "description2");
+    }
+
+    @Test
+    public void insertData() throws Exception {
+        for(int i=1; i<=50; i++) {
+            TeamDto teamDto = new TeamDto(userDto1.getId(), "team"+i, "description"+i);
+            teamService.create(teamDto);
+        }
     }
 
     @Test
@@ -187,5 +196,39 @@ public class TeamServiceImplTest {
         assertEquals(1, teamService.remove(tno2, id2));
         assertEquals(0, teamService.getCount());
         assertNull(teamService.read(tno2));
+    }
+
+    @Test
+    public void getTeamPageTest() throws Exception {
+        TeamListCondition tlc = new TeamListCondition(1, 4);
+
+        List<TeamDto> list = teamService.getTeamPage(userDto1.getId(), tlc);
+        assertEquals(0, list.size());
+
+        assertEquals(1, teamService.create(teamDto1));
+
+        list = teamService.getTeamPage(userDto1.getId(), tlc);
+        assertEquals(1, list.size());
+
+        assertEquals(1, teamService.create(teamDto1));
+
+        list = teamService.getTeamPage(userDto1.getId(), tlc);
+        assertEquals(2, list.size());
+    }
+
+    @Test
+    public void getTeamCntTest() throws Exception {
+        int cnt = teamService.getTeamCnt(userDto1.getId());
+        assertEquals(0, cnt);
+
+        assertEquals(1, teamService.create(teamDto1));
+
+        cnt = teamService.getTeamCnt(userDto1.getId());
+        assertEquals(1, cnt);
+
+        assertEquals(1, teamService.create(teamDto1));
+
+        cnt = teamService.getTeamCnt(userDto1.getId());
+        assertEquals(2, cnt);
     }
 }
