@@ -42,23 +42,63 @@
         let msg = "${msg}";
         let mode = "${mode}";
 
-        if(msg === "TEAM_CRT_ERR") alert("Failed to create the team");
-
         let name = $("input[name=name]");
         let description = $("textarea[name=description]");
+        let teamCrtBtn = $("#teamCrtBtn");
+        let teamModBtn = $("#teamModBtn");
+        let teamRemBtn = $("#teamRemBtn");
+        let teamListBtn = $("#teamListBtn");
+
+        if(msg === "TEAM_CRT_ERR") alert("Failed to create the team");
+        if(msg === "TEAM_MOD_ERR") alert("Failed to modify the team");
+        if(msg === "TEAM_DEL_ERR") alert("Failed to delete the team");
+
 
         if(mode === "CRT_TEAM") {
             name.attr("readonly", false);
             description.attr("readonly", false);
         }
 
-        $("#teamCrtBtn").on("click", function () {
+        if(mode === "READ_TEAM") {
+            teamCrtBtn.hide();
+        }
+
+        teamCrtBtn.on("click", function () {
             if(!isTeamEmpty()) return;
             let form = $("#form");
 
             form.attr("action", "<c:url value='/team/create'/>");
             form.attr("method", "post");
             form.submit();
+        });
+
+        teamModBtn.on("click", function() {
+            let form = $("#form");
+
+            if(name.attr("readonly") && description.attr("readonly")) {
+                name.attr("readonly", false);
+                description.attr("readonly", false);
+                teamModBtn.html("Write");
+                teamRemBtn.hide();
+                return;
+            }
+
+            form.attr("action", "<c:url value='/team/modify${teamListCondition.queryString}'/>");
+            form.attr("method", "post");
+            form.submit();
+        });
+
+        teamRemBtn.on("click", function() {
+            if(!confirm("Would you like to delete the team?")) return;
+            let form = $("#form");
+
+            form.attr("action", "<c:url value='/team/remove${teamListCondition.queryString}'/>");
+            form.attr("method", "post");
+            form.submit();
+        });
+
+        teamListBtn.on("click", function() {
+            location.href = "<c:url value='/team/list${teamListCondition.queryString}'/>";
         });
     });
 

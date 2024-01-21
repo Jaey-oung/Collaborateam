@@ -72,6 +72,61 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/read")
+    public String read(Integer tno, TeamListCondition tlc, Model model, RedirectAttributes rattr) {
+        try {
+            TeamDto teamDto = teamService.read(tno);
+
+            if(teamDto == null)
+                throw new Exception("Team load failed");
+
+            model.addAttribute("teamDto", teamDto);
+            model.addAttribute("mode", "READ_TEAM");
+            return "team";
+        } catch (Exception e) {
+            rattr.addFlashAttribute("msg", "TEAM_LOAD_ERR");
+            return "redirect:/team/list"+tlc.getQueryString();
+        }
+    }
+
+    @PostMapping("/modify")
+    public String modify(TeamDto teamDto, TeamListCondition tlc, Model model, RedirectAttributes rattr, HttpSession session) {
+        String leader = (String)session.getAttribute("id");
+        teamDto.setLeader(leader);
+
+        try {
+            int rowCnt = teamService.modify(teamDto);
+
+            if(rowCnt != 1)
+                throw new Exception("Team modify failed");
+
+            rattr.addFlashAttribute("msg", "TEAM_MOD_OK");
+            return "redirect:/team/list"+tlc.getQueryString();
+        } catch (Exception e) {
+            model.addAttribute("teamDto", teamDto);
+            model.addAttribute("msg", "BOARD_MOD_ERR");
+            return "team";
+        }
+    }
+
+    @PostMapping("/remove")
+    public String remove(Integer tno, TeamListCondition tlc, RedirectAttributes rattr, HttpSession session) {
+        String leader = (String)session.getAttribute("id");
+
+        try {
+            int rowCnt = teamService.remove(tno, leader);
+
+            if(rowCnt != 1)
+                throw new Exception("Team delete failed");
+
+            rattr.addFlashAttribute("msg", "TEAM_DEL_OK");
+            return "redirect:/team/list"+tlc.getQueryString();
+        } catch (Exception e) {
+            rattr.addFlashAttribute("msg", "TEAM_DEL_ERR");
+            return "teamList";
+        }
+    }
+
     private boolean loginCheck(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return session.getAttribute("id")!=null;    // If "id" exists in the session, return true

@@ -39,7 +39,7 @@
         SET name = #{name},
             description = #{description},
             up_date = now()
-        WHERE tno = #{tno}
+        WHERE tno = #{tno} and leader = #{leader}
     </update>
 
     <delete id="delete" parameterType="map">

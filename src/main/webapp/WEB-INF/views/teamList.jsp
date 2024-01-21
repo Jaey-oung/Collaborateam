@@ -34,8 +34,7 @@
         <c:forEach var="teamDto" items="${list}">
             <tr>
                 <td><c:out value="${teamDto.leader}"/></td>
-                <td><a href="<c:url value='/team/read${pagination.pc.queryString}&bno=${boardDto.bno}'/>"><c:out value="${boardDto.title}"/></a></td>
-                <td><c:out value="${teamDto.name}"/></td>
+                <td><a href="<c:url value='/team/read${pagination.pc.queryString}&tno=${teamDto.tno}'/>"><c:out value="${teamDto.name}"/></a></td>
                 <td><c:out value="${teamDto.reg_date}"/></td>
             </tr>
         </c:forEach>
@@ -57,6 +56,9 @@
         let msg = "${msg}";
 
         if(msg === "TEAM_CRT_OK") alert("Successfully created the team");
+        if(msg === "TEAM_MOD_OK") alert("Successfully modified the team");
+        if(msg === "TEAM_DEL_OK") alert("Successfully deleted the team");
+        if(msg === "TEAM_LOAD_ERR") alert("Failed to load the team");
         if(msg === "TEAM_LIST_LOAD_ERR") alert("Failed to load the team list");
 
         $("#crtBtn").on("click", function() {
