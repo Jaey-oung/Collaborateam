@@ -14,6 +14,7 @@
     <meta charset="UTF-8">
     <title>Board</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
 <div>
@@ -27,7 +28,6 @@
         ${loginId}
     </ul>
 </div>
-<button id="test">TEST</button>
 <div>
     <form action="" id="form">
         <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
@@ -145,7 +145,7 @@
             let cno = $(this).parent().attr("data-cno");
             let bno = $(this).parent().attr("data-bno");
 
-                $.ajax({
+            $.ajax({
                 type: "DELETE",
                 url: "/collaborateam/comments/"+cno+"?bno="+bno,
                 success: function(result){

@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <title>Team</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
 <div>
@@ -36,12 +37,14 @@
         <button type="button" id="teamListBtn" class="btn">List</button>
     </form>
 </div>
+<div id="member"></div>
 </body>
 <script>
     $(document).ready(function() {
         let msg = "${msg}";
         let mode = "${mode}";
 
+        let tno = $("input[name=tno]").val();
         let name = $("input[name=name]");
         let description = $("textarea[name=description]");
         let teamCrtBtn = $("#teamCrtBtn");
@@ -53,6 +56,7 @@
         if(msg === "TEAM_MOD_ERR") alert("Failed to modify the team");
         if(msg === "TEAM_DEL_ERR") alert("Failed to delete the team");
 
+        displayMemberList(tno)
 
         if(mode === "CRT_TEAM") {
             name.attr("readonly", false);
@@ -100,7 +104,55 @@
         teamListBtn.on("click", function() {
             location.href = "<c:url value='/team/list${teamListCondition.queryString}'/>";
         });
+
+        $("#member").on("click", "#memberRemBtn", function () {
+            let mno = $(this).parent().attr("data-mno");
+            let id = $(this).parent().attr("data-id");
+
+            console.log(mno)
+            console.log(id)
+
+            $.ajax({
+                type: "DELETE",
+                url: "/collaborateam/members/"+mno+"?id="+id,
+                success: function(result){
+                    alert(result);
+                    displayMemberList(mno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        })
     });
+
+    function displayMemberList(tno) {
+        $.ajax({
+            type: "GET",
+            url: "/collaborateam/members?tno="+tno,
+            success : function(result){
+                $("#member").html(formatMember(result));
+            },
+            error : function(){ alert("Failed to load the member list")}
+        });
+    }
+
+    function formatMember(members) {
+        let loginId = "${loginId}";
+        let leader = $("input[name=leader]").val();
+        let tmp = "<ul>";
+
+        members.forEach(function(member) {
+            tmp += "<li data-mno=" + member.mno
+            tmp += " data-id=" + member.id + ">"
+            tmp += " member : <span class='member'>" + member.id + "</span>"
+            if(leader === loginId && leader !== member.id)
+                tmp += " <button type='button' id='memberRemBtn' class='btn'>Remove</button>"
+            tmp += "</li>"
+        })
+        tmp += "</ul>"
+        return tmp
+    }
 
     function isTeamEmpty() {
         const name = $("input[name=name]").val().trim();

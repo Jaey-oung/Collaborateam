@@ -38,8 +38,8 @@ public class TeamServiceImplTest {
         userService.removeAllUsers();
         teamService.removeAllTeams();
 
-        userDto1 = new UserDto("user1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
-        userDto2 = new UserDto("user2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
+        userDto1 = new UserDto("id1", "pwd1", "user1@user1.com", "name1", birth.getTime()); // Calendar -> Date
+        userDto2 = new UserDto("id2", "pwd2", "user2@user2.com", "name2", birth.getTime()); // Calendar -> Date
 
         userService.addUser(userDto1);
         userService.addUser(userDto2);

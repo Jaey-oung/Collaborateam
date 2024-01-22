@@ -1,17 +1,12 @@
 package com.collaborateam.www.controller;
 
-import com.collaborateam.www.domain.CommentDto;
 import com.collaborateam.www.domain.MemberDto;
 import com.collaborateam.www.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -41,6 +36,20 @@ public class MemberController {
             return new ResponseEntity<>("Successfully added the member", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to add the member", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/members/{mno}")
+    public ResponseEntity<String> remove(@PathVariable Integer mno, String id) {
+        try {
+            int rowCnt = memberService.remove(mno, id);
+
+            if(rowCnt != 1)
+                throw new Exception("Member remove failed");
+
+            return new ResponseEntity<>("Successfully removed the member", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to remove the member", HttpStatus.BAD_REQUEST);
         }
     }
 }
