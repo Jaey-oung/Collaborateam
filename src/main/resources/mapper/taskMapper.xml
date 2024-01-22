@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.TaskMapper">
+    <select id="count" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM task
+        WHERE tno = #{tno}
+    </select>
+
+    <sql id="selectFromTask">
+        SELECT tano, tno, member, name, reg_date, up_date
+        FROM task
+    </sql>
+
+    <select id="selectAll" parameterType="map" resultType="TaskDto">
+        <include refid="selectFromTask"/>
+        WHERE tno = #{tno} and member = #{member}
+    </select>
+
+    <delete id="deleteAll" parameterType="int">
+        DELETE
+        FROM task
+        WHERE tno = #{tno}
+    </delete>
+
+    <insert id="insert" parameterType="TaskDto">
+        INSERT INTO task
+            (tno, member, name, reg_date, up_date)
+        VALUES
+            (#{tno}, #{member}, #{name}, now(), now())
+    </insert>
+
+    <select id="select" parameterType="int" resultType="TaskDto">
+        <include refid="selectFromTask"/>
+        WHERE tano = #{tano}
+    </select>
+
+    <update id="update" parameterType="TaskDto">
+        UPDATE task
+        SET name = #{name},
+            up_date = now()
+        WHERE tano = #{tano}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM task
+        WHERE tano = #{tano}
+    </delete>
+</mapper>

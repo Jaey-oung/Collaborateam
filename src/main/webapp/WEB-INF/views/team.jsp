@@ -38,6 +38,12 @@
     </form>
 </div>
 <div id="member"></div>
+<div id="taskFunction">
+    <div id="tasks"></div>
+    Task: <input type="text" name="task">
+    <button type="button" id="taskWrtBtn">Write</button>
+    <button type="button" id="taskUpdBtn">Modify</button>
+</div>
 <div id="goalFunction">
     Goal: <input type="text" name="goal">
     <button type="button" id="goalWrtBtn">Write</button>
@@ -63,6 +69,7 @@
         if(msg === "TEAM_DEL_ERR") alert("Failed to delete the team");
 
         displayMemberList(tno)
+        displayTaskList(tno)
         displayGoalList(tno)
 
         if(mode === "CRT_TEAM") {
@@ -203,6 +210,94 @@
                 }
             });
         });
+
+        $("#member").on("click", "#memberTaskWrtBtn", function () {
+            let id = $(this).parent().attr("data-id")
+            $("input[name=task]").attr("data-id", id)
+        })
+
+        $("#taskWrtBtn").on("click", function() {
+            let id = $("input[name=task]").attr("data-id");
+            let task = $("input[name=task]").val();
+
+            if(task.trim()==="") {
+                alert("Write the task");
+                $("input[name=task]").focus();
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/collaborateam/tasks",
+                headers: {"content-type": "application/json"},
+                data: JSON.stringify({tno: tno, member: id, name: task}),
+                success: function(result){
+                    alert(result)
+                    displayTaskList(tno, id)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+
+            $("input[name=task]").val("");
+        });
+
+        $("#tasks").on("click", "#taskModBtn", function () {
+            let tano = $(this).parent().attr("data-tano")
+            let task = $("span.task", $(this).parent()).text();
+            let member = $(this).parent().attr("data-id")
+
+            $("input[name=task]").attr("data-tano", tano);
+            $("input[name=task]").attr("data-id", member);
+            $("input[name=task]").val(task);
+        })
+
+        $("#taskUpdBtn").on("click", function () {
+            let tano = $("input[name=task]").attr("data-tano");
+            let task = $("input[name=task]").val();
+            let member = $("input[name=task]").attr("data-id");
+
+            console.log(tano)
+            console.log(task)
+            console.log(member)
+
+            if(task.trim()==="") {
+                alert("Write the task");
+                $("input[name=task]").focus();
+                return;
+            }
+
+            $.ajax({
+                type: "PATCH",
+                url: "/collaborateam/tasks/"+tano,
+                headers: {"content-type": "application/json"},
+                data: JSON.stringify({tano: tano, name: task}),
+                success: function(result){
+                    alert(result)
+                    displayMemberList(tno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        })
+
+        $("#tasks").on("click", "#taskRemBtn", function () {
+            let tano = $(this).parent().attr("data-tano")
+
+            $.ajax({
+                type: "DELETE",
+                url: "/collaborateam/tasks/"+tano,
+                success: function(result){
+                    alert(result);
+                    displayMemberList(tno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
     });
 
     function displayMemberList(tno) {
@@ -218,6 +313,7 @@
 
     function formatMember(members) {
         let loginId = "${loginId}";
+        let tno = $("input[name=tno]").val();
         let leader = $("input[name=leader]").val();
         let tmp = "<ul>";
 
@@ -227,9 +323,39 @@
             tmp += " member : <span class='member'>" + member.id + "</span>"
             if(leader === loginId && leader !== member.id)
                 tmp += " <button type='button' id='memberRemBtn' class='btn'>Remove</button>"
+            tmp += " <button type='button' id='memberTaskWrtBtn' class='btn'>New Task</button>"
+            displayTaskList(tno, member.id)
             tmp += "</li>"
         })
         tmp += "</ul>"
+        return tmp
+    }
+
+    function displayTaskList(tno, member) {
+        $.ajax({
+            type: "GET",
+            url: "/collaborateam/tasks?tno="+tno+"&member="+member,
+            success : function(result){
+                $("#tasks").html(formatTask(result, member));
+            },
+            error : function(){ alert("Failed to load the task list")}
+        });
+    }
+
+    function formatTask(tasks, id) {
+        let tmp = "->";
+
+        tasks.forEach(function(task) {
+            tmp += "<ul>"
+            tmp += "<li data-tano=" + task.tano
+            tmp += " data-id=" + id + ">"
+
+            tmp += " task : <span class='task'>" + task.name + "</span>"
+            tmp += " <button type='button' id='taskModBtn' class='btn'>Modify</button>"
+            tmp += " <button type='button' id='taskRemBtn' class='btn'>Remove</button>"
+            tmp += "</li>"
+            tmp += "</ul>"
+        })
         return tmp
     }
 
