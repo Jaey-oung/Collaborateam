@@ -38,6 +38,12 @@
     </form>
 </div>
 <div id="member"></div>
+<div id="goalFunction">
+    Goal: <input type="text" name="goal">
+    <button type="button" id="goalWrtBtn">Write</button>
+    <button type="button" id="goalUpdBtn">Modify</button>
+</div>
+<div id="goals"></div>
 </body>
 <script>
     $(document).ready(function() {
@@ -57,6 +63,7 @@
         if(msg === "TEAM_DEL_ERR") alert("Failed to delete the team");
 
         displayMemberList(tno)
+        displayGoalList(tno)
 
         if(mode === "CRT_TEAM") {
             name.attr("readonly", false);
@@ -109,9 +116,6 @@
             let mno = $(this).parent().attr("data-mno");
             let id = $(this).parent().attr("data-id");
 
-            console.log(mno)
-            console.log(id)
-
             $.ajax({
                 type: "DELETE",
                 url: "/collaborateam/members/"+mno+"?id="+id,
@@ -124,6 +128,81 @@
                 }
             });
         })
+
+        $("#goals").on("click", "#goalModBtn", function() {
+            let gno = $(this).parent().attr("data-gno");
+            let goal = $("span.goal", $(this).parent()).text();
+
+            $("input[name=goal]").val(goal);
+            $("#goalUpdBtn").attr("data-gno", gno);
+        });
+
+        $("#goals").on("click", "#goalRemBtn", function() {
+            let gno = $(this).parent().attr("data-gno");
+
+            $.ajax({
+                type: "DELETE",
+                url: "/collaborateam/goals/"+gno,
+                success: function(result){
+                    alert(result);
+                    displayGoalList(tno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
+
+        $("#goalWrtBtn").on("click", function() {
+            let goal = $("input[name=goal]").val();
+
+            if(goal.trim()==="") {
+                alert("Write the goal");
+                $("input[name=goal]").focus();
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/collaborateam/goals",
+                headers: {"content-type": "application/json"},
+                data: JSON.stringify({tno: tno, name: goal}),
+                success: function(result){
+                    alert(result)
+                    displayGoalList(tno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+
+            $("input[name=goal]").val("");
+        });
+
+        $("#goalUpdBtn").on("click", function() {
+            let gno = $(this).attr("data-gno");
+            let goal = $("input[name=goal]").val();
+
+            if(goal.trim()==="") {
+                alert("Write the goal");
+                $("input[name=goal]").focus();
+                return;
+            }
+
+            $.ajax({
+                type: "PATCH",
+                url: "/collaborateam/goals/"+gno,
+                headers: {"content-type": "application/json"},
+                data: JSON.stringify({gno: gno, name: goal}),
+                success: function(result){
+                    alert(result)
+                    displayGoalList(tno)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
     });
 
     function displayMemberList(tno) {
@@ -148,6 +227,31 @@
             tmp += " member : <span class='member'>" + member.id + "</span>"
             if(leader === loginId && leader !== member.id)
                 tmp += " <button type='button' id='memberRemBtn' class='btn'>Remove</button>"
+            tmp += "</li>"
+        })
+        tmp += "</ul>"
+        return tmp
+    }
+
+    function displayGoalList(tno) {
+        $.ajax({
+            type: "GET",
+            url: "/collaborateam/goals?tno="+tno,
+            success : function(result){
+                $("#goals").html(formatGoal(result));
+            },
+            error : function(){ alert("Failed to load the goal list")}
+        });
+    }
+
+    function formatGoal(goals) {
+        let tmp = "<ul>";
+
+        goals.forEach(function(goal) {
+            tmp += "<li data-gno=" + goal.gno + ">"
+            tmp += " goal : <span class='goal'>" + goal.name + "</span>"
+            tmp += " <button type='button' id='goalModBtn' class='btn'>Modify</button>"
+            tmp += " <button type='button' id='goalRemBtn' class='btn'>Remove</button>"
             tmp += "</li>"
         })
         tmp += "</ul>"

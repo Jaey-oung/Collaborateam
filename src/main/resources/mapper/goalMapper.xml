@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.GoalMapper">
+    <select id="count" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM goal
+        WHERE tno = #{tno}
+    </select>
+
+    <sql id="selectFromGoal">
+        SELECT gno, tno, name, reg_date, up_date
+        FROM goal
+    </sql>
+
+    <select id="selectAll" parameterType="int" resultType="GoalDto">
+        <include refid="selectFromGoal"/>
+        WHERE tno = #{tno}
+    </select>
+
+    <delete id="deleteAll" parameterType="int">
+        DELETE
+        FROM goal
+        WHERE tno = #{tno}
+    </delete>
+
+    <insert id="insert" parameterType="GoalDto">
+        INSERT INTO goal
+            (tno, name, reg_date, up_date)
+        VALUES
+            (#{tno}, #{name}, now(), now())
+    </insert>
+
+    <select id="select" parameterType="int" resultType="GoalDto">
+        <include refid="selectFromGoal"/>
+        WHERE gno = #{gno}
+    </select>
+
+    <update id="update" parameterType="GoalDto">
+        UPDATE goal
+        SET name = #{name},
+            up_date = now()
+        WHERE gno = #{gno}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE
+        FROM goal
+        WHERE gno = #{gno}
+    </delete>
+</mapper>

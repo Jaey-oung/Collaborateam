@@ -9,6 +9,7 @@
         <typeAlias alias="CommentDto" type="com.collaborateam.www.domain.CommentDto"/>
         <typeAlias alias="TeamDto" type="com.collaborateam.www.domain.TeamDto"/>
         <typeAlias alias="MemberDto" type="com.collaborateam.www.domain.MemberDto"/>
+        <typeAlias alias="GoalDto" type="com.collaborateam.www.domain.GoalDto"/>
         <typeAlias alias="BoardListCondition" type="com.collaborateam.www.domain.BoardListCondition"/>
         <typeAlias alias="TeamListCondition" type="com.collaborateam.www.domain.TeamListCondition"/>
     </typeAliases>
