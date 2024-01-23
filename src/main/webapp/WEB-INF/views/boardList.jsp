@@ -22,7 +22,6 @@
     <ul>
         <li><a href="<c:url value='/'/>">Logo</a></li>
         <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="">About</a></li>
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
         <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>

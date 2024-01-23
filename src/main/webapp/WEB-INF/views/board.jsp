@@ -21,7 +21,6 @@
     <ul>
         <li><a href="<c:url value='/'/>">Logo</a></li>
         <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="">About</a></li>
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
         <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
@@ -307,14 +306,15 @@
     });
 
     $("#teams").on("click", "#teamSelectBtn", function () {
-        let writer= "${boardDto.writer}";
         let tno = $("#teams li.selected").data("tno");
+        let teamName = $("#teams li.selected").find(".team").text()
+        let writer= "${boardDto.writer}";
 
         $.ajax({
             type: "POST",
-            url: "/collaborateam/members",
+            url: "/collaborateam/invites",
             contentType: "application/json",
-            data: JSON.stringify({ tno: tno, id: writer, role: "M" }),
+            data: JSON.stringify({ tno: tno, team_name: teamName, id: writer }),
             success: function(result){
                 alert(result)
             },

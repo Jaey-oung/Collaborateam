@@ -16,7 +16,6 @@
     <ul>
         <li><a href="<c:url value='/'/>">Logo</a></li>
         <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="">About</a></li>
         <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
         <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
         <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
@@ -24,6 +23,8 @@
     </ul>
 </div>
 <button type="button" id="crtBtn">New Team</button>
+<button type="button" id="inviteBtn">Invites</button>
+<div id="inviteFunction"></div>
 <div>
     <table border="1">
         <tr>
@@ -55,6 +56,7 @@
 <script>
     $(document).ready(function() {
         let msg = "${msg}";
+        let id = "${loginId}";
 
         if(msg === "TEAM_CRT_OK") alert("Successfully created the team");
         if(msg === "TEAM_MOD_OK") alert("Successfully modified the team");
@@ -65,5 +67,79 @@
         $("#crtBtn").on("click", function() {
             location.href = "<c:url value='/team/create'/>";
         });
-    })
+
+        $("#inviteBtn").on("click", function () {
+            displayInviteList(id);
+        });
+
+        $("#inviteFunction").on("click", "#acceptBtn", function () {
+            let ino = $(this).parent().attr("data-ino");
+            let tno = $(this).parent().attr("data-tno");
+
+            $.ajax({
+                type: "POST",
+                url: "/collaborateam/members",
+                contentType: "application/json",
+                data: JSON.stringify({ tno: tno, id: id, role: "M" }),
+                success: function(result){
+                    alert(result)
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/collaborateam/invites/"+ino,
+                        success: function(result){
+                            alert(result)
+                            displayInviteList(id)
+                        },
+                        error: function(jqXHR) {
+                            alert(jqXHR.responseText);
+                        }
+                    });
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
+
+        $("#inviteFunction").on("click", "#declineBtn", function () {
+            let ino = $(this).parent().attr("data-ino");
+            alert(ino)
+            $.ajax({
+                type: "DELETE",
+                url: "/collaborateam/invites/"+ino,
+                success: function(result){
+                    alert(result)
+                    displayInviteList(id)
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
+    });
+
+    function displayInviteList(id) {
+        $.ajax({
+            type: "GET",
+            url: "/collaborateam/invites?id="+id,
+            success : function(result){
+                $("#inviteFunction").html(formatInvite(result));
+            },
+            error : function(){ alert("Failed to load the invite list")}
+        });
+    }
+
+    function formatInvite(invites) {
+        let tmp = "<ul>";
+
+        invites.forEach(function(invite) {
+            tmp += "<li data-ino=" + invite.ino
+            tmp += " data-tno=" + invite.tno + ">"
+            tmp += " Team: " + invite.team_name
+            tmp += " <button id='acceptBtn'>Accept</button>"
+            tmp += " <button id='declineBtn'>Decline</button>"
+            tmp += "</li>"
+        })
+        return tmp + "</ul>"
+    }
 </script>

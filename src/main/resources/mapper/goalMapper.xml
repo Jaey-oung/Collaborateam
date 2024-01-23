@@ -44,7 +44,7 @@
         WHERE gno = #{gno}
     </update>
 
-    <delete id="delete" parameterType="map">
+    <delete id="delete" parameterType="int">
         DELETE
         FROM goal
         WHERE gno = #{gno}

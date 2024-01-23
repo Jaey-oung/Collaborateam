@@ -22,7 +22,7 @@ public class TeamServiceImplTest {
     TeamService teamService;
     TeamDto teamDto1;
     TeamDto teamDto2;
-    
+
     @Autowired
     UserService userService;
     Calendar birth;

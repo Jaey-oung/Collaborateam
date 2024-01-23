@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.InviteMapper">
+    <insert id="insert" parameterType="InviteDto">
+        INSERT INTO invite
+            (tno, team_name, id, reg_date)
+        VALUES
+            (#{tno}, #{team_name}, #{id}, now())
+    </insert>
+
+    <select id="select" parameterType="int" resultType="InviteDto">
+        SELECT *
+        FROM invite
+        WHERE ino = #{ino}
+    </select>
+
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM invite
+        WHERE ino = #{ino}
+    </delete>
+
+    <select id="selectByUser" parameterType="string" resultType="InviteDto">
+        SELECT ino, tno, team_name, id, reg_date
+        FROM invite
+        WHERE id = #{id}
+    </select>
+</mapper>
