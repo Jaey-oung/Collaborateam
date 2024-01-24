@@ -6,24 +6,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="<c:url value='/css/loginForm.css'/>">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <script src="<c:url value='/js/loginForm.js'/>"></script>
 </head>
 <body>
-<form action="<c:url value='/login/login'/>" method="post">
-    <input type="text" id="id" name="id" value="<c:out value='${id}'/>" placeholder="ID">
-    <input type="password" id="pwd" name="pwd" value="<c:out value='${pwd}'/>" placeholder="Password">
-    <input type="URL" id="redirectUrl" name="redirectUrl" value="<c:out value='${param.redirectUrl}'/>">
-    <button>Login</button>
-    <input type="checkbox" id="rememberId" name="rememberId" ${empty cookie.id.value ? "": "checked"}> Remember ID
-</form>
+    <div class="wrapper">
+        <form action="<c:url value='/login/login'/>" method="post">
+            <h1>Login</h1>
+            <div class="input">
+                <label>
+                    <input type="text" name="id" value="<c:out value='${id}'/>" placeholder="ID">
+                    <i class='bx bxs-user'></i>
+                </label>
+            </div>
+            <div class="input">
+                <label>
+                    <input type="password" name="pwd" value="<c:out value='${pwd}'/>" placeholder="Password">
+                    <i class='bx bxs-lock-alt'></i>
+                </label>
+            </div>
+            <label>
+                <input type="hidden" name="redirectUrl" value="<c:out value='${param.redirectUrl}'/>">
+            </label>
+            <div class="remember">
+                <label>
+                    <input type="checkbox" name="rememberId" ${empty cookie.id.value ? "": "checked"}> Remember ID
+                </label>
+            </div>
+            <button type="submit" class="submit">Login</button>
+            <div class="register">
+                <p>Don't have an account? <a href="<c:url value='/register/add'/>">Register</a> </p>
+            </div>
+        </form>
+    </div>
 </body>
 <script>
-    let msg = "${msg}";
-    if(msg === "LOGIN_ERR") {
-        alert("Please verify your id and password");
-    } else if(msg === "EMPTY_FIELD") {
-        alert("Please fill in the empty field");
-    }
+    const msg = "${msg}";
 </script>
 </html>
