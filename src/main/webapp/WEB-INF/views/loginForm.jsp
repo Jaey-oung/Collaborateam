@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="<c:url value='/css/loginForm.css'/>">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="<c:url value='/css/loginForm.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="<c:url value='/js/loginForm.js'/>"></script>
 </head>
@@ -18,13 +18,13 @@
             <div class="input">
                 <label>
                     <input type="text" name="id" value="<c:out value='${id}'/>" placeholder="ID">
-                    <i class='bx bxs-user'></i>
+                    <i class="bx bxs-user"></i>
                 </label>
             </div>
             <div class="input">
                 <label>
                     <input type="password" name="pwd" value="<c:out value='${pwd}'/>" placeholder="Password">
-                    <i class='bx bxs-lock-alt'></i>
+                    <i class="bx bxs-lock-alt"></i>
                 </label>
             </div>
             <label>
@@ -35,9 +35,9 @@
                     <input type="checkbox" name="rememberId" ${empty cookie.id.value ? "": "checked"}> Remember ID
                 </label>
             </div>
-            <button type="submit" class="submit">Login</button>
+            <button type="submit" id="loginBtn">Login</button>
             <div class="register">
-                <p>Don't have an account? <a href="<c:url value='/register/add'/>">Register</a> </p>
+                <p>Don't have an account? <a href="<c:url value='/register/add'/>">Register</a></p>
             </div>
         </form>
     </div>

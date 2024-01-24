@@ -10,6 +10,6 @@ public interface UserDao {
     void deleteAll() throws Exception;
     int insert(UserDto userDto) throws Exception;   // Create - C
     UserDto select(String id) throws Exception; // Read - R
-    int update(UserDto userDto) throws Exception;   // Update - U
-    int delete(String id) throws Exception; // Delete - D
+    int modify(UserDto userDto) throws Exception;   // Update - U
+    int remove(String id) throws Exception; // Delete - D
 }

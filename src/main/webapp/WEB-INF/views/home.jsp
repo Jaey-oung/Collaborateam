@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginInOut" value="${loginId==null ? 'Login' : 'Logout'}"/>
@@ -33,7 +33,7 @@
         let msg = "${msg}";
 
         if(msg === "SIGN_UP_OK") {
-            alert("Successfully registered")
+            alert("Successfully created the user")
         }
     })
 </script>

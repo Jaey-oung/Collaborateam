@@ -34,7 +34,7 @@
         WHERE id = #{id}
     </select>
 
-    <update id="update" parameterType="UserDto">
+    <update id="modify" parameterType="UserDto">
         UPDATE user
         SET pwd = #{pwd},
             email = #{email},
@@ -44,7 +44,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="remove" parameterType="String">
         DELETE
         FROM user
         WHERE id = #{id}

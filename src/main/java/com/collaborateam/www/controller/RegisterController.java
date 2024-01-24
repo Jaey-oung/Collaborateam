@@ -38,11 +38,15 @@ public class RegisterController {
     @PostMapping("/add")
     public String save(@Valid UserDto userDto, BindingResult result, RedirectAttributes rattr, Model model) {
         if(result.hasErrors()) {
+            model.addAttribute("err", result.hasErrors());
             return "registerForm";
         }
 
         try {
-            userService.addUser(userDto);
+            int rowCnt = userService.create(userDto);
+
+            if(rowCnt != 1)
+                throw new Exception("User create failed");
 
             rattr.addFlashAttribute("msg", "SIGN_UP_OK");
             return "redirect:/";    // Redirect to the home page

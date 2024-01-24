@@ -62,7 +62,7 @@ public class LoginController {
     private boolean loginCheck(String id, String pwd) {
         UserDto userDto;
         try {
-            userDto = userService.getUser(id);
+            userDto = userService.read(id);
         } catch (Exception e) {
             return false;
         }

@@ -28,22 +28,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(UserDto userDto) throws Exception {
+    public int create(UserDto userDto) throws Exception {
         return userDao.insert(userDto);
-    }   // Create - C
+    }
 
     @Override
-    public UserDto getUser(String id) throws Exception {
+    public UserDto read(String id) throws Exception {
         return userDao.select(id);
-    }   // Read - R
+    }
 
     @Override
-    public int updateUser(UserDto userDto) throws Exception {
-        return userDao.update(userDto);
-    }   // Update - U
+    public int update(UserDto userDto) throws Exception {
+        return userDao.modify(userDto);
+    }
 
     @Override
-    public int removeUser(String id) throws Exception {
-        return userDao.delete(id);
-    }   // Delete - D
+    public int delete(String id) throws Exception {
+        return userDao.remove(id);
+    }
 }

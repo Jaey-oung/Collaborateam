@@ -31,20 +31,20 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int insert(UserDto userDto) throws Exception {
         return session.insert(namespace+"insert", userDto);
-    }   // Create - C
+    }
 
     @Override
     public UserDto select(String id) throws Exception {
         return session.selectOne(namespace+"select", id);
-    }   // Read - R
+    }
 
     @Override
-    public int update(UserDto userDto) throws Exception {
-        return session.update(namespace+"update", userDto);
-    }   // Update - U
+    public int modify(UserDto userDto) throws Exception {
+        return session.update(namespace+"modify", userDto);
+    }
 
     @Override
-    public int delete(String id) throws Exception {
-        return session.delete(namespace+"delete", id);
-    }   // Delete - D
+    public int remove(String id) throws Exception {
+        return session.delete(namespace+"remove", id);
+    }
 }

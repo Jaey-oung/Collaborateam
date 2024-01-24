@@ -14,17 +14,27 @@ body {
 }
 
 .wrapper {
-    width: 400px;
+    width: 560px;
     border: 4px solid rgb(65, 105, 225, 0.5);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 40px;
     background: #fff;
+    text-align: center;
 }
 
 .wrapper h1 {
     font-size: 48px;
     text-align: center;
+}
+
+.wrapper #error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    gap: 10px;
+    color: rgb(255, 0, 0);
 }
 
 .wrapper .input {
@@ -34,7 +44,7 @@ body {
     margin: 20px 0;
 }
 
-.input input {
+.wrapper .input input, .wrapper .input .birth {
     width: 100%;
     height: 100%;
     border: 2px solid rgba(0, 0, 0, .2);
@@ -43,23 +53,31 @@ body {
     padding: 0 60px;
 }
 
-.input i {
+.wrapper i {
+    font-size: 24px;
+}
+
+.wrapper .input i {
     position: absolute;
     top: 50%;
     left: 20px;
     transform: translateY(-50%);
 }
 
-.wrapper .remember {
-    font-size: 16px;
-    margin: -10px 0 10px;
+.wrapper .input .birth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
 }
 
-.remember label input {
-    margin-right: 4px;
+.wrapper .input .birth select {
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, .2);
+    border-radius: 10px;
 }
 
-#loginBtn {
+.wrapper #submitBtn {
     width: 100%;
     height: 100%;
     background: #fff;
@@ -73,21 +91,7 @@ body {
     padding: 10px 20px;
 }
 
-#loginBtn:hover {
-    color: #fff;
+.wrapper #submitBtn:hover {
     background: rgb(65, 105, 225, 0.5);
-}
-
-.wrapper .register {
-    font-size: 16px;
-    text-align: center;
-    margin: 20px 0 -20px    ;
-}
-
-.register p a {
-    font-weight: 600;
-}
-
-.register p a:hover {
-    text-decoration: underline;
+    color: #fff;
 }
