@@ -26,8 +26,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(String id, String pwd, boolean rememberId, String redirectUrl,
-                        RedirectAttributes rattr, HttpServletRequest request, HttpServletResponse response) {
+    public String login(String id, String pwd, String redirectUrl, boolean rememberId, RedirectAttributes rattr,
+                        HttpServletRequest request, HttpServletResponse response) {
 
         // Check if id and pwd are null or empty
         boolean isFieldNullOrEmpty = id == null || id.trim().isEmpty() || pwd == null || pwd.trim().isEmpty();

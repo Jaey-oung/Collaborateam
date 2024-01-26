@@ -17,7 +17,7 @@
             <h1>Login</h1>
             <div class="input">
                 <label>
-                    <input type="text" name="id" value="<c:out value='${id}'/>" placeholder="ID">
+                    <input type="text" name="id" value="<c:out value='${not empty id ? id : not empty cookie.id.value ? cookie.id.value : ""}'/>" placeholder="ID">
                     <i class="bx bxs-user"></i>
                 </label>
             </div>
@@ -32,7 +32,7 @@
             </label>
             <div class="remember">
                 <label>
-                    <input type="checkbox" name="rememberId" ${empty cookie.id.value ? "": "checked"}> Remember ID
+                    <input type="checkbox" name="rememberId" ${empty cookie.id.value ? "" : "checked"}> Remember ID
                 </label>
             </div>
             <button type="submit" id="loginBtn">Login</button>

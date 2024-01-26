@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.SpecMapper">
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM spec
+    </select>
+
+    <sql id="selectFromSpec">
+        SELECT sno, value, name, field, reg_date, up_date
+        FROM spec
+    </sql>
+
+    <select id="selectAll" resultType="SpecDto">
+        <include refid="selectFromSpec"/>
+    </select>
+
+    <delete id="removeAll">
+        DELETE
+        FROM spec
+    </delete>
+
+    <insert id="insert" parameterType="SpecDto">
+        INSERT INTO spec
+            (value, name, field)
+        VALUES
+            (#{value}, #{name}, #{field})
+    </insert>
+
+    <select id="select" parameterType="int" resultType="SpecDto">
+        <include refid="selectFromSpec"/>
+        WHERE sno = #{sno}
+    </select>
+
+    <update id="modify" parameterType="SpecDto">
+        UPDATE spec
+        SET value = #{value},
+            name = #{name},
+            field = #{field},
+            up_date = now()
+        WHERE sno = #{sno}
+    </update>
+
+    <delete id="remove" parameterType="int">
+        DELETE
+        FROM spec
+        WHERE sno = #{sno}
+    </delete>
+
+    <select id="selectSpecsByField" parameterType="String" resultType="SpecDto">
+        <include refid="selectFromSpec"/>
+        WHERE field = #{field}
+    </select>
+</mapper>

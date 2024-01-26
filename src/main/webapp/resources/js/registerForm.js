@@ -20,9 +20,7 @@ function displayMsg(msg) {
 }
 
 function displayErr(err) {
-    if(err) {
-        $("#error").before("<i class=\"bx bx-error-circle\"></i>");
-    }
+    if(err) $("#error").before("<i class=\"bx bx-error-circle\"></i>");
 }
 
 function updateYear() {

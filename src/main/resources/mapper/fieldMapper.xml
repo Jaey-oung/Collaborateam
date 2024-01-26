@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.collaborateam.www.dao.FieldMapper">
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM field
+    </select>
+
+    <sql id="selectFromField">
+        SELECT fno, value, name, reg_date, up_date
+        FROM field
+    </sql>
+
+    <select id="selectAll" resultType="FieldDto">
+        <include refid="selectFromField"/>
+    </select>
+
+    <delete id="removeAll">
+        DELETE
+        FROM field
+    </delete>
+
+    <insert id="insert" parameterType="FieldDto">
+        INSERT INTO field
+            (value, name)
+        VALUES
+            (#{value}, #{name})
+    </insert>
+
+    <select id="select" parameterType="int" resultType="FieldDto">
+        <include refid="selectFromField"/>
+        WHERE fno = #{fno}
+    </select>
+
+    <update id="modify" parameterType="FieldDto">
+        UPDATE field
+        SET value = #{value},
+            name = #{name},
+            up_date = now()
+        WHERE fno = #{fno}
+    </update>
+
+    <delete id="remove" parameterType="int">
+        DELETE
+        FROM field
+        WHERE fno = #{fno}
+    </delete>
+</mapper>

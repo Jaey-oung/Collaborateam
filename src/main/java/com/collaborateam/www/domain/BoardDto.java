@@ -6,7 +6,7 @@ import java.util.Objects;
 public class BoardDto {
     private Integer bno;
     private String field;
-    private String specialization;
+    private String spec;
     private String title;
     private String content;
     private String writer;
@@ -16,9 +16,9 @@ public class BoardDto {
     private Date up_date;
 
     public BoardDto() {}
-    public BoardDto(String field, String specialization, String title, String content, String writer) {
+    public BoardDto(String field, String spec, String title, String content, String writer) {
         this.field = field;
-        this.specialization = specialization;
+        this.spec = spec;
         this.title = title;
         this.content = content;
         this.writer = writer;
@@ -40,12 +40,12 @@ public class BoardDto {
         this.field = field;
     }
 
-    public String getSpecialization() {
-        return specialization;
+    public String getSpec() {
+        return spec;
     }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+    public void setSpec(String spec) {
+        this.spec = spec;
     }
 
     public String getTitle() {
@@ -109,14 +109,12 @@ public class BoardDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoardDto boardDto = (BoardDto) o;
-        return Objects.equals(bno, boardDto.bno) && Objects.equals(field, boardDto.field) &&
-                Objects.equals(specialization, boardDto.specialization) && Objects.equals(title, boardDto.title) &&
-                Objects.equals(content, boardDto.content) && Objects.equals(writer, boardDto.writer);
+        return Objects.equals(bno, boardDto.bno) && Objects.equals(field, boardDto.field) && Objects.equals(spec, boardDto.spec) && Objects.equals(title, boardDto.title) && Objects.equals(content, boardDto.content) && Objects.equals(writer, boardDto.writer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bno, field, specialization, title, content, writer);
+        return Objects.hash(bno, field, spec, title, content, writer);
     }
 
     @Override
@@ -124,7 +122,7 @@ public class BoardDto {
         return "BoardDto{" +
                 "bno=" + bno +
                 ", field='" + field + '\'' +
-                ", specialization='" + specialization + '\'' +
+                ", spec='" + spec + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", writer='" + writer + '\'' +

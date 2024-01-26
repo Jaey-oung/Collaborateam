@@ -1,21 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
 <c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
-<c:set var="field" value="${{'A' : 'All', 'IT' : 'IT', 'FN' : 'Finance'}}"/>
-<c:set var="selectedField" value="${pagination.pc.field}"/>
-<c:set var="spec" value="${{'A' : 'All', 'WD' : 'Web Development', 'SD' : 'Software Development', 'FA': 'Financial Analysis', 'RM' : 'Risk Management'}}"/>
-<c:set var="selectedSpec" value="${pagination.pc.specialization}"/>
-<c:set var="option" value="${{'A' : 'All', 'TC' : 'Title+Content', 'T' : 'Title', 'W' : 'Writer'}}"/>
-<c:set var="selectedOption" value="${pagination.pc.option}"/>
+<c:set var="zones" value="${{'A': 'All', 'N': 'Newbie'}}"/>
+<c:set var="options" value="${{'A': 'All', 'T': 'Title', 'W': 'Writer', 'TC': 'Title+Content'}}"/>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>BoardList</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value='/js/boardList.js'/>"></script>
 </head>
 <body>
 <div>
@@ -30,22 +27,27 @@
 </div>
 <div>
     <form action="<c:url value="/board/list"/>" method="get">
-        <select name="field" id="field">
-            <c:forEach var="i" items="${field}">
-                <option value="${i.key}" ${i.key == selectedField ? 'selected' : ''}>${i.value}</option>
-            </c:forEach>
-        </select>
-        <select name="specialization" id="specialization">
-            <c:forEach var="i" items="${spec}">
-                <option value="${i.key}" ${i.key == selectedSpec ? 'selected' : ''}>${i.value}</option>
-            </c:forEach>
-        </select>
         pc = ${pagination.pc}
-        <select name="option">
-            <c:forEach var="i" items="${option}">
-                <option value="${i.key}" ${i.key == selectedOption ? 'selected' : ''}>${i.value}</option>
-            </c:forEach>
-        </select>
+        <label for="field">
+            <select name="field" id="field"></select>
+        </label>
+        <label for="spec">
+            <select name="spec" id="spec"></select>
+        </label>
+        <label>
+            <select name="zone">
+                <c:forEach var="zone" items="${zones}">
+                    <option value="${zone.key}" ${zone.key == pagination.pc.zone ? "selected" : ""}>${zone.value}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <label>
+            <select name="option">
+                <c:forEach var="option" items="${options}">
+                    <option value="${option.key}" ${option.key == pagination.pc.option ? "selected" : ""}>${option.value}</option>
+                </c:forEach>
+            </select>
+        </label>
         <input type="text" name="keyword" value="<c:out value='${pagination.pc.keyword}'/>" placeholder="Search">
         <input type="submit" value="Search">
     </form>
@@ -70,29 +72,20 @@
     </table>
     <div>
         <c:if test="${pagination.showPrev}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.beginPage-1, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">&lt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.beginPage-1, pagination.pc.field, pagination.pc.spec, pagination.pc.option, pagination.pc.keyword, pagination.pc.zone)}'/>">&lt;</a>
         </c:if>
         <c:forEach var="i" begin="${pagination.beginPage}" end="${pagination.endPage}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(i, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">${i}</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(i, pagination.pc.field, pagination.pc.spec, pagination.pc.option, pagination.pc.keyword, pagination.pc.zone)}'/>">${i}</a>
         </c:forEach>
         <c:if test="${pagination.showNext}">
-            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.endPage+1, pagination.pc.field, pagination.pc.specialization, pagination.pc.option, pagination.pc.keyword)}'/>">&gt;</a>
+            <a href="<c:url value='/board/list${pagination.pc.getQueryString(pagination.endPage+1, pagination.pc.field, pagination.pc.spec, pagination.pc.option, pagination.pc.keyword, pagination.pc.zone)}'/>">&gt;</a>
         </c:if>
     </div>
 </div>
 </body>
 <script>
-    $(document).ready(function() {
-        let msg = "${msg}";
-
-        if(msg === "BOARD_DEL_OK") alert("Successfully deleted the board");
-        if(msg === "BOARD_WRT_OK") alert("Successfully written the board");
-        if(msg === "BOARD_MOD_OK") alert("Successfully modified the board");
-        if(msg === "BOARD_LIST_LOAD_ERR") alert("Failed to load the board list");
-
-        $("#writeBtn").on("click", function() {
-            location.href = "<c:url value='/board/write'/>";
-        });
-    })
+    const msg = "${msg}";
+    const selectField = "${pagination.pc.field}";
+    const selectSpec = "${pagination.pc.spec}";
 </script>
 </html>

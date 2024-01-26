@@ -22,7 +22,7 @@
         WHERE ino = #{ino}
     </delete>
 
-    <select id="selectByUser" parameterType="string" resultType="InviteDto">
+    <select id="selectByUser" parameterType="String" resultType="InviteDto">
         SELECT ino, tno, team_name, id, reg_date
         FROM invite
         WHERE id = #{id}

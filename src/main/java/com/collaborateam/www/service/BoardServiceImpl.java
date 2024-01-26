@@ -24,12 +24,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void removeAllBoards() throws Exception {
-        boardDao.deleteAll();
+    public void deleteAll() throws Exception {
+        boardDao.removeAll();
     }
 
     @Override
-    public int write(BoardDto boardDto) throws Exception {
+    public int create(BoardDto boardDto) throws Exception {
         return boardDao.insert(boardDto);
     }
 
@@ -41,27 +41,23 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int modify(BoardDto boardDto) throws Exception {
-        return boardDao.update(boardDto);
+    public int update(BoardDto boardDto) throws Exception {
+        return boardDao.modify(boardDto);
     }
 
     @Override
-    public int remove(Integer bno, String writer) throws Exception {
-        return boardDao.delete(bno, writer);
+    public int delete(Integer bno, String writer) throws Exception {
+        return boardDao.remove(bno, writer);
+    }
+
+
+    @Override
+    public List<BoardDto> getBoardPage(BoardListCondition blc) throws Exception {
+        return boardDao.boardPage(blc);
     }
 
     @Override
-    public List<BoardDto> getPage(Integer offset, Integer pageSize) throws Exception {
-        return boardDao.selectPage(offset, pageSize);
-    }
-
-    @Override
-    public List<BoardDto> getSearchResultPage(BoardListCondition blc) throws Exception {
-        return boardDao.searchResultPage(blc);
-    }
-
-    @Override
-    public int getSearchResultCnt(BoardListCondition blc) throws Exception {
-        return boardDao.searchResultCnt(blc);
+    public int getBoardCnt(BoardListCondition blc) throws Exception {
+        return boardDao.boardCnt(blc);
     }
 }

@@ -9,6 +9,7 @@ public class Pagination {
     private boolean showPrev;
     private boolean showNext;
 
+    public Pagination() {}
     public Pagination(int totalCnt, PageCondition pc) {
         this.totalCnt = totalCnt;
         this.pc = pc;
@@ -19,7 +20,7 @@ public class Pagination {
     public void paging(int totalCnt, PageCondition pc) {
         final int NAVI_SIZE = 10;
 
-        this.totalPage = totalCnt / pc.getPageSize() + (totalCnt % pc.getPageSize()==0 ? 0 : 1);
+        this.totalPage = totalCnt / pc.getPageSize() + (totalCnt % pc.getPageSize() == 0 ? 0 : 1);
         this.pc.setPage(Math.min(pc.getPage(), totalPage));
         this.beginPage = (this.pc.getPage() - 1) / NAVI_SIZE * NAVI_SIZE + 1;
         this.endPage = Math.min(beginPage + NAVI_SIZE - 1, totalPage);

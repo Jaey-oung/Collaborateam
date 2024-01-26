@@ -24,8 +24,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteAll() throws Exception {
-        session.delete(namespace+"deleteAll");
+    public void removeAll() throws Exception {
+        session.delete(namespace+"removeAll");
     }
 
     @Override

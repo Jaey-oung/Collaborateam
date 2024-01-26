@@ -17,7 +17,7 @@
         <include refid="selectFromUser"/>
     </select>
     
-    <delete id="deleteAll">
+    <delete id="removeAll">
         DELETE
         FROM user
     </delete>

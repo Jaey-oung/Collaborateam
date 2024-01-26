@@ -4,34 +4,37 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class BoardListCondition extends PageCondition {
     private String field = "A";
-    private String specialization = "A";
+    private String spec = "A";
     private String option = "A";
     private String keyword = "";
+    private String zone = "A";
 
     public BoardListCondition() {
         super();
         this.pageSize = 10;
     }
 
-    public BoardListCondition(Integer page, Integer pageSize, String field, String specialization, String option, String keyword) {
+    public BoardListCondition(Integer page, Integer pageSize, String field, String spec, String option, String keyword, String zone) {
         super(page, pageSize);
         this.field = field;
-        this.specialization = specialization;
+        this.spec = spec;
         this.option = option;
         this.keyword = keyword;
+        this.zone = zone;
     }
 
-    public String getQueryString(Integer page, String field, String specialization, String option, String keyword) {
+    public String getQueryString(Integer page, String field, String spec, String option, String keyword, String zone) {
         return UriComponentsBuilder.fromUriString(super.getQueryString(page))
                 .queryParam("field", field)
-                .queryParam("specialization", specialization)
+                .queryParam("spec", spec)
                 .queryParam("option", option)
                 .queryParam("keyword", keyword)
+                .queryParam("zone", zone)
                 .build().toString();
     }
 
     public String getQueryString() {
-        return getQueryString(page, field, specialization, option, keyword);
+        return getQueryString(page, field, spec, option, keyword, zone);
     }
 
     public String getField() {
@@ -42,12 +45,12 @@ public class BoardListCondition extends PageCondition {
         this.field = field;
     }
 
-    public String getSpecialization() {
-        return specialization;
+    public String getSpec() {
+        return spec;
     }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+    public void setSpec(String spec) {
+        this.spec = spec;
     }
 
     public String getOption() {
@@ -66,15 +69,24 @@ public class BoardListCondition extends PageCondition {
         this.keyword = keyword;
     }
 
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
     @Override
     public String toString() {
         return "BoardListCondition{" +
-                "field='" + field + '\'' +
-                ", specialization='" + specialization + '\'' +
-                ", page=" + page +
+                "page=" + page +
                 ", pageSize=" + pageSize +
+                ", field='" + field + '\'' +
+                ", spec='" + spec + '\'' +
                 ", option='" + option + '\'' +
                 ", keyword='" + keyword + '\'' +
+                ", zone='" + zone + '\'' +
                 '}';
     }
 }

@@ -31,7 +31,7 @@ public class UserServiceImplTest {
         userDto1 = new UserDto("user1", "pwd1", "user1@user1.com", "user1", birth.getTime()); // Calendar -> Date
         userDto2 = new UserDto("user2", "pwd2", "user2@user2.com", "user2", birth.getTime()); // Calendar -> Date
         
-        userService.removeAllUsers();
+        userService.deleteAll();
     }
 
     @Test
@@ -62,7 +62,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void removeAllUsersTest() throws Exception {
+    public void deleteAllTest() throws Exception {
         assertEquals(0, userService.getCount());
 
         assertEquals(1, userService.create(userDto1));
@@ -71,7 +71,7 @@ public class UserServiceImplTest {
         assertEquals(1, userService.create(userDto2));
         assertEquals(2, userService.getCount());
 
-        userService.removeAllUsers();
+        userService.deleteAll();
         assertEquals(0, userService.getCount());
     }
 
@@ -94,6 +94,7 @@ public class UserServiceImplTest {
         assertEquals(1, userService.getCount());
 
         String id = userService.getList().get(0).getId();
+
         UserDto userDto3 = userService.read(id);
         assertEquals(userDto1, userDto3);
 
@@ -101,6 +102,7 @@ public class UserServiceImplTest {
         assertEquals(2, userService.getCount());
 
         id = userService.getList().get(1).getId();
+
         UserDto userDto4 = userService.read(id);
         assertEquals(userDto2, userDto4);
     }

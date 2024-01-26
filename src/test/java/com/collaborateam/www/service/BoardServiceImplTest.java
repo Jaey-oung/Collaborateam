@@ -1,325 +1,356 @@
-//package com.collaborateam.www.service;
-//
-//import com.collaborateam.www.domain.BoardDto;
-//import com.collaborateam.www.domain.BoardListCondition;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//
-//import java.util.List;
-//
-//import static org.junit.Assert.*;
-//
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
-//public class BoardServiceImplTest {
-//    @Autowired
-//    BoardService boardService;
-//    BoardDto boardDto1;
-//    BoardDto boardDto2;
-//
-//    @Before
-//    public void init() throws Exception {
-//        boardService.removeAllBoards();
-//        boardDto1 = new BoardDto("IT", "WD", "title1", "content1", "writer1");
-//        boardDto2 = new BoardDto("IT", "SD", "title2", "content2", "writer2");
-//    }
-//
-//    @Test
-//    public void insertData() throws Exception {
-//        for (int i = 1; i <= 50; i++) {
-//            BoardDto boardDto = new BoardDto("IT", "WD", "title" + i, "content" + i, "user1");
-//            boardService.write(boardDto);
-//            BoardDto boardDto2 = new BoardDto("IT", "SD", "title" + i, "content" + i, "user1");
-//            boardService.write(boardDto2);
-//        }
-//    }
-//
-//    @Test
-//    public void getCountTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//    }
-//
-//    @Test
-//    public void getListTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        List<BoardDto> list = boardService.getList();
-//        assertEquals(0, list.size());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        list = boardService.getList();
-//        assertEquals(1, list.size());
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        list = boardService.getList();
-//        assertEquals(2, list.size());
-//    }
-//
-//    @Test
-//    public void removeAllBoardsTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//
-//        boardService.removeAllBoards();
-//        assertEquals(0, boardService.getCount());
-//    }
-//
-//    @Test
-//    public void writeTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//    }
-//
-//    @Test
-//    public void readTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        List<BoardDto> list = boardService.getList();
-//
-//        Integer bno = list.get(0).getBno();
-//        boardDto1.setBno(bno);
-//
-//        BoardDto boardDto3 = boardService.read(bno);
-//        assertEquals(boardDto1, boardDto3);
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//
-//        bno = boardService.getList().get(0).getBno();
-//        boardDto2.setBno(bno);
-//
-//        BoardDto boardDto4 = boardService.read(bno);
-//        assertEquals(boardDto2, boardDto4);
-//    }
-//
-//    @Test
-//    public void modifyTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        Integer bno = boardService.getList().get(0).getBno();
-//        String writer = boardService.getList().get(0).getWriter();
-//
-//        boardDto1.setBno(bno);
-//        boardDto1.setField("Finance");
-//        boardDto1.setSpecialization("RM");
-//        boardDto1.setTitle("title10");
-//        boardDto1.setContent("content10");
-//        boardDto1.setWriter(writer);
-//
-//        assertEquals(1, boardService.modify(boardDto1));
-//
-//        BoardDto boardDto3 = boardService.read(bno);
-//        assertEquals(boardDto1, boardDto3);
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//
-//        bno = boardService.getList().get(0).getBno();
-//        writer = boardService.getList().get(0).getWriter();
-//
-//        boardDto2.setBno(bno);
-//        boardDto2.setField("Finance");
-//        boardDto2.setSpecialization("FA");
-//        boardDto2.setTitle("title20");
-//        boardDto2.setContent("content20");
-//        boardDto2.setWriter(writer);
-//
-//        assertEquals(1, boardService.modify(boardDto2));
-//
-//        BoardDto boardDto4 = boardService.read(bno);
-//        assertEquals(boardDto2, boardDto4);
-//    }
-//
-//    @Test
-//    public void removeTest() throws Exception {
-//        assertEquals(0, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto1));
-//        assertEquals(1, boardService.getCount());
-//
-//        assertEquals(1, boardService.write(boardDto2));
-//        assertEquals(2, boardService.getCount());
-//
-//        Integer bno1 = boardService.getList().get(1).getBno();
-//        String user1 = boardService.getList().get(1).getWriter();
-//        Integer bno2 = boardService.getList().get(0).getBno();
-//        String user2 = boardService.getList().get(0).getWriter();
-//
-//        assertEquals(0, boardService.remove(bno1 + 111, user1));
-//        assertEquals(0, boardService.remove(bno1, user1 + "111"));
-//        assertEquals(0, boardService.remove(bno1 + 111, user1 + "111"));
-//        assertEquals(1, boardService.remove(bno1, user1));
-//        assertEquals(1, boardService.getCount());
-//        assertNull(boardService.read(bno1));
-//
-//        assertEquals(0, boardService.remove(bno2 + 222, user2));
-//        assertEquals(0, boardService.remove(bno2, user2 + "222"));
-//        assertEquals(0, boardService.remove(bno2 + 222, user2 + "222"));
-//        assertEquals(1, boardService.remove(bno2, user2));
-//        assertEquals(0, boardService.getCount());
-//        assertNull(boardService.read(bno2));
-//    }
-//
-//    @Test
-//    public void getPageTest() throws Exception {
-//        for (int i = 1; i <= 10; i++) {
-//            BoardDto boardDto3 = new BoardDto("IT", "WD", "title"+i, "content"+i, "writer"+i);
-//            assertEquals(1, boardService.write(boardDto3));
-//        }
-//
-//        int offset = 0;
-//        int pageSize = 3;
-//
-//        List<BoardDto> list = boardService.getPage(offset, pageSize);
-//        assertEquals("title10", list.get(0).getTitle());
-//        assertEquals("title9", list.get(1).getTitle());
-//        assertEquals("title8", list.get(2).getTitle());
-//
-//        pageSize = 1;
-//
-//        list = boardService.getPage(offset, pageSize);
-//        assertEquals("title10", list.get(0).getTitle());
-//
-//        offset = 7;
-//        pageSize = 3;
-//
-//        list = boardService.getPage(offset, pageSize);
-//        assertEquals("title3", list.get(0).getTitle());
-//        assertEquals("title2", list.get(1).getTitle());
-//        assertEquals("title1", list.get(2).getTitle());
-//    }
-//
-//    @Test
-//    public void getSearchResultPageTest() throws Exception {
-//        String[] titles = {"title1", "title2"};
-//        String[] contents = {"content1", "content2"};
-//        String[] writers = {"writer1", "writer2"};
-//
-//        for (String title : titles) {
-//            for (String content : contents) {
-//                for (String writer : writers) {
-//                    BoardDto boardDto = new BoardDto("IT", "WD", title, content, writer);
-//                    boardService.write(boardDto);
-//                }   // title1, content1, writer1 / title1, content1, writer2
-//            }       // title1, content2, writer1 / title1, content2, writer2
-//        }           // title2, content1, writer1 / title2, content1, writer2
-//        // title2, content2, writer1 / title2, content2, writer2
-//
-//        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
-//        List<BoardDto> list = boardService.getSearchResultPage(blc);    // LIMIT #{offset}, #{pageSize}
-//        assertEquals(5, list.size());                  // If searchResultPage exceeds pageSize, it returns pageSize
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(0, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(8, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(4, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(8, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(4, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(8, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(4, list.size());
-//
-//        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
-//        list = boardService.getSearchResultPage(blc);
-//        assertEquals(0, list.size());
-//    }
-//
-//    @Test
-//    public void getSearchResultCntTest() throws Exception {
-//        boardService.removeAllBoards();
-//
-//        String[] titles = {"title1", "title2"};
-//        String[] contents = {"content1", "content2"};
-//        String[] writers = {"writer1", "writer2"};
-//
-//        for (String title : titles) {
-//            for (String content : contents) {
-//                for (String writer : writers) {
-//                    BoardDto boardDto = new BoardDto("IT", "WD", title, content, writer);
-//                    boardService.write(boardDto);
-//                }   // title1, content1, writer1 / title1, content1, writer2
-//            }       // title1, content2, writer1 / title1, content2, writer2
-//        }           // title2, content1, writer1 / title2, content1, writer2
-//        // title2, content2, writer1 / title2, content2, writer2
-//
-//        BoardListCondition blc = new BoardListCondition(1, 5, "IT", "WD", "T", "title");
-//        int cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(8, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "test");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(0, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(8, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title2");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(4, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(8, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer2");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(4, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(8, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content2");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(4, cnt);
-//
-//        blc = new BoardListCondition(1, 10, "TEST", "TEST", "A", "content2");
-//        cnt = boardService.getSearchResultCnt(blc);
-//        assertEquals(0, cnt);
-//    }
-//}
+package com.collaborateam.www.service;
+
+import com.collaborateam.www.domain.BoardDto;
+import com.collaborateam.www.domain.BoardListCondition;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
+public class BoardServiceImplTest {
+    @Autowired
+    BoardService boardService;
+    BoardDto boardDto1;
+    BoardDto boardDto2;
+
+    @Before
+    public void init() throws Exception {
+        boardDto1 = new BoardDto("", "", "title1", "content1", "writer1");
+        boardDto2 = new BoardDto("", "", "title2", "content2", "writer2");
+
+        boardService.deleteAll();
+    }
+
+    @Test
+    public void insertData() throws Exception {
+        for (int i = 1; i <= 50; i++) {
+            BoardDto boardDto = new BoardDto("IT", "WD", "title" + i, "content" + i, "user1");
+            boardService.create(boardDto);
+            BoardDto boardDto2 = new BoardDto("IT", "SD", "title" + i, "content" + i, "user1");
+            boardService.create(boardDto2);
+        }
+    }
+
+    @Test
+    public void getCountTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+    }
+
+    @Test
+    public void getListTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        List<BoardDto> list = boardService.getList();
+        assertEquals(0, list.size());
+
+        assertEquals(1, boardService.create(boardDto1));
+        list = boardService.getList();
+        assertEquals(1, list.size());
+
+        assertEquals(1, boardService.create(boardDto2));
+        list = boardService.getList();
+        assertEquals(2, list.size());
+    }
+
+    @Test
+    public void deleteAllTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+
+        boardService.deleteAll();
+        assertEquals(0, boardService.getCount());
+    }
+
+    @Test
+    public void createTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+    }
+
+    @Test
+    public void readTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        Integer bno = boardService.getList().get(0).getBno();
+        boardDto1.setBno(bno);
+
+        BoardDto boardDto3 = boardService.read(bno);
+        assertEquals(boardDto1, boardDto3);
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+
+        bno = boardService.getList().get(0).getBno();
+        boardDto2.setBno(bno);
+
+        BoardDto boardDto4 = boardService.read(bno);
+        assertEquals(boardDto2, boardDto4);
+    }
+
+    @Test
+    public void updateTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        Integer bno = boardService.getList().get(0).getBno();
+        String writer = boardService.getList().get(0).getWriter();
+
+        boardDto1.setBno(bno);
+        boardDto1.setField("FIN");
+        boardDto1.setSpec("RM");
+        boardDto1.setTitle("title10");
+        boardDto1.setContent("content10");
+        boardDto1.setWriter(writer);
+
+        assertEquals(1, boardService.update(boardDto1));
+
+        BoardDto boardDto3 = boardService.read(bno);
+        assertEquals(boardDto1, boardDto3);
+        System.out.println("boardDto1 = " + boardDto1);
+        System.out.println("boardDto3 = " + boardDto3);
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+
+        bno = boardService.getList().get(0).getBno();
+        writer = boardService.getList().get(0).getWriter();
+
+        boardDto2.setBno(bno);
+        boardDto2.setField("FIN");
+        boardDto2.setSpec("FA");
+        boardDto2.setTitle("title20");
+        boardDto2.setContent("content20");
+        boardDto2.setWriter(writer);
+
+        assertEquals(1, boardService.update(boardDto2));
+
+        BoardDto boardDto4 = boardService.read(bno);
+        assertEquals(boardDto2, boardDto4);
+    }
+
+    @Test
+    public void deleteTest() throws Exception {
+        assertEquals(0, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto1));
+        assertEquals(1, boardService.getCount());
+
+        assertEquals(1, boardService.create(boardDto2));
+        assertEquals(2, boardService.getCount());
+
+        Integer bno = boardService.getList().get(1).getBno();
+        String writer = boardService.getList().get(1).getWriter();
+
+        assertEquals(0, boardService.delete(bno + 111, writer));
+        assertEquals(0, boardService.delete(bno, writer + "111"));
+        assertEquals(0, boardService.delete(bno + 111, writer + "111"));
+        assertEquals(1, boardService.delete(bno, writer));
+        assertEquals(1, boardService.getCount());
+        assertNull(boardService.read(bno));
+
+        bno = boardService.getList().get(0).getBno();
+        writer = boardService.getList().get(0).getWriter();
+
+        assertEquals(0, boardService.delete(bno + 222, writer));
+        assertEquals(0, boardService.delete(bno, writer + "222"));
+        assertEquals(0, boardService.delete(bno + 222, writer + "222"));
+        assertEquals(1, boardService.delete(bno, writer));
+        assertEquals(0, boardService.getCount());
+        assertNull(boardService.read(bno));
+    }
+
+    @Test
+    public void getBoardPageTest() throws Exception {
+        BoardDto[] boardDtos = new BoardDto[] {
+                new BoardDto("A", "A", "title1", "content1", "writer1"),
+                new BoardDto("IT", "A", "title2", "content2", "writer2"),
+                new BoardDto("IT", "WD", "title3", "content3", "writer3"),
+                new BoardDto("IT", "SD", "title4", "content4", "writer4"),
+                new BoardDto("FIN", "A", "title5", "content5", "writer5"),
+                new BoardDto("FIN", "RM", "title6", "content6", "writer6"),
+                new BoardDto("FIN", "FA", "title7", "content7", "writer7")
+        };
+
+        for (BoardDto boardDto : boardDtos) {
+            boardService.create(boardDto);
+        }
+
+        // All field
+
+        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "");
+        List<BoardDto> list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        blc = new BoardListCondition(1, 10, "A", "A", "T", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        blc = new BoardListCondition(1, 10, "A", "A", "W", "writer", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        blc = new BoardListCondition(1, 10, "A", "A", "TC", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        blc = new BoardListCondition(1, 10, "A", "A", "TC", "content", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        // IT field
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "A", "all", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(3, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "T", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(3, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "W", "writer", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(3, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "TC", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(3, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "TC", "content", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(3, list.size());
+
+        // IT field + WD spec
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "A", "all", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(1, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(1, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(1, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(1, list.size());
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content", "");
+        list = boardService.getBoardPage(blc);
+        assertEquals(1, list.size());
+    }
+
+    @Test
+    public void getBoardCntTest() throws Exception {
+        BoardDto[] boardDtos = new BoardDto[] {
+                new BoardDto("A", "A", "title1", "content1", "writer1"),
+                new BoardDto("IT", "A", "title2", "content2", "writer2"),
+                new BoardDto("IT", "WD", "title3", "content3", "writer3"),
+                new BoardDto("IT", "SD", "title4", "content4", "writer4"),
+                new BoardDto("FIN", "A", "title5", "content5", "writer5"),
+                new BoardDto("FIN", "RM", "title6", "content6", "writer6"),
+                new BoardDto("FIN", "FA", "title7", "content7", "writer7")
+        };
+
+        for (BoardDto boardDto : boardDtos) {
+            boardService.create(boardDto);
+        }
+
+        // All field
+
+        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "");
+        int rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "A", "A", "T", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "A", "A", "W", "writer", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "A", "A", "TC", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "A", "A", "TC", "content", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        // IT field
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "A", "all", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(3, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "T", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(3, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "W", "writer", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(3, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "TC", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(3, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "A", "TC", "content", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(3, rowCnt);
+
+        // IT field + WD spec
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "A", "all", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(1, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "T", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(1, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(1, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "title", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(1, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "IT", "WD", "TC", "content", "");
+        rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(1, rowCnt);
+    }
+}

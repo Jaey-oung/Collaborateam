@@ -48,6 +48,7 @@ public abstract class PageCondition {
         return "PageCondition{" +
                 "page=" + page +
                 ", pageSize=" + pageSize +
+                ", offSet=" + getOffset() +
                 '}';
     }
 }

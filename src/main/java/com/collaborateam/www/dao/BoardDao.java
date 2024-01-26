@@ -8,14 +8,13 @@ import java.util.List;
 public interface BoardDao {
     int count() throws Exception;
     List<BoardDto> selectAll() throws Exception;
-    void deleteAll() throws Exception;
-    int insert(BoardDto boardDto) throws Exception;  // Create - C
-    BoardDto select(Integer bno) throws Exception;  // Read - R
-    int update(BoardDto boardDto) throws Exception;  // Update - U
-    int delete(Integer bno, String writer) throws Exception;    // Delete - D
-    List<BoardDto> selectPage(Integer offset, Integer pageSize) throws Exception;
+    void removeAll() throws Exception;
+    int insert(BoardDto boardDto) throws Exception;
+    BoardDto select(Integer bno) throws Exception;
+    int modify(BoardDto boardDto) throws Exception;
+    int remove(Integer bno, String writer) throws Exception;
+    List<BoardDto> boardPage(BoardListCondition blc) throws Exception;
+    int boardCnt(BoardListCondition blc) throws Exception;
     int increaseViewCnt(Integer bno) throws Exception;
-    List<BoardDto> searchResultPage(BoardListCondition blc) throws Exception;
-    int searchResultCnt(BoardListCondition blc) throws Exception;
     int updateCommentCnt(Integer bno, int cnt);
 }

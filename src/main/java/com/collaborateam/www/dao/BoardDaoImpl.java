@@ -27,54 +27,46 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     @Override
-    public void deleteAll() throws Exception {
-        session.delete(namespace+"deleteAll");
+    public void removeAll() throws Exception {
+        session.delete(namespace+"removeAll");
     }
 
     @Override
     public int insert(BoardDto boardDto) throws Exception {
         return session.insert(namespace+"insert", boardDto);
-    }   // Create - C
+    }
 
     @Override
     public BoardDto select(Integer bno) throws Exception {
-        return session.selectOne(namespace+"select", bno);
-    }   // Read - R
+        return session.selectOne(namespace + "select", bno);
+    }
 
     @Override
-    public int update(BoardDto boardDto) throws Exception {
-        return session.update(namespace+"update", boardDto);
-    }   // Update - U
+    public int modify(BoardDto boardDto) throws Exception {
+        return session.update(namespace+"modify", boardDto);
+    }
 
     @Override
-    public int delete(Integer bno, String writer) throws Exception {
+    public int remove(Integer bno, String writer) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("bno", bno);
         map.put("writer", writer);
-        return session.delete(namespace+"delete", map);
-    }   // Delete - D
+        return session.delete(namespace+"remove", map);
+    }
 
     @Override
-    public List<BoardDto> selectPage(Integer offset, Integer pageSize) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("offset", offset);
-        map.put("pageSize", pageSize);
-        return session.selectList(namespace+"selectPage", map);
+    public List<BoardDto> boardPage(BoardListCondition blc) throws Exception {
+        return session.selectList(namespace+"boardPage", blc);
+    }
+
+    @Override
+    public int boardCnt(BoardListCondition blc) throws Exception {
+        return session.selectOne(namespace+"boardCnt", blc);
     }
 
     @Override
     public int increaseViewCnt(Integer bno) throws Exception {
         return session.update(namespace+"increaseViewCnt", bno);
-    }
-
-    @Override
-    public List<BoardDto> searchResultPage(BoardListCondition blc) throws Exception {
-        return session.selectList(namespace+"searchResultPage", blc);
-    }
-
-    @Override
-    public int searchResultCnt(BoardListCondition blc) throws Exception {
-        return session.selectOne(namespace+"searchResultCnt", blc);
     }
 
     @Override

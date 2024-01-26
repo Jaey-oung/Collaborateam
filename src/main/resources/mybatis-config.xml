@@ -6,6 +6,8 @@
     <typeAliases>
         <typeAlias alias="UserDto" type="com.collaborateam.www.domain.UserDto"/>
         <typeAlias alias="BoardDto" type="com.collaborateam.www.domain.BoardDto"/>
+        <typeAlias alias="FieldDto" type="com.collaborateam.www.domain.FieldDto"/>
+        <typeAlias alias="SpecDto" type="com.collaborateam.www.domain.SpecDto"/>
         <typeAlias alias="CommentDto" type="com.collaborateam.www.domain.CommentDto"/>
         <typeAlias alias="TeamDto" type="com.collaborateam.www.domain.TeamDto"/>
         <typeAlias alias="MemberDto" type="com.collaborateam.www.domain.MemberDto"/>

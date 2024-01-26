@@ -3,10 +3,10 @@
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
 <c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
-<c:set var="field" value="${{'A' : 'All', 'IT' : 'IT', 'FN' : 'Finance'}}"/>
-<c:set var="spec" value="${{'A' : 'All', 'WD' : 'Web Development', 'SD' : 'Software Development', 'FA': 'Financial Analysis', 'RM' : 'Risk Management'}}"/>
-<c:set var="selectedField" value="${boardDto.field}"/>
-<c:set var="selectedSpec" value="${boardDto.specialization}"/>
+<%--<c:set var="field" value="${{'A' : 'All', 'IT' : 'IT', 'FN' : 'Finance'}}"/>--%>
+<%--<c:set var="spec" value="${{'A' : 'All', 'WD' : 'Web Development', 'SD' : 'Software Development', 'FA': 'Financial Analysis', 'RM' : 'Risk Management'}}"/>--%>
+<%--<c:set var="selectedField" value="${boardDto.field}"/>--%>
+<%--<c:set var="selectedSpec" value="${boardDto.specialization}"/>--%>
 
 <!DOCTYPE html>
 <html>
@@ -30,16 +30,8 @@
 <div>
     <form action="" id="form">
         <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
-        <select name="field">
-            <c:forEach var="i" items="${field}">
-                <option value="${i.key}" ${i.key == selectedField ? 'selected' : ''}>${i.value}</option>
-            </c:forEach>
-        </select>
-        <select name="specialization">
-            <c:forEach var="i" items="${spec}">
-                <option value="${i.key}" ${i.key == selectedSpec ? 'selected' : ''}>${i.value}</option>
-            </c:forEach>
-        </select>
+        <select name="field"></select>
+        <select name="specialization"></select>
         <input type="text" name="bno" value="<c:out value='${boardDto.bno}'/>" readonly>
         <input type="text" name="title" value="<c:out value='${boardDto.title}'/>" readonly>
         <textarea name="content" cols="30" rows="10" readonly><c:out value="${boardDto.content}"/></textarea>

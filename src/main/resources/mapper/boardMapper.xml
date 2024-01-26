@@ -9,7 +9,7 @@
     </select>
 
     <sql id="selectFromBoard">
-        SELECT bno, field, specialization, title, content, writer, view_cnt, comment_cnt, reg_date, up_date
+        SELECT bno, field, spec, title, content, writer, view_cnt, comment_cnt, reg_date, up_date
         FROM board
     </sql>
 
@@ -18,16 +18,16 @@
         ORDER BY reg_date DESC, bno DESC
     </select>
 
-    <delete id="deleteAll">
+    <delete id="removeAll">
         DELETE
         FROM board
     </delete>
 
     <insert id="insert" parameterType="BoardDto">
         INSERT INTO board
-            (field, specialization, title, content, writer)
+            (field, spec, title, content, writer)
         VALUES
-            (#{field}, #{specialization}, #{title}, #{content}, #{writer})
+            (#{field}, #{spec}, #{title}, #{content}, #{writer})
     </insert>
 
     <select id="select" parameterType="int" resultType="BoardDto">
@@ -35,40 +35,28 @@
         WHERE bno = #{bno}
     </select>
 
-    <update id="update" parameterType="BoardDto">
+    <update id="modify" parameterType="BoardDto">
         UPDATE board
         SET field = #{field},
-            specialization = #{specialization},
+            spec = #{spec},
             title = #{title},
             content = #{content},
             up_date = now()
         WHERE bno = #{bno} and writer = #{writer}
     </update>
 
-    <delete id="delete" parameterType="map">
+    <delete id="remove" parameterType="map">
         DELETE
         FROM board
         WHERE bno = #{bno} and writer = #{writer}
     </delete>
 
-    <select id="selectPage" parameterType="map" resultType="BoardDto">
-        <include refid="selectFromBoard"/>
-        ORDER BY reg_date DESC, bno DESC
-        LIMIT #{offset}, #{pageSize}
-    </select>
-
-    <update id="increaseViewCnt" parameterType="int">
-        UPDATE board
-        SET   view_cnt = view_cnt + 1
-        WHERE bno = #{bno}
-    </update>
-
     <sql id="boardListCondition">
         <if test='field!="A"'>
             AND field = #{field}
         </if>
-        <if test='specialization!="A"'>
-            AND specialization = #{specialization}
+        <if test='spec!="A"'>
+            AND spec = #{spec}
         </if>
         <if test='option!="A"'>
             <choose>
@@ -84,9 +72,12 @@
                 </when>
             </choose>
         </if>
+        <if test='zone!="A"'>
+            AND reg_date >= now() - INTERVAL 1 WEEK
+        </if>
     </sql>
 
-    <select id="searchResultPage" parameterType="BoardListCondition" resultType="BoardDto">
+    <select id="boardPage" parameterType="BoardListCondition" resultType="BoardDto">
         <include refid="selectFromBoard"/>
         WHERE true
         <include refid="boardListCondition"/>
@@ -94,12 +85,18 @@
         LIMIT #{offset}, #{pageSize}
     </select>
 
-    <select id="searchResultCnt" parameterType="BoardListCondition" resultType="int">
+    <select id="boardCnt" parameterType="BoardListCondition" resultType="int">
         SELECT count(*)
         FROM board
         WHERE true
         <include refid="boardListCondition"/>
     </select>
+
+    <update id="increaseViewCnt" parameterType="int">
+        UPDATE board
+        SET   view_cnt = view_cnt + 1
+        WHERE bno = #{bno}
+    </update>
     
     <update id="updateCommentCnt" parameterType="map">
         UPDATE board

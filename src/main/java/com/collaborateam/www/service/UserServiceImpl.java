@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeAllUsers() throws Exception {
-        userDao.deleteAll();
+    public void deleteAll() throws Exception {
+        userDao.removeAll();
     }
 
     @Override

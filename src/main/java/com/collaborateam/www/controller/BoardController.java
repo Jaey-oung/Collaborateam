@@ -28,13 +28,13 @@ public class BoardController {
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
         try {
-            int rowCnt = boardService.getSearchResultCnt(blc);
+            int rowCnt = boardService.getBoardCnt(blc);
 
             if(rowCnt == 0)
                 throw new Exception("Board list load failed");
 
             Pagination pagination = new Pagination(rowCnt, blc);
-            List<BoardDto> list = boardService.getSearchResultPage(blc);
+            List<BoardDto> list = boardService.getBoardPage(blc);
 
             model.addAttribute("list", list);
             model.addAttribute("pagination", pagination);
@@ -56,7 +56,7 @@ public class BoardController {
         boardDto.setWriter(writer);
 
         try {
-            int rowCnt = boardService.write(boardDto);
+            int rowCnt = boardService.create(boardDto);
 
             if(rowCnt !=1)
                 throw new Exception("Board write failed");
@@ -93,7 +93,7 @@ public class BoardController {
         boardDto.setWriter(writer);
 
         try {
-            int rowCnt = boardService.modify(boardDto);
+            int rowCnt = boardService.update(boardDto);
 
             if(rowCnt != 1)
                 throw new Exception("Board modify failed");
@@ -112,7 +112,7 @@ public class BoardController {
         String writer = (String)session.getAttribute("id");
 
         try {
-            int rowCnt = boardService.remove(bno, writer);
+            int rowCnt = boardService.delete(bno, writer);
 
             if(rowCnt != 1)
                 throw new Exception("Board delete failed");

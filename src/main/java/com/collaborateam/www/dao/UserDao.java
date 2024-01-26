@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDao {
     int count() throws Exception;
     List<UserDto> selectAll() throws Exception;
-    void deleteAll() throws Exception;
+    void removeAll() throws Exception;
     int insert(UserDto userDto) throws Exception;   // Create - C
     UserDto select(String id) throws Exception; // Read - R
     int modify(UserDto userDto) throws Exception;   // Update - U

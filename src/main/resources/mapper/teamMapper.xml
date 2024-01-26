@@ -64,7 +64,7 @@
         WHERE m.id = #{id}
     </select>
 
-    <select id="getTeam" parameterType="string" resultType="TeamDto">
+    <select id="getTeam" parameterType="String" resultType="TeamDto">
         <include refid="selectFromTeam"/>
         WHERE leader = #{id}
     </select>
