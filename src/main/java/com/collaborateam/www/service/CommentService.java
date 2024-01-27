@@ -8,11 +8,11 @@ import java.util.List;
 public interface CommentService {
     int getCount(Integer bno) throws Exception;
     List<CommentDto> getList(Integer bno) throws Exception;
-    void removeAllComments(Integer bno) throws Exception;
+    void deleteAll(Integer bno) throws Exception;
     @Transactional(rollbackFor = Exception.class)
-    int write(CommentDto commentDto) throws Exception;
+    int create(CommentDto commentDto) throws Exception;
     CommentDto read(Integer cno) throws Exception;
-    int modify(CommentDto commentDto) throws Exception;
+    int update(CommentDto commentDto) throws Exception;
     @Transactional(rollbackFor = Exception.class)
-    int remove(Integer cno, Integer bno, String commenter) throws Exception;
+    int delete(Integer cno, Integer bno, String commenter) throws Exception;
 }

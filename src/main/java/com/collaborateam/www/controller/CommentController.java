@@ -33,7 +33,7 @@ public class CommentController {
         commentDto.setCommenter(commenter);
 
         try {
-            int rowCnt = commentService.write(commentDto);
+            int rowCnt = commentService.create(commentDto);
 
             if(rowCnt != 1)
                 throw new Exception("Comment write failed");
@@ -51,7 +51,7 @@ public class CommentController {
         commentDto.setCommenter(commenter);
 
         try {
-            int rowCnt = commentService.modify(commentDto);
+            int rowCnt = commentService.update(commentDto);
 
             if(rowCnt != 1)
                 throw new Exception("Comment modify failed");
@@ -67,7 +67,7 @@ public class CommentController {
         String commenter = (String)session.getAttribute("id");
 
         try {
-            int rowCnt = commentService.remove(cno, bno, commenter);
+            int rowCnt = commentService.delete(cno, bno, commenter);
 
             if(rowCnt != 1)
                 throw new Exception("Comment delete failed");

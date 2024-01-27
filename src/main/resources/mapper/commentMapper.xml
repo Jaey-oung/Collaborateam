@@ -16,7 +16,7 @@
         ORDER BY pcno, cno;
     </select>
 
-    <delete id="deleteAll" parameterType="int">
+    <delete id="removeAll" parameterType="int">
         DELETE
         FROM comment
         WHERE bno = #{bno}
@@ -35,14 +35,14 @@
         WHERE cno = #{cno}
     </select>
 
-    <update id="update" parameterType="CommentDto">
+    <update id="modify" parameterType="CommentDto">
         UPDATE comment
         SET comment = #{comment},
             up_date = now()
         WHERE cno = #{cno} and commenter = #{commenter}
     </update>
 
-    <delete id="delete" parameterType="map">
+    <delete id="remove" parameterType="map">
         DELETE
         FROM comment
         WHERE cno = #{cno} AND commenter = #{commenter}

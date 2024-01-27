@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Controller
@@ -28,18 +31,20 @@ public class BoardController {
             return "redirect:/login/login?redirectUrl="+request.getRequestURL();    // Redirect to the login page
 
         try {
-            int rowCnt = boardService.getBoardCnt(blc);
+            int totalCnt = boardService.getBoardCnt(blc);
+            model.addAttribute("totalCnt", totalCnt);
 
-            if(rowCnt == 0)
-                throw new Exception("Board list load failed");
-
-            Pagination pagination = new Pagination(rowCnt, blc);
+            Pagination pagination = new Pagination(totalCnt, blc);
             List<BoardDto> list = boardService.getBoardPage(blc);
 
             model.addAttribute("list", list);
             model.addAttribute("pagination", pagination);
+
+            Instant today = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            model.addAttribute("today", today.toEpochMilli());
         } catch (Exception e) {
             model.addAttribute("msg", "BOARD_LIST_LOAD_ERR");
+            model.addAttribute("totalCnt", 0);
         }
         return "boardList";
     }

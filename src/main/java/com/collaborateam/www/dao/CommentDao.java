@@ -7,9 +7,9 @@ import java.util.List;
 public interface CommentDao {
     int count(Integer bno) throws Exception;
     List<CommentDto> selectAll(Integer bno) throws Exception;
-    int deleteAll(Integer bno);
+    int removeAll(Integer bno);
     int insert(CommentDto commentDto) throws Exception;
     CommentDto select(Integer cno) throws Exception;
-    int update(CommentDto commentDto) throws Exception;
-    int delete(Integer cno, String commenter) throws Exception;
+    int modify(CommentDto commentDto) throws Exception;
+    int remove(Integer cno, String commenter) throws Exception;
 }

@@ -27,13 +27,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void removeAllComments(Integer bno) {
-        commentDao.deleteAll(bno);
+    public void deleteAll(Integer bno) {
+        commentDao.removeAll(bno);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int write(CommentDto commentDto) throws Exception {
+    public int create(CommentDto commentDto) throws Exception {
         boardDao.updateCommentCnt(commentDto.getBno(), 1);
         return commentDao.insert(commentDto);
     }
@@ -44,14 +44,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int modify(CommentDto commentDto) throws Exception {
-        return commentDao.update(commentDto);
+    public int update(CommentDto commentDto) throws Exception {
+        return commentDao.modify(commentDto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int remove(Integer cno, Integer bno, String commenter) throws Exception {
+    public int delete(Integer cno, Integer bno, String commenter) throws Exception {
         boardDao.updateCommentCnt(bno, -1);
-        return commentDao.delete(cno, commenter);
+        return commentDao.remove(cno, commenter);
     }
 }

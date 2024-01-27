@@ -26,8 +26,8 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public int deleteAll(Integer bno) {
-        return session.delete(namespace+"deleteAll", bno);
+    public int removeAll(Integer bno) {
+        return session.delete(namespace+"removeAll", bno);
     }
 
     @Override
@@ -41,15 +41,15 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public int update(CommentDto commentDto) throws Exception {
-        return session.update(namespace+"update", commentDto);
+    public int modify(CommentDto commentDto) throws Exception {
+        return session.update(namespace+"modify", commentDto);
     }
 
     @Override
-    public int delete(Integer cno, String commenter) throws Exception {
+    public int remove(Integer cno, String commenter) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("cno", cno);
         map.put("commenter", commenter);
-        return session.delete(namespace+"delete", map);
+        return session.delete(namespace+"remove", map);
     }
 }
