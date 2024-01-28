@@ -148,34 +148,35 @@ public class CommentServiceImplTest {
         CommentDto commentDto4 = commentService.read(cno);
         assertEquals(commentDto2, commentDto4);
     }
-//
-//    @Test
-//    public void deleteTest() throws Exception {
-//        assertEquals(0, commentService.getCount(bno));
-//
-//        assertEquals(1, commentService.create(commentDto1));
-//        assertEquals(1, commentService.getCount(bno));
-//
-//        assertEquals(1, commentService.create(commentDto2));
-//        assertEquals(2, commentService.getCount(bno));
-//
-//        Integer cno1 = commentService.getList(bno).get(0).getCno();
-//        String commenter1 = commentService.getList(bno).get(0).getCommenter();
-//        Integer cno2 = commentService.getList(bno).get(1).getCno();
-//        String commenter2 = commentService.getList(bno).get(1).getCommenter();
-//
-//        assertEquals(0, commentService.delete(cno1 + 111, bno, commenter1));
-//        assertEquals(0, commentService.delete(cno1, bno, commenter1 + "111"));
-//        assertEquals(0, commentService.delete(cno1 + 111, bno, commenter1 + "111"));
-//        assertEquals(1, commentService.delete(cno1, bno, commenter1));
-//        assertEquals(1, commentService.getCount(bno));
-//        assertNull(commentService.read(cno1));
-//
-//        assertEquals(0, commentService.delete(cno2 + 222, bno, commenter2));
-//        assertEquals(0, commentService.delete(cno2, bno, commenter2 + "222"));
-//        assertEquals(0, commentService.delete(cno2 + 222, bno, commenter2 + "222"));
-//        assertEquals(1, commentService.delete(cno2, bno, commenter2));
-//        assertEquals(0, commentService.getCount(bno));
-//        assertNull(commentService.read(cno2));
-//    }
+
+    @Test
+    public void deleteTest() throws Exception {
+        assertEquals(0, commentService.getCount(bno));
+
+        assertEquals(1, commentService.create(commentDto1));
+        assertEquals(1, commentService.getCount(bno));
+
+        assertEquals(1, commentService.create(commentDto2));
+        assertEquals(2, commentService.getCount(bno));
+
+        Integer cno = commentService.getList(bno).get(0).getCno();
+        String commenter = commentService.getList(bno).get(0).getCommenter();
+
+        assertEquals(0, commentService.delete(cno + 111, bno, commenter));
+        assertEquals(0, commentService.delete(cno, bno, commenter + "111"));
+        assertEquals(0, commentService.delete(cno + 111, bno, commenter + "111"));
+        assertEquals(1, commentService.delete(cno, bno, commenter));
+        assertEquals(1, commentService.getCount(bno));
+        assertNull(commentService.read(cno));
+
+        cno = commentService.getList(bno).get(0).getCno();
+        commenter = commentService.getList(bno).get(0).getCommenter();
+
+        assertEquals(0, commentService.delete(cno + 222, bno, commenter));
+        assertEquals(0, commentService.delete(cno, bno, commenter + "222"));
+        assertEquals(0, commentService.delete(cno + 222, bno, commenter + "222"));
+        assertEquals(1, commentService.delete(cno, bno, commenter));
+        assertEquals(0, commentService.getCount(bno));
+        assertNull(commentService.read(cno));
+    }
 }

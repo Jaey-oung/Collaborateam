@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<c:url value='/css/boardList.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="<c:url value='/js/boardList.js'/>"></script>
+    <script src="<c:url value='/js/boardFilter.js'/>"></script>
 </head>
 <body>
 <div class="menu">
@@ -83,7 +84,7 @@
         <div class="pagination-container">
             <div class="pagination">
                 <c:if test="${totalCnt==null || totalCnt==0}">
-                    <div> 게시물이 없습니다. </div>
+                    <div>No results found</div>
                 </c:if>
                 <c:if test="${totalCnt!=null && totalCnt!=0}">
                     <c:if test="${pagination.showPrev}">

@@ -31,7 +31,7 @@ public class BoardServiceImplTest {
 
     @Test
     public void insertData() throws Exception {
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= 100; i++) {
             BoardDto boardDto = new BoardDto("IT", "WD", "title" + i, "content" + i, "user1");
             boardService.create(boardDto);
             BoardDto boardDto2 = new BoardDto("IT", "SD", "title" + i, "content" + i, "user1");
@@ -135,8 +135,6 @@ public class BoardServiceImplTest {
 
         BoardDto boardDto3 = boardService.read(bno);
         assertEquals(boardDto1, boardDto3);
-        System.out.println("boardDto1 = " + boardDto1);
-        System.out.println("boardDto3 = " + boardDto3);
 
         assertEquals(1, boardService.create(boardDto2));
         assertEquals(2, boardService.getCount());

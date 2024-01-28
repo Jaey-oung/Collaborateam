@@ -36,16 +36,16 @@ public class CommentController {
             int rowCnt = commentService.create(commentDto);
 
             if(rowCnt != 1)
-                throw new Exception("Comment write failed");
+                throw new Exception("Comment create failed");
 
-            return new ResponseEntity<>("Successfully written the comment", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully created the comment", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to write the comment", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to create the comment", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/comments/{cno}")
-    public ResponseEntity<String> modify(@PathVariable Integer cno, @RequestBody CommentDto commentDto, HttpSession session) {
+    public ResponseEntity<String> update(@PathVariable Integer cno, @RequestBody CommentDto commentDto, HttpSession session) {
         String commenter = (String)session.getAttribute("id");
         commentDto.setCno(cno);
         commentDto.setCommenter(commenter);
@@ -54,16 +54,16 @@ public class CommentController {
             int rowCnt = commentService.update(commentDto);
 
             if(rowCnt != 1)
-                throw new Exception("Comment modify failed");
+                throw new Exception("Comment update failed");
 
-            return new ResponseEntity<>("Successfully modified the comment", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully updated the comment", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to modify the comment", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to update the comment", HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/comments/{cno}")
-    public ResponseEntity<String> remove(@PathVariable Integer cno, Integer bno, HttpSession session) {
+    public ResponseEntity<String> delete(@PathVariable Integer cno, Integer bno, HttpSession session) {
         String commenter = (String)session.getAttribute("id");
 
         try {

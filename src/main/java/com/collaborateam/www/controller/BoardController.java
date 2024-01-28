@@ -49,28 +49,28 @@ public class BoardController {
         return "boardList";
     }
 
-    @GetMapping("/write")
-    public String write(Model model) {
-        model.addAttribute("mode", "WRT_BOARD");
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("mode", "BOARD_CRT");
         return "board";
     }
 
-    @PostMapping("/write")
-    public String write(BoardDto boardDto, Model model, RedirectAttributes rattr, HttpSession session) {
+    @PostMapping("/create")
+    public String create(BoardDto boardDto, Model model, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
         boardDto.setWriter(writer);
 
         try {
             int rowCnt = boardService.create(boardDto);
 
-            if(rowCnt !=1)
-                throw new Exception("Board write failed");
+            if(rowCnt != 1)
+                throw new Exception("Board create failed");
 
-            rattr.addFlashAttribute("msg", "BOARD_WRT_OK");
+            rattr.addFlashAttribute("msg", "BOARD_CRT_OK");
             return "redirect:/board/list";
         } catch (Exception e) {
             model.addAttribute("boardDto", boardDto);
-            model.addAttribute("msg", "BOARD_WRT_ERR");
+            model.addAttribute("msg", "BOARD_CRT_ERR");
             return "board";
         }
     }
@@ -81,19 +81,19 @@ public class BoardController {
             BoardDto boardDto = boardService.read(bno);
 
             if(boardDto == null)
-                throw new Exception("Board load failed");
+                throw new Exception("Board read failed");
 
             model.addAttribute("boardDto", boardDto);
-            model.addAttribute("mode", "READ_BOARD");
+            model.addAttribute("mode", "BOARD_READ");
             return "board";
         } catch (Exception e) {
-            rattr.addFlashAttribute("msg", "BOARD_LOAD_ERR");
+            rattr.addFlashAttribute("msg", "BOARD_READ_ERR");
             return "redirect:/board/list"+blc.getQueryString();
         }
     }
 
-    @PostMapping("/modify")
-    public String modify(BoardDto boardDto, BoardListCondition blc, Model model, RedirectAttributes rattr, HttpSession session) {
+    @PostMapping("/update")
+    public String update(BoardDto boardDto, Model model, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
         boardDto.setWriter(writer);
 
@@ -101,19 +101,19 @@ public class BoardController {
             int rowCnt = boardService.update(boardDto);
 
             if(rowCnt != 1)
-                throw new Exception("Board modify failed");
+                throw new Exception("Board update failed");
 
-            rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
-            return "redirect:/board/list"+blc.getQueryString();
+            rattr.addFlashAttribute("msg", "BOARD_UPD_OK");
+            return "redirect:/board/list";
         } catch (Exception e) {
             model.addAttribute("boardDto", boardDto);
-            model.addAttribute("msg", "BOARD_MOD_ERR");
+            model.addAttribute("msg", "BOARD_UPD_ERR");
             return "board";
         }
     }
 
-    @PostMapping("/remove")
-    public String remove(Integer bno, BoardListCondition blc, RedirectAttributes rattr, HttpSession session) {
+    @PostMapping("/delete")
+    public String delete(Integer bno, RedirectAttributes rattr, HttpSession session) {
         String writer = (String)session.getAttribute("id");
 
         try {
@@ -123,10 +123,10 @@ public class BoardController {
                 throw new Exception("Board delete failed");
 
             rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
-            return "redirect:/board/list"+blc.getQueryString();
+            return "redirect:/board/list";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
-            return "boardList";
+            return "board";
         }
     }
 

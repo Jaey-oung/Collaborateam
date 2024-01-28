@@ -24,19 +24,19 @@ public class RegisterController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/add")
-    public String registerForm() {
-        return "registerForm";
-    }
-
     @InitBinder
     public void toDate(WebDataBinder binder) {  // Text -> Date
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(df, false));
     }
 
-    @PostMapping("/add")
-    public String save(@Valid UserDto userDto, BindingResult result, RedirectAttributes rattr, Model model) {
+    @GetMapping("/create")
+    public String create() {
+        return "registerForm";
+    }
+
+    @PostMapping("/create")
+    public String create(@Valid UserDto userDto, BindingResult result, RedirectAttributes rattr, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("err", result.hasErrors());
             return "registerForm";
@@ -48,11 +48,11 @@ public class RegisterController {
             if(rowCnt != 1)
                 throw new Exception("User create failed");
 
-            rattr.addFlashAttribute("msg", "SIGN_UP_OK");
+            rattr.addFlashAttribute("msg", "USER_CRT_OK");
             return "redirect:/";    // Redirect to the home page
         } catch (Exception e) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("msg", "SIGN_UP_ERR");
+            model.addAttribute("msg", "USER_CRT_ERR");
             return "registerForm";
         }
     }
