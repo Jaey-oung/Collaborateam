@@ -9,6 +9,11 @@
         WHERE bno = #{bno}
     </select>
 
+    <sql id="selectFromComment">
+        SELECT cno, bno, pcno, comment, commenter, reg_date, up_date
+        FROM comment
+    </sql>
+
     <select id="selectAll" parameterType="int" resultType="CommentDto">
         SELECT cno, bno, ifnull(pcno, cno) as pcno, comment, commenter, reg_date, up_date
         FROM comment
@@ -30,8 +35,7 @@
     </insert>
 
     <select id="select" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, pcno, comment, commenter, reg_date, up_date
-        FROM comment
+        <include refid="selectFromComment"/>
         WHERE cno = #{cno}
     </select>
 

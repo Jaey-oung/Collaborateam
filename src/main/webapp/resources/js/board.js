@@ -1,36 +1,10 @@
 $(document).ready(function() {
-    // let bnoValue = $("input[name=bno]").val();
-    // let title = $("input[name=title]");
-    // let content = $("textarea[name=content]");
-    // let boardWrtBtn = $("#boardWrtBtn");
-    // let boardModBtn = $("#boardModBtn");
-    // let boardRemBtn = $("#boardRemBtn");
-    // let boardListBtn = $("#boardListBtn");
-    // let commentList = $("#commentList");
-
     displayMsg(msg);
-
     displayCommentList();
+    setUpBtnClickEvents();
 
     if (mode === "BOARD_CRT") boardCrtMode();
     if (mode === "BOARD_READ") boardReadMode();
-
-    setUpBtnClickEvents();
-
-    // $("#inviteBtn").on("click", function() {
-    //     let leader = "${loginId}";
-    //
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/collaborateam/team/teams?leader="+leader,
-    //         success: function(result){
-    //             $("#teams").html(formatTeam(result))
-    //         },
-    //         error: function(jqXHR) {
-    //             alert(jqXHR.responseText);
-    //         }
-    //     });
-    // });
 });
 
 function displayMsg(msg) {
@@ -52,7 +26,6 @@ function boardReadMode() {
     $("#field").attr("disabled", true);
     $("#spec").attr("disabled", true);
     $("#boardCrtBtn").hide();
-    $("#invite-function").hide();
     $("#commentUpdBtn").hide();
     $("#comment-reply").hide();
 }
@@ -87,6 +60,41 @@ function setUpBtnClickEvents() {
     $("#boardListBtn").on("click", function() {
         location.href = "/collaborateam/board/list" + queryString;
     });
+
+    $("#teamInviteBtn").on("click", function() {
+        $.ajax({
+            type: "GET",
+            url: "/collaborateam/team/teams",
+            success: function(result){
+                $("#team-list").html(formatTeam(result))
+            },
+            error: function(jqXHR) {
+                alert(jqXHR.responseText);
+            }
+        });
+    });
+
+    $("#team-list").on("click", "li", function() {
+        $(this).siblings().removeAttr("selected");
+        $(this).attr("selected", true);
+    });
+
+    $("#team-list").on("click", "#teamSelectBtn", function () {
+    let tnoValue = $("#team-list li[selected]").attr("data-tno");
+
+        $.ajax({
+            type: "POST",
+            url: "/collaborateam/invites",
+            contentType: "application/json",
+            data: JSON.stringify({ tno: tnoValue, id: writer }),
+            success: function(result){
+                alert(result)
+            },
+            error: function(jqXHR) {
+                alert(jqXHR.responseText);
+            }
+        });
+    })
 
     $("#commentCrtBtn").on("click", function() {
         let bnoValue = $("input[name=bno]").val();
@@ -200,8 +208,8 @@ function setUpBtnClickEvents() {
         });
 
         $("input[name=commentRep]").val("");
-        $("#comment-reply").hide();
         $("#comment-reply").appendTo("body");
+        $("#comment-reply").hide();
     });
 }
 
@@ -221,6 +229,19 @@ function submitForm(action) {
     form.attr("action", action);
     form.attr("method", "post");
     form.submit();
+}
+
+function formatTeam(teams) {
+    let tmp = "<ul>";
+
+    teams.forEach(function(team) {
+        tmp += "<li data-tno=" + team.tno + ">"
+        tmp += " team : <span class='team'>" + team.name + "</span>"
+        tmp += "</li>"
+    })
+    tmp += "</ul>"
+    tmp += "<button type='button' id='teamSelectBtn' class='btn'>Confirm</button>"
+    return tmp
 }
 
 function displayCommentList() {
@@ -265,41 +286,3 @@ function formatComment(comments) {
     tmp += "</ul>";
     return tmp;
 }
-
-// function formatTeam(teams) {
-//     let tmp = "";
-//
-//     teams.forEach(function(team) {
-//         tmp += "<ul>"
-//         tmp += "<li data-tno=" + team.tno + ">"
-//         tmp += " team : <span class='team'>" + team.name + "</span>"
-//         tmp += "</li>"
-//         tmp += "</ul>"
-//     })
-//         tmp += "<button type='button' id='teamSelectBtn' class='btn'>Confirm</button>"
-//     return tmp
-// }
-
-// $("#teams").on("click", "li", function() {
-//     $(this).addClass("selected");
-//     alert($(this).data("tno"));
-// });
-//
-// $("#teams").on("click", "#teamSelectBtn", function () {
-//     let tno = $("#teams li.selected").data("tno");
-//     let teamName = $("#teams li.selected").find(".team").text()
-//     let writer= "${boardDto.writer}";
-//
-//     $.ajax({
-//         type: "POST",
-//         url: "/collaborateam/invites",
-//         contentType: "application/json",
-//         data: JSON.stringify({ tno: tno, team_name: teamName, id: writer }),
-//         success: function(result){
-//             alert(result)
-//         },
-//         error: function(jqXHR) {
-//             alert(jqXHR.responseText);
-//         }
-//     });
-// })

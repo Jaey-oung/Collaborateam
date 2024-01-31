@@ -27,7 +27,7 @@ public class CommentController {
     }
 
     @PostMapping("/comments")
-    public ResponseEntity<String> write(@RequestBody CommentDto commentDto, Integer bno, HttpSession session) {
+    public ResponseEntity<String> create(@RequestBody CommentDto commentDto, Integer bno, HttpSession session) {
         String commenter = (String)session.getAttribute("id");
         commentDto.setBno(bno);
         commentDto.setCommenter(commenter);

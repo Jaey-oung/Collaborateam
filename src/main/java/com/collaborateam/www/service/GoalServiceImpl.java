@@ -23,8 +23,8 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public void removeAllGoals(Integer tno) {
-        goalDao.deleteAll(tno);
+    public void deleteAll(Integer tno) {
+        goalDao.removeAll(tno);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public int modify(GoalDto goalDto) throws Exception {
-        return goalDao.update(goalDto);
+    public int update(GoalDto goalDto) throws Exception {
+        return goalDao.modify(goalDto);
     }
 
     @Override
-    public int remove(Integer gno) throws Exception {
-        return goalDao.delete(gno);
+    public int delete(Integer gno) throws Exception {
+        return goalDao.remove(gno);
     }
 }

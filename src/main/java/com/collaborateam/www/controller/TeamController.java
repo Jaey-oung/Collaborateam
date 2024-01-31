@@ -36,25 +36,23 @@ public class TeamController {
         String id = (String)session.getAttribute("id");
 
         try {
-            int rowCnt = teamService.getTeamCnt(id);
+            int totalCnt = teamService.getTeamCnt(id);
+            model.addAttribute("totalCnt", totalCnt);
 
-            if(rowCnt == 0)
-                throw new Exception("Team list load failed");
-
-            Pagination pagination = new Pagination(rowCnt, tlc);
+            Pagination pagination = new Pagination(totalCnt, tlc);
             List<TeamDto> list = teamService.getTeamPage(id, tlc);
 
             model.addAttribute("list", list);
             model.addAttribute("pagination", pagination);
         } catch (Exception e) {
-            model.addAttribute("msg", "TEAM_LIST_LOAD_ERR");
+            model.addAttribute("totalCnt", 0);
         }
         return "teamList";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("mode", "CRT_TEAM");
+        model.addAttribute("mode", "TEAM_CRT");
         return "team";
     }
 
@@ -87,7 +85,7 @@ public class TeamController {
                 throw new Exception("Team load failed");
 
             model.addAttribute("teamDto", teamDto);
-            model.addAttribute("mode", "READ_TEAM");
+            model.addAttribute("mode", "TEAM_READ");
             return "team";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "TEAM_LOAD_ERR");
@@ -95,49 +93,52 @@ public class TeamController {
         }
     }
 
-    @PostMapping("/modify")
-    public String modify(TeamDto teamDto, TeamListCondition tlc, Model model, RedirectAttributes rattr, HttpSession session) {
+    @PostMapping("/update")
+    public String update(TeamDto teamDto, Model model, RedirectAttributes rattr, HttpSession session) {
         String leader = (String)session.getAttribute("id");
         teamDto.setLeader(leader);
 
         try {
-            int rowCnt = teamService.modify(teamDto);
+            int rowCnt = teamService.update(teamDto);
 
             if(rowCnt != 1)
-                throw new Exception("Team modify failed");
+                throw new Exception("Team update failed");
 
-            rattr.addFlashAttribute("msg", "TEAM_MOD_OK");
-            return "redirect:/team/list"+tlc.getQueryString();
+            rattr.addFlashAttribute("msg", "TEAM_UPD_OK");
+            return "redirect:/team/list";
         } catch (Exception e) {
             model.addAttribute("teamDto", teamDto);
-            model.addAttribute("msg", "BOARD_MOD_ERR");
+            model.addAttribute("msg", "BOARD_UPD_ERR");
             return "team";
         }
     }
 
-    @PostMapping("/remove")
-    public String remove(Integer tno, TeamListCondition tlc, RedirectAttributes rattr, HttpSession session) {
+    @PostMapping("/delete")
+    public String delete(Integer tno, RedirectAttributes rattr, HttpSession session) {
         String leader = (String)session.getAttribute("id");
 
         try {
-            int rowCnt = teamService.remove(tno, leader);
+            int rowCnt = teamService.delete(tno, leader);
 
             if(rowCnt != 1)
                 throw new Exception("Team delete failed");
 
             rattr.addFlashAttribute("msg", "TEAM_DEL_OK");
-            return "redirect:/team/list"+tlc.getQueryString();
+            return "redirect:/team/list";
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "TEAM_DEL_ERR");
-            return "teamList";
+            return "team";
         }
     }
 
     @RequestMapping("/teams")
     @ResponseBody
-    public ResponseEntity<List<TeamDto>> getMyTeams(String leader) {
+    public ResponseEntity<List<TeamDto>> getLeaderTeam(HttpSession session) {
+        String leader = (String)session.getAttribute("id");
+
+        List<TeamDto> list;
         try {
-            List<TeamDto> list = teamService.retrieveLeaderTeam(leader);
+            list = teamService.getLeaderTeam(leader);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

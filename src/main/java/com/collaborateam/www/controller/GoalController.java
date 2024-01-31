@@ -26,7 +26,8 @@ public class GoalController {
     }
 
     @PostMapping("/goals")
-    public ResponseEntity<String> write(@RequestBody GoalDto goalDto) {
+    public ResponseEntity<String> create(@RequestBody GoalDto goalDto, Integer tno) {
+        goalDto.setTno(tno);
         try {
             int rowCnt = goalService.create(goalDto);
 
@@ -40,10 +41,10 @@ public class GoalController {
     }
 
     @PatchMapping("/goals/{gno}")
-    public ResponseEntity<String> modify(@PathVariable Integer gno, @RequestBody GoalDto goalDto) {
+    public ResponseEntity<String> update(@PathVariable Integer gno, @RequestBody GoalDto goalDto) {
         goalDto.setGno(gno);
         try {
-            int rowCnt = goalService.modify(goalDto);
+            int rowCnt = goalService.update(goalDto);
 
             if(rowCnt != 1)
                 throw new Exception("Goal modify failed");
@@ -55,16 +56,16 @@ public class GoalController {
     }
 
     @DeleteMapping("/goals/{gno}")
-    public ResponseEntity<String> remove(@PathVariable Integer gno) {
+    public ResponseEntity<String> delete(@PathVariable Integer gno) {
         try {
-            int rowCnt = goalService.remove(gno);
+            int rowCnt = goalService.delete(gno);
 
             if(rowCnt != 1)
-                throw new Exception("Goal remove failed");
+                throw new Exception("Goal delete failed");
 
-            return new ResponseEntity<>("Successfully removed the goal", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted the goal", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to remove the goal", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to delete the goal", HttpStatus.BAD_REQUEST);
         }
     }
 }

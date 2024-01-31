@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -26,30 +27,46 @@ public class MemberController {
     }
 
     @PostMapping("/members")
-    public ResponseEntity<String> write(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<String> create(@RequestBody MemberDto memberDto) {
         try {
             int rowCnt = memberService.create(memberDto);
 
             if(rowCnt != 1)
-                throw new Exception("Member add failed");
+                return new ResponseEntity<>("Already created the member", HttpStatus.BAD_REQUEST);
 
-            return new ResponseEntity<>("Successfully added the member", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully created the member", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to add the member", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to create the member", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/members/{mno}")
-    public ResponseEntity<String> remove(@PathVariable Integer mno, String id) {
+    @DeleteMapping("/members/delete/{mno}")
+    public ResponseEntity<String> delete(@PathVariable Integer mno, String id) {
         try {
-            int rowCnt = memberService.remove(mno, id);
+            int rowCnt = memberService.delete(mno, id);
 
             if(rowCnt != 1)
-                throw new Exception("Member remove failed");
+                throw new Exception("Member delete failed");
 
-            return new ResponseEntity<>("Successfully removed the member", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted the member", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to remove the member", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to delete the member", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/members/withdraw/{tno}")
+    public ResponseEntity<String> withdraw(@PathVariable Integer tno, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+
+        try {
+            int rowCnt = memberService.withdraw(tno, id);
+
+            if(rowCnt != 1)
+                throw new Exception("Team withdraw failed");
+
+            return new ResponseEntity<>("Successfully withdrew from the team", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to withdraw from the team", HttpStatus.BAD_REQUEST);
         }
     }
 }

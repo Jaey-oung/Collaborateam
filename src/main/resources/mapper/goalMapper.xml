@@ -19,7 +19,7 @@
         WHERE tno = #{tno}
     </select>
 
-    <delete id="deleteAll" parameterType="int">
+    <delete id="removeAll" parameterType="int">
         DELETE
         FROM goal
         WHERE tno = #{tno}
@@ -37,14 +37,14 @@
         WHERE gno = #{gno}
     </select>
 
-    <update id="update" parameterType="GoalDto">
+    <update id="modify" parameterType="GoalDto">
         UPDATE goal
         SET name = #{name},
             up_date = now()
         WHERE gno = #{gno}
     </update>
 
-    <delete id="delete" parameterType="int">
+    <delete id="remove" parameterType="int">
         DELETE
         FROM goal
         WHERE gno = #{gno}

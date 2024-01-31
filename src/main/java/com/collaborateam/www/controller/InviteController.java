@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -15,10 +16,12 @@ public class InviteController {
     InviteService inviteService;
 
     @RequestMapping("/invites")
-    public ResponseEntity<List<InviteDto>> list(String id) {
+    public ResponseEntity<List<InviteDto>> list(HttpSession session) {
+        String id = (String)session.getAttribute("id");
         List<InviteDto> list;
+
         try {
-            list = inviteService.getUserInvitation(id);
+            list = inviteService.getUserInvite(id);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -26,12 +29,12 @@ public class InviteController {
     }
 
     @PostMapping("/invites")
-    public ResponseEntity<String> write(@RequestBody InviteDto inviteDto) {
+    public ResponseEntity<String> create(@RequestBody InviteDto inviteDto) {
         try {
             int rowCnt = inviteService.create(inviteDto);
 
             if (rowCnt != 1)
-                throw new Exception("Member invite failed");
+                return new ResponseEntity<>("Already invited the member", HttpStatus.BAD_REQUEST);
 
             return new ResponseEntity<>("Successfully invited the member", HttpStatus.OK);
         } catch (Exception e) {
@@ -40,16 +43,18 @@ public class InviteController {
     }
 
     @DeleteMapping("/invites/{ino}")
-    public ResponseEntity<String> remove(@PathVariable Integer ino) {
+    public ResponseEntity<String> delete(@PathVariable Integer ino, HttpSession session) {
+        String id = (String)session.getAttribute("id");
+
         try {
-            int rowCnt = inviteService.remove(ino);
+            int rowCnt = inviteService.delete(ino, id);
 
             if(rowCnt != 1)
-                throw new Exception("Invite remove failed");
+                throw new Exception("Invite delete failed");
 
-            return new ResponseEntity<>("Successfully removed the invite", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted the invite", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to remove the invite", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to delete the invite", HttpStatus.BAD_REQUEST);
         }
     }
 }

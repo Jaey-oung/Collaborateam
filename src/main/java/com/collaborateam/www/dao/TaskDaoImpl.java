@@ -21,16 +21,13 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public List<TaskDto> selectAll(Integer tno, String member) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("tno", tno);
-        map.put("member", member);
-        return session.selectList(namespace+"selectAll", map);
+    public List<TaskDto> selectAll(Integer tno) throws Exception {
+        return session.selectList(namespace+"selectAll", tno);
     }
 
     @Override
-    public int deleteAll(Integer tno) {
-        return session.delete(namespace+"deleteAll", tno);
+    public void removeAll(Integer tno) {
+        session.delete(namespace+"removeAll", tno);
     }
 
     @Override
@@ -44,12 +41,23 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public int update(TaskDto taskDto) throws Exception {
-        return session.update(namespace+"update", taskDto);
+    public int modify(TaskDto taskDto) throws Exception {
+        return session.update(namespace+"modify", taskDto);
     }
 
     @Override
-    public int delete(Integer tano) throws Exception {
-        return session.delete(namespace+"delete", tano);
+    public int remove(Integer tano, String member) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("tano", tano);
+        map.put("member", member);
+        return session.delete(namespace+"remove", map);
+    }
+
+    @Override
+    public List<TaskDto> selectMemberTask(Integer tno, String member) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("tno", tno);
+        map.put("member", member);
+        return session.selectList(namespace+"selectMemberTask", map);
     }
 }

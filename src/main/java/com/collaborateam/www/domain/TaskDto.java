@@ -71,12 +71,12 @@ public class TaskDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskDto taskDto = (TaskDto) o;
-        return Objects.equals(tno, taskDto.tno) && Objects.equals(member, taskDto.member) && Objects.equals(name, taskDto.name);
+        return Objects.equals(tano, taskDto.tano) && Objects.equals(tno, taskDto.tno) && Objects.equals(member, taskDto.member) && Objects.equals(name, taskDto.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tno, member, name);
+        return Objects.hash(tano, tno, member, name);
     }
 
     @Override

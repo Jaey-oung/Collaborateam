@@ -18,7 +18,7 @@ public class TaskController {
     public ResponseEntity<List<TaskDto>> list(Integer tno, String member) {
         List<TaskDto> list;
         try {
-            list = taskService.getList(tno, member);
+            list = taskService.getMemberTask(tno, member);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,28 +43,28 @@ public class TaskController {
     public ResponseEntity<String> modify(@PathVariable Integer tano, @RequestBody TaskDto taskDto) {
         taskDto.setTano(tano);
         try {
-            int rowCnt = taskService.modify(taskDto);
+            int rowCnt = taskService.update(taskDto);
 
             if(rowCnt != 1)
-                throw new Exception("Task modify failed");
+                throw new Exception("Task update failed");
 
-            return new ResponseEntity<>("Successfully modified the task", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully updated the task", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to modify the task", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to update the task", HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/tasks/{tano}")
-    public ResponseEntity<String> remove(@PathVariable Integer tano) {
+    public ResponseEntity<String> remove(@PathVariable Integer tano, String member) {
         try {
-            int rowCnt = taskService.remove(tano);
+            int rowCnt = taskService.delete(tano, member);
 
             if(rowCnt != 1)
-                throw new Exception("Task remove failed");
+                throw new Exception("Task delete failed");
 
-            return new ResponseEntity<>("Successfully removed the task", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted the task", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to remove the task", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to delete the task", HttpStatus.BAD_REQUEST);
         }
     }
 }

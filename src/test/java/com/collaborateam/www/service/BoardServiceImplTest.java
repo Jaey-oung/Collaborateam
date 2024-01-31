@@ -32,9 +32,9 @@ public class BoardServiceImplTest {
     @Test
     public void insertData() throws Exception {
         for (int i = 1; i <= 100; i++) {
-            BoardDto boardDto = new BoardDto("IT", "WD", "title" + i, "content" + i, "user1");
+            BoardDto boardDto = new BoardDto("IT", "WD", "title" + i, "content" + i, "user2");
             boardService.create(boardDto);
-            BoardDto boardDto2 = new BoardDto("IT", "SD", "title" + i, "content" + i, "user1");
+            BoardDto boardDto2 = new BoardDto("IT", "SD", "title" + i, "content" + i, "user2");
             boardService.create(boardDto2);
         }
     }

@@ -24,28 +24,28 @@ public class TeamDaoImpl implements TeamDao {
         return session.selectList(namespace+"selectAll");
     }
 
-    public void deleteAll() throws Exception {
-        session.delete(namespace+"deleteAll");
+    public void removeAll() throws Exception {
+        session.delete(namespace+"removeAll");
     }
 
     public int insert(TeamDto teamDto) throws Exception {
         return session.insert(namespace+"insert", teamDto);
-    }   // Create - C
+    }
 
     public TeamDto select(Integer tno) throws Exception {
         return session.selectOne(namespace+"select", tno);
-    }   // Read - R
+    }
 
-    public int update(TeamDto teamDto) throws Exception {
-        return session.update(namespace+"update", teamDto);
-    }   // Update - U
+    public int modify(TeamDto teamDto) throws Exception {
+        return session.update(namespace+"modify", teamDto);
+    }
 
-    public int delete(Integer tno, String leader) throws Exception {
+    public int remove(Integer tno, String leader) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("tno", tno);
         map.put("leader", leader);
-        return session.delete(namespace+"delete", map);
-    }   // Delete - D
+        return session.delete(namespace+"remove", map);
+    }
 
     @Override
     public List<TeamDto> teamPage(String id, TeamListCondition tlc) throws Exception {
@@ -61,8 +61,7 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public List<TeamDto> getLeaderTeam(String id) throws Exception {
-        return session.selectList(namespace+"getTeam", id);
+    public List<TeamDto> selectLeaderTeam(String id) throws Exception {
+        return session.selectList(namespace+"selectLeaderTeam", id);
     }
-
 }

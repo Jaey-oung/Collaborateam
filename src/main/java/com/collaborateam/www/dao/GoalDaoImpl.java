@@ -25,8 +25,8 @@ public class GoalDaoImpl implements GoalDao {
     }
 
     @Override
-    public int deleteAll(Integer tno) {
-        return session.delete(namespace+"deleteAll", tno);
+    public void removeAll(Integer tno) {
+        session.delete(namespace+"removeAll", tno);
     }
 
     @Override
@@ -40,12 +40,12 @@ public class GoalDaoImpl implements GoalDao {
     }
 
     @Override
-    public int update(GoalDto goalDto) throws Exception {
-        return session.update(namespace+"update", goalDto);
+    public int modify(GoalDto goalDto) throws Exception {
+        return session.update(namespace+"modify", goalDto);
     }
 
     @Override
-    public int delete(Integer gno) throws Exception {
-        return session.delete(namespace+"delete", gno);
+    public int remove(Integer gno) throws Exception {
+        return session.delete(namespace+"remove", gno);
     }
 }

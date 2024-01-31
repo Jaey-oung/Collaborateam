@@ -8,12 +8,12 @@ import java.util.List;
 public interface TeamDao {
     int count() throws Exception;
     List<TeamDto> selectAll() throws Exception;
-    void deleteAll() throws Exception;
-    int insert(TeamDto teamDto) throws Exception;  // Create - C
-    TeamDto select(Integer tno) throws Exception;  // Read - R
-    int update(TeamDto teamDto) throws Exception;  // Update - U
-    int delete(Integer tno, String leader) throws Exception;    // Delete - D
+    void removeAll() throws Exception;
+    int insert(TeamDto teamDto) throws Exception;
+    TeamDto select(Integer tno) throws Exception;
+    int modify(TeamDto teamDto) throws Exception;
+    int remove(Integer tno, String leader) throws Exception;
     List<TeamDto> teamPage(String id, TeamListCondition tlc) throws Exception;
     int teamCnt(String id) throws Exception;
-    List<TeamDto> getLeaderTeam(String id) throws Exception;
+    List<TeamDto> selectLeaderTeam(String id) throws Exception;
 }

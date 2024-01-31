@@ -43,7 +43,6 @@ public class BoardController {
             Instant today = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
             model.addAttribute("today", today.toEpochMilli());
         } catch (Exception e) {
-            model.addAttribute("msg", "BOARD_LIST_LOAD_ERR");
             model.addAttribute("totalCnt", 0);
         }
         return "boardList";

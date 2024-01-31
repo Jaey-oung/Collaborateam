@@ -29,8 +29,8 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void removeAllTeams() throws Exception {
-        teamDao.deleteAll();
+    public void deleteAll() throws Exception {
+        teamDao.removeAll();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class TeamServiceImpl implements TeamService {
     public int create(TeamDto teamDto) throws Exception {
         int rowCnt = teamDao.insert(teamDto);
         if(rowCnt == 1) {
-            MemberDto leader = new MemberDto(teamDto.getTno(), teamDto.getLeader(), "Leader");
+            MemberDto leader = new MemberDto(teamDto.getTno(), teamDto.getLeader());
             rowCnt = memberDao.insert(leader);
         }
         return rowCnt;
@@ -50,13 +50,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public int modify(TeamDto teamDto) throws Exception {
-        return teamDao.update(teamDto);
+    public int update(TeamDto teamDto) throws Exception {
+        return teamDao.modify(teamDto);
     }
 
     @Override
-    public int remove(Integer tno, String leader) throws Exception {
-        return teamDao.delete(tno, leader);
+    public int delete(Integer tno, String leader) throws Exception {
+        return teamDao.remove(tno, leader);
     }
 
     @Override
@@ -70,8 +70,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamDto> retrieveLeaderTeam(String id) throws Exception {
-        return teamDao.getLeaderTeam(id);
+    public List<TeamDto> getLeaderTeam(String id) throws Exception {
+        return teamDao.selectLeaderTeam(id);
     }
-
 }

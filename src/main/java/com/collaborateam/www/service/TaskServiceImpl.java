@@ -18,13 +18,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getList(Integer tno, String member) throws Exception {
-        return taskDao.selectAll(tno, member);
+    public List<TaskDto> getList(Integer tno) throws Exception {
+        return taskDao.selectAll(tno);
     }
 
     @Override
-    public void removeAllTasks(Integer tno) {
-        taskDao.deleteAll(tno);
+    public void deleteAll(Integer tno) {
+        taskDao.removeAll(tno);
     }
 
     @Override
@@ -38,12 +38,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int modify(TaskDto taskDto) throws Exception {
-        return taskDao.update(taskDto);
+    public int update(TaskDto taskDto) throws Exception {
+        return taskDao.modify(taskDto);
     }
 
     @Override
-    public int remove(Integer tano) throws Exception {
-        return taskDao.delete(tano);
+    public int delete(Integer tano, String member) throws Exception {
+        return taskDao.remove(tano, member);
+    }
+
+    @Override
+    public List<TaskDto> getMemberTask(Integer tno, String member) throws Exception {
+        return taskDao.selectMemberTask(tno, member);
     }
 }

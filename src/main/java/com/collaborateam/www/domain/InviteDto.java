@@ -6,15 +6,14 @@ import java.util.Objects;
 public class InviteDto {
     private Integer ino;
     private Integer tno;
-    private String team_name;
     private String id;
+    private String name;
     private Date reg_date;
+    private Date up_date;
 
     public InviteDto() {}
-
-    public InviteDto(Integer tno, String team_name, String id) {
+    public InviteDto(Integer tno, String id) {
         this.tno = tno;
-        this.team_name = team_name;
         this.id = id;
     }
 
@@ -34,20 +33,20 @@ public class InviteDto {
         this.tno = tno;
     }
 
-    public String getTeam_name() {
-        return team_name;
-    }
-
-    public void setTeam_name(String team_name) {
-        this.team_name = team_name;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getReg_date() {
@@ -58,17 +57,25 @@ public class InviteDto {
         this.reg_date = reg_date;
     }
 
+    public Date getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(Date up_date) {
+        this.up_date = up_date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InviteDto inviteDto = (InviteDto) o;
-        return Objects.equals(ino, inviteDto.ino) && Objects.equals(tno, inviteDto.tno) && Objects.equals(team_name, inviteDto.team_name) && Objects.equals(id, inviteDto.id);
+        return Objects.equals(ino, inviteDto.ino) && Objects.equals(tno, inviteDto.tno) && Objects.equals(id, inviteDto.id) && Objects.equals(name, inviteDto.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ino, tno, team_name, id);
+        return Objects.hash(ino, tno, id, name);
     }
 
     @Override
@@ -76,9 +83,9 @@ public class InviteDto {
         return "InviteDto{" +
                 "ino=" + ino +
                 ", tno=" + tno +
-                ", team_name='" + team_name + '\'' +
                 ", id='" + id + '\'' +
                 ", reg_date=" + reg_date +
+                ", up_date=" + up_date +
                 '}';
     }
 }

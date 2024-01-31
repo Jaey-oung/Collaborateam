@@ -14,12 +14,12 @@
         FROM task
     </sql>
 
-    <select id="selectAll" parameterType="map" resultType="TaskDto">
+    <select id="selectAll" parameterType="int" resultType="TaskDto">
         <include refid="selectFromTask"/>
-        WHERE tno = #{tno} and member = #{member}
+        WHERE tno = #{tno}
     </select>
 
-    <delete id="deleteAll" parameterType="int">
+    <delete id="removeAll" parameterType="int">
         DELETE
         FROM task
         WHERE tno = #{tno}
@@ -37,16 +37,21 @@
         WHERE tano = #{tano}
     </select>
 
-    <update id="update" parameterType="TaskDto">
+    <update id="modify" parameterType="TaskDto">
         UPDATE task
         SET name = #{name},
             up_date = now()
-        WHERE tano = #{tano}
+        WHERE tano = #{tano} and member = #{member}
     </update>
 
-    <delete id="delete" parameterType="int">
+    <delete id="remove" parameterType="map">
         DELETE
         FROM task
-        WHERE tano = #{tano}
+        WHERE tano = #{tano} and member = #{member}
     </delete>
+
+    <select id="selectMemberTask" parameterType="map" resultType="TaskDto">
+        <include refid="selectFromTask"/>
+        WHERE tno = #{tno} and member = #{member}
+    </select>
 </mapper>

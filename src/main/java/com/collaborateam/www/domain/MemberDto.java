@@ -7,15 +7,13 @@ public class MemberDto {
     private Integer mno;
     private Integer tno;
     private String id;
-    private String role;
     private Date reg_date;
     private Date up_date;
 
     public MemberDto() {}
-    public MemberDto(Integer tno, String id, String role) {
+    public MemberDto(Integer tno, String id) {
         this.tno = tno;
         this.id = id;
-        this.role = role;
     }
 
     public Integer getMno() {
@@ -42,14 +40,6 @@ public class MemberDto {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public Date getReg_date() {
         return reg_date;
     }
@@ -71,12 +61,12 @@ public class MemberDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberDto memberDto = (MemberDto) o;
-        return Objects.equals(tno, memberDto.tno) && Objects.equals(id, memberDto.id) && Objects.equals(role, memberDto.role);
+        return Objects.equals(mno, memberDto.mno) && Objects.equals(tno, memberDto.tno) && Objects.equals(id, memberDto.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tno, id, role);
+        return Objects.hash(mno, tno, id);
     }
 
     @Override
@@ -85,7 +75,6 @@ public class MemberDto {
                 "mno=" + mno +
                 ", tno=" + tno +
                 ", id='" + id + '\'' +
-                ", role='" + role + '\'' +
                 ", reg_date=" + reg_date +
                 ", up_date=" + up_date +
                 '}';

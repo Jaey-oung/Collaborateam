@@ -44,16 +44,18 @@
         </label>
         <button type="button" id="boardCrtBtn" class="btn">Write</button>
         <c:if test="${loginId eq boardDto.writer}">
-        <button type="button" id="boardUpdBtn" class="btn">Modify</button>
-        <button type="button" id="boardDelBtn" class="btn">Remove</button>
+            <button type="button" id="boardUpdBtn" class="btn">Modify</button>
+            <button type="button" id="boardDelBtn" class="btn">Remove</button>
         </c:if>
         <button type="button" id="boardListBtn" class="btn">List</button>
     </form>
 </div>
-<div id="invite-function">
-    <button type="button" id="inviteBtn" class="btn">Invite</button>
-    <div id="teams"></div>
-</div>
+<c:if test="${loginId ne boardDto.writer}">
+    <div id="invite-function">
+        <button type="button" id="teamInviteBtn" class="btn">Invite</button>
+        <div id="team-list"></div>
+    </div>
+</c:if>
 <div id="comment-function">
     comment: <input type="text" name="comment">
     <button type="button" id="commentCrtBtn">Write</button>
@@ -67,6 +69,7 @@
 </body>
 <script>
     const user = "${loginId}";
+    const writer = "${boardDto.writer}";
     const msg = "${msg}";
     const mode = "${mode}";
     const selectField = "${boardDto.field}";

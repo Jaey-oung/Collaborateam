@@ -3,28 +3,60 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.collaborateam.www.dao.InviteMapper">
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM invite
+    </select>
+
+    <sql id="selectFromInvite">
+        SELECT ino, tno, id, reg_date, up_date
+        FROM invite
+    </sql>
+
+    <select id="selectAll" resultType="InviteDto">
+        <include refid="selectFromInvite"/>
+    </select>
+
+    <delete id="removeAll">
+        DELETE
+        FROM invite
+    </delete>
+
     <insert id="insert" parameterType="InviteDto">
         INSERT INTO invite
-            (tno, team_name, id, reg_date)
+            (tno, id, reg_date, up_date)
         VALUES
-            (#{tno}, #{team_name}, #{id}, now())
+            (#{tno}, #{id}, now(), now())
     </insert>
 
     <select id="select" parameterType="int" resultType="InviteDto">
-        SELECT *
-        FROM invite
+        <include refid="selectFromInvite"/>
         WHERE ino = #{ino}
     </select>
 
-    <delete id="delete" parameterType="int">
+    <update id="modify" parameterType="InviteDto">
+        UPDATE invite
+        SET up_date = now()
+        WHERE ino = #{ino} and id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="map">
         DELETE
         FROM invite
-        WHERE ino = #{ino}
+        WHERE ino = #{ino} and id = #{id}
     </delete>
 
-    <select id="selectByUser" parameterType="String" resultType="InviteDto">
-        SELECT ino, tno, team_name, id, reg_date
+    <select id="selectUserInvite" parameterType="String" resultType="InviteDto">
+    SELECT i.*, t.name
+    FROM invite i
+        JOIN team t ON i.tno = t.tno
+    WHERE i.id = #{id}
+    ORDER BY i.reg_date DESC, i.ino DESC
+    </select>
+
+    <select id="isUserExist" parameterType="map" resultType="int">
+        SELECT count(*)
         FROM invite
-        WHERE id = #{id}
+        WHERE tno = #{tno} and id = #{id}
     </select>
 </mapper>

@@ -7,9 +7,9 @@ import java.util.List;
 public interface GoalService {
     int getCount(Integer tno) throws Exception;
     List<GoalDto> getList(Integer tno) throws Exception;
-    void removeAllGoals(Integer tno);
+    void deleteAll(Integer tno);
     int create(GoalDto goalDto) throws Exception;
     GoalDto read(Integer gno) throws Exception;
-    int modify(GoalDto goalDto) throws Exception;
-    int remove(Integer gno) throws Exception;
+    int update(GoalDto goalDto) throws Exception;
+    int delete(Integer gno) throws Exception;
 }

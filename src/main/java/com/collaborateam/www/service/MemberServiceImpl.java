@@ -24,14 +24,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void removeAllMembers(Integer tno) throws Exception {
-        memberDao.deleteAll(tno);
+    public void deleteAll(Integer tno) throws Exception {
+        memberDao.removeAll(tno);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int create(MemberDto memberDto) throws Exception {
-        return memberDao.exist(memberDto.getTno(), memberDto.getId()) ? 0 : memberDao.insert(memberDto);
+        return memberDao.isUserExist(memberDto.getTno(), memberDto.getId()) ? 0 : memberDao.insert(memberDto);
     }
 
     @Override
@@ -40,17 +40,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int modify(MemberDto memberDto) throws Exception {
-        return memberDao.update(memberDto);
+    public int update(MemberDto memberDto) throws Exception {
+        return memberDao.modify(memberDto);
     }
 
     @Override
-    public int remove(Integer mno, String id) throws Exception {
-        return memberDao.delete(mno, id);
+    public int delete(Integer mno, String id) throws Exception {
+        return memberDao.remove(mno, id);
     }
 
     @Override
-    public boolean exist(Integer tno, String id) throws Exception {
-        return memberDao.exist(tno, id);
+    public int withdraw(Integer tno, String id) throws Exception {
+        return memberDao.leave(tno, id);
     }
 }

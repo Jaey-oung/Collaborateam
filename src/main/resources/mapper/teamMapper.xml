@@ -9,7 +9,7 @@
     </select>
 
     <sql id="selectFromTeam">
-        SELECT tno, leader, name, description, reg_date, up_date
+        SELECT tno, leader, name, detail, reg_date, up_date
         FROM team
     </sql>
 
@@ -17,16 +17,16 @@
         <include refid="selectFromTeam"/>
     </select>
 
-    <delete id="deleteAll">
+    <delete id="removeAll">
         DELETE
         FROM team
     </delete>
 
     <insert id="insert" parameterType="TeamDto" useGeneratedKeys="true" keyProperty="tno">
         INSERT INTO team
-            (leader, name, description, reg_date, up_date)
+            (leader, name, detail, reg_date, up_date)
         VALUES
-            (#{leader}, #{name}, #{description}, now(), now())
+            (#{leader}, #{name}, #{detail}, now(), now())
     </insert>
 
     <select id="select" parameterType="int" resultType="TeamDto">
@@ -34,15 +34,15 @@
         WHERE tno = #{tno}
     </select>
 
-    <update id="update" parameterType="TeamDto">
+    <update id="modify" parameterType="TeamDto">
         UPDATE team
         SET name = #{name},
-            description = #{description},
+            detail = #{detail},
             up_date = now()
         WHERE tno = #{tno} and leader = #{leader}
     </update>
 
-    <delete id="delete" parameterType="map">
+    <delete id="remove" parameterType="map">
         DELETE
         FROM team
         WHERE tno = #{tno} and leader = #{leader}
@@ -64,7 +64,7 @@
         WHERE m.id = #{id}
     </select>
 
-    <select id="getTeam" parameterType="String" resultType="TeamDto">
+    <select id="selectLeaderTeam" parameterType="String" resultType="TeamDto">
         <include refid="selectFromTeam"/>
         WHERE leader = #{id}
     </select>

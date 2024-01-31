@@ -25,8 +25,8 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public int deleteAll(Integer tno) throws Exception {
-        return session.delete(namespace+"deleteAll", tno);
+    public int removeAll(Integer tno) throws Exception {
+        return session.delete(namespace+"removeAll", tno);
     }
 
     @Override
@@ -40,23 +40,31 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public int update(MemberDto memberDto) throws Exception {
-        return session.update(namespace+"update", memberDto);
+    public int modify(MemberDto memberDto) throws Exception {
+        return session.update(namespace+"modify", memberDto);
     }
 
     @Override
-    public int delete(Integer mno, String id) throws Exception {
+    public int remove(Integer mno, String id) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("mno", mno);
         map.put("id", id);
-        return session.delete(namespace+"delete", map);
+        return session.delete(namespace+"remove", map);
     }
 
     @Override
-    public boolean exist(Integer tno, String id) throws Exception {
+    public boolean isUserExist(Integer tno, String id) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("tno", tno);
         map.put("id", id);
-        return (Integer)session.selectOne(namespace+"exist", map) > 0;
+        return (Integer)session.selectOne(namespace+"isUserExist", map) > 0;
+    }
+
+    @Override
+    public int leave(Integer tno, String id) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("tno", tno);
+        map.put("id", id);
+        return session.delete(namespace+"leave", map);
     }
 }

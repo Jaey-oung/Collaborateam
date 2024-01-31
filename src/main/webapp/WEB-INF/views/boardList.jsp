@@ -54,7 +54,7 @@
                 <input type="text" class="search-input" name="keyword" value="<c:out value='${pagination.pc.keyword}'/>" placeholder="Search">
                 <input type="submit" class="search-button" value="Search">
             </form>
-            <button type="button" class="btn-write" id="writeBtn">New Board</button>
+            <button type="button" class="btn-write" id="boardCrtBtn">New Board</button>
         </div>
         <table border="1">
             <tr>

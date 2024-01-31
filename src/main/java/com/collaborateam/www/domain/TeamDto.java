@@ -7,15 +7,15 @@ public class TeamDto {
     private Integer tno;
     private String leader;
     private String name;
-    private String description;
+    private String detail;
     private Date reg_date;
     private Date up_date;
 
     public TeamDto() {}
-    public TeamDto(String leader, String name, String description) {
+    public TeamDto(String leader, String name, String detail) {
         this.leader = leader;
         this.name = name;
-        this.description = description;
+        this.detail = detail;
     }
 
     public Integer getTno() {
@@ -42,12 +42,12 @@ public class TeamDto {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public Date getReg_date() {
@@ -71,13 +71,13 @@ public class TeamDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TeamDto teamDto = (TeamDto) o;
-        return Objects.equals(tno, teamDto.tno) && Objects.equals(leader, teamDto.leader) && Objects.equals(name, teamDto.name) &&
-                Objects.equals(description, teamDto.description);
+        return Objects.equals(tno, teamDto.tno) && Objects.equals(leader, teamDto.leader) &&
+                Objects.equals(name, teamDto.name) && Objects.equals(detail, teamDto.detail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tno, leader, name, description);
+        return Objects.hash(tno, leader, name, detail);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class TeamDto {
                 "tno=" + tno +
                 ", leader='" + leader + '\'' +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", detail='" + detail + '\'' +
                 ", reg_date=" + reg_date +
                 ", up_date=" + up_date +
                 '}';
