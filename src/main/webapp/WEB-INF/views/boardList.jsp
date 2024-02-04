@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/boardList.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value='/js/menu.js'/>"></script>
     <script src="<c:url value='/js/boardList.js'/>"></script>
     <script src="<c:url value='/js/boardFilter.js'/>"></script>
 </head>
@@ -30,6 +31,7 @@
                     <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
                 </ul>
             </div>
+            <div class="hamburger-nav"><i class="bx bx-menu"></i></div>
         </div>
         <div class="board-list">
             <div class="search-container">

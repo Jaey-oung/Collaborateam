@@ -72,7 +72,7 @@ body {
     cursor: pointer;
 }
 
-.modal-content h1 {
+.modal-content h2 {
     font-size: 48px;
     text-align: center;
 }
@@ -144,4 +144,56 @@ td.team:hover {
     font-weight: 600;
     background: rgb(255, 255, 255, 0.5);
     border-radius: 10px;
+}
+
+@media screen and (max-width: 960px) {
+    .team-list {
+        width: 60%;
+        height: 60%;
+        padding: 20px;
+    }
+
+    .team-function {
+        margin : 10px 0;
+        padding: 10px 0;
+    }
+
+    .btn {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+
+    .modal {
+        padding-top: 50px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .close {
+        font-size: 12px;
+    }
+
+    .modal-content h2 {
+        font-size: 16px;
+    }
+
+    #invite-list li {
+        margin: 10px 0;
+    }
+
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .pagination-container {
+        margin-top: 10px;
+    }
+
+    .page {
+        padding: 2px;
+        margin: 0 2px;
+    }
 }

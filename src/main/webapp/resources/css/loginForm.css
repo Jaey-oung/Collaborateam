@@ -78,7 +78,7 @@ body {
 .register {
     font-size: 16px;
     text-align: center;
-    margin: 20px 0 -20px    ;
+    margin: 20px 0 -20px;
 }
 
 .register p a {
@@ -88,4 +88,30 @@ body {
 
 .register p a:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 960px) {
+    .login {
+        width: 300px;
+        padding: 30px;
+    }
+
+    .login h1 {
+        font-size: 36px;
+    }
+
+    .input {
+        height: 40px;
+        margin: 10px 0;
+    }
+
+    .remember {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    .register {
+        font-size: 12px;
+        margin: 10px 0 -10px;
+    }
 }

@@ -58,7 +58,7 @@ body {
     cursor: pointer;
 }
 
-.modal-content h1 {
+.modal-content h2 {
     font-size: 48px;
     text-align: center;
 }
@@ -168,4 +168,78 @@ textarea {
 
 .reg-date {
     font-size: 16px;
+}
+
+@media screen and (max-width: 960px) {
+    .board {
+        padding: 20px;
+    }
+
+    .modal {
+        padding-top: 50px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .close {
+        font-size: 12px;
+    }
+
+    .modal-content h2 {
+        font-size: 16px;
+    }
+
+    #team-list li {
+        margin: 10px 0;
+    }
+
+    #teamSelectBtn {
+        padding: 5px 10px;
+        font-size: 8px;
+    }
+
+    h2 {
+        font-size: 10px;
+        margin: 5px 0;
+    }
+
+    .board-container input, .board-container select {
+        height: 20px;
+        margin: 5px 0;
+        padding: 2px;
+    }
+
+    textarea {
+        height: 40px;
+        margin: 5px 0;
+        padding: 2px;
+    }
+
+    .btn {
+        padding: 2px 6px;
+        font-size: 8px;
+    }
+
+    #comment-list li {
+        margin: 5px 0;
+        padding: 5px;
+    }
+
+    .commenter {
+        font-size: 18px;
+    }
+
+    .comment {
+        font-size: 12px;
+    }
+
+    .comment-detail {
+        padding: 5px 0;
+    }
+
+    .reg-date {
+        font-size: 8px;
+    }
 }

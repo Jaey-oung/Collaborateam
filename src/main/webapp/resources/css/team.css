@@ -91,20 +91,40 @@ h2 {
     margin: 0 5px;
 }
 
-/*.commenter {*/
-/*    font-size: 36px;*/
-/*    font-weight: 600;*/
-/*}*/
+@media screen and (max-width: 960px) {
+    .team {
+        padding: 20px;
+    }
 
-/*.comment {*/
-/*    font-size: 18px;*/
-/*    font-weight: 400;*/
-/*}*/
+    .team-container input {
+        height: 20px;
+        margin: 5px 0;
+        padding: 2px;
+    }
 
-/*.comment-detail {*/
-/*    padding: 10px 0;*/
-/*}*/
+    textarea {
+        height: 40px;
+        margin: 5px 0;
+        padding: 2px;
+    }
 
-/*.reg-date {*/
-/*    font-size: 16px;*/
-/*}*/
+    .btn {
+        padding: 2px 6px;
+        font-size: 8px;
+    }
+
+    h2 {
+        font-size: 10px;
+        margin: 5px 0;
+    }
+
+    #member-list li, #goal-list li {
+        margin: 5px 0;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    #member-list li > button {
+        margin: 0 5px;
+    }
+}

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/board.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value='/js/menu.js'/>"></script>
     <script src="<c:url value='/js/board.js'/>"></script>
     <script src="<c:url value='/js/boardFilter.js'/>"></script>
 </head>
@@ -27,6 +28,7 @@
                     <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
                 </ul>
             </div>
+            <div class="hamburger-nav"><i class="bx bx-menu"></i></div>
         </div>
         <div class="board">
             <div class="board-container">
@@ -41,7 +43,7 @@
                                 <div class="modal">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <h1>Team List</h1>
+                                        <h2>Team List</h2>
                                         <div id="team-list"></div>
                                     </div>
                                 </div>

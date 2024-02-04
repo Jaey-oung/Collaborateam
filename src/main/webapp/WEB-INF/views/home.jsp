@@ -8,9 +8,11 @@
 <head>
 	<meta charset="UTF-8">
     <title>Home</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/home.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value='/js/menu.js'/>"></script>
     <script src="<c:url value='/js/home.js'/>"></script>
 </head>
 <body>
@@ -25,6 +27,7 @@
                     <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
                 </ul>
             </div>
+            <div class="hamburger-nav"><i class="bx bx-menu"></i></div>
         </div>
         <div class="container">
             <h2>Together, We Achieve More</h2>

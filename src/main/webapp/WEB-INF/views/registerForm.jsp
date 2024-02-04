@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<c:set var="loginId" value="${sessionScope.id}"/>
+<c:set var="loginInOut" value="${empty loginId ? 'Login' : 'Logout'}"/>
+<c:set var="loginInOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +14,7 @@
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/registerForm.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value='/js/menu.js'/>"></script>
     <script src="<c:url value='/js/registerForm.js'/>"></script>
 </head>
 <body>
@@ -25,6 +29,7 @@
                     <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
                 </ul>
             </div>
+            <div class="hamburger-nav"><i class="bx bx-menu"></i></div>
         </div>
     </div>
     <div class="signup">
