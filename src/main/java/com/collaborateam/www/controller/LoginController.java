@@ -3,6 +3,7 @@ package com.collaborateam.www.controller;
 import com.collaborateam.www.domain.UserDto;
 import com.collaborateam.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String loginForm() {
@@ -66,6 +69,6 @@ public class LoginController {
         } catch (Exception e) {
             return false;
         }
-        return userDto!=null && userDto.getPwd().equals(pwd);
+        return userDto!=null && passwordEncoder.matches(pwd, userDto.getPwd());
     }
 }

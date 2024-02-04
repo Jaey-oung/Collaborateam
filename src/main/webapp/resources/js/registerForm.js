@@ -1,7 +1,6 @@
 $(document).ready(function() {
     displayMsg(msg);
     displayErr(err);
-
     formatDate();
 });
 

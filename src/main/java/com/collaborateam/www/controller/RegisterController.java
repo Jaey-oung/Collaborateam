@@ -4,6 +4,7 @@ import com.collaborateam.www.domain.UserDto;
 import com.collaborateam.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import java.util.Date;
 public class RegisterController {
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @InitBinder
     public void toDate(WebDataBinder binder) {  // Text -> Date
@@ -43,6 +46,9 @@ public class RegisterController {
         }
 
         try {
+            String encodedPassword = passwordEncoder.encode(userDto.getPwd());
+            userDto.setPwd(encodedPassword);
+
             int rowCnt = userService.create(userDto);
 
             if(rowCnt != 1)
