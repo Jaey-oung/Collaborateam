@@ -1,34 +1,29 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-}
-
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f0f0f0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/collaborateam/img/registerForm.jpg") no-repeat;
+    background-size: cover;
 }
 
-.wrapper {
-    width: 560px;
-    border: 4px solid rgb(65, 105, 225, 0.5);
+.signup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    border: 2px solid rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 40px;
-    background: #fff;
-    text-align: center;
+    background: transparent;
+    color: white;
 }
 
-.wrapper h1 {
+.signup h1 {
     font-size: 48px;
     text-align: center;
 }
 
-.wrapper #error-container {
+#error-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,14 +32,14 @@ body {
     color: rgb(255, 0, 0);
 }
 
-.wrapper .input {
+.input {
     position: relative;
     width: 100%;
     height: 50px;
     margin: 20px 0;
 }
 
-.wrapper .input input, .wrapper .input .birth {
+.input input, .input .birth {
     width: 100%;
     height: 100%;
     border: 2px solid rgba(0, 0, 0, .2);
@@ -53,31 +48,19 @@ body {
     padding: 0 60px;
 }
 
-.wrapper i {
+.signup i {
     font-size: 24px;
 }
 
-.wrapper .input i {
+.input i {
     position: absolute;
     top: 50%;
     left: 20px;
     transform: translateY(-50%);
+    color: black;
 }
 
-.wrapper .input .birth {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10%;
-}
-
-.wrapper .input .birth select {
-    height: 20px;
-    border: 2px solid rgba(0, 0, 0, .2);
-    border-radius: 10px;
-}
-
-.wrapper #submitBtn {
+#submitBtn {
     width: 100%;
     height: 100%;
     background: #fff;
@@ -91,7 +74,7 @@ body {
     padding: 10px 20px;
 }
 
-.wrapper #submitBtn:hover {
-    background: rgb(65, 105, 225, 0.5);
+#submitBtn:hover {
     color: #fff;
+    background: #6495ED;
 }

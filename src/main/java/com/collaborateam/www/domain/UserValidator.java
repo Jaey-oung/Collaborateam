@@ -4,6 +4,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class UserValidator implements Validator {
@@ -18,6 +19,7 @@ public class UserValidator implements Validator {
 
         String id = userDto.getId();
         String pwd = userDto.getPwd();
+        Date birth = userDto.getBirth();
 
         Pattern idPattern = Pattern.compile("^[a-zA-Z0-9]+$");
         Pattern pwdPattern = Pattern.compile("(?=.*[0-9])(?=.*[!@#$%^&*()])(?=.*[a-zA-Z])");
@@ -27,6 +29,11 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pwd", "required");
         if (errors.hasErrors()) return;
+
+        if (birth == null) {
+            errors.rejectValue("birth", "required");
+            return;
+        }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
         if (errors.hasErrors()) return;

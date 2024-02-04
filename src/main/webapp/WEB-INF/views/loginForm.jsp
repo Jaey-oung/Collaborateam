@@ -7,12 +7,26 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/loginForm.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="<c:url value='/js/loginForm.js'/>"></script>
 </head>
 <body>
     <div class="wrapper">
+        <div class="header">
+            <h1><a href="<c:url value='/'/>">Collaborateam</a></h1>
+            <div class="nav">
+                <ul>
+                    <li><a href="<c:url value='/'/>">Home</a></li>
+                    <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
+                    <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
+                    <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="login">
         <form action="<c:url value='/login/login'/>" method="post">
             <h1>Login</h1>
             <div class="input">
@@ -37,7 +51,7 @@
             </div>
             <button type="submit" id="loginBtn">Login</button>
             <div class="register">
-                <p>Don't have an account? <a href="<c:url value='/register/add'/>">Register</a></p>
+                <p>Don't have an account? <a href="<c:url value='/register/create'/>">Register</a></p>
             </div>
         </form>
     </div>

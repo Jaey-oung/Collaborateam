@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
@@ -7,63 +8,67 @@
     <meta charset="UTF-8">
     <title>Sign Up</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/registerForm.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="<c:url value='/js/registerForm.js'/>"></script>
 </head>
 <body>
     <div class="wrapper">
+        <div class="header">
+            <h1><a href="<c:url value='/'/>">Collaborateam</a></h1>
+            <div class="nav">
+                <ul>
+                    <li><a href="<c:url value='/'/>">Home</a></li>
+                    <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
+                    <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
+                    <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="signup">
         <form:form id="registerForm" modelAttribute="userDto">
             <h1>Sign Up</h1>
             <div id="error-container">
                 <div id="error">
                     <form:errors path="id"/>
                     <form:errors path="pwd"/>
+                    <form:errors path="birth"/>
                     <form:errors path="name"/>
                 </div>
             </div>
             <div class="input">
                 <label>
-                    <input type="text" name="id" value="<c:out value='${userDto.id}'/>" placeholder="Minimum 8 characters" required>
+                    <input type="text" name="id" value="<c:out value='${userDto.id}'/>" placeholder="ID" required>
                     <i class="bx bxs-user"></i>
                 </label>
             </div>
             <div class="input">
                 <label>
-                    <input type="password" name="pwd" value="<c:out value='${userDto.pwd}'/>" placeholder="Minimum 8 characters with a number and a letter" required>
+                    <input type="password" name="pwd" value="<c:out value='${userDto.pwd}'/>" placeholder="Password" required>
                     <i class="bx bxs-lock-alt"></i>
                 </label>
             </div>
             <div class="input">
-                <div class="birth">
+                <label>
                     <i class="bx bx-cake"></i>
-                    <label for="year">
-                        <select id="year" name="year"></select>
-                    </label>
-                    <label for="month">
-                        <select id="month" name="month"></select>
-                    </label>
-                    <label for="day">
-                        <select id="day" name="day"></select>
-                    </label>
-                </div>
+                    <input type="date" name="birth" value="<fmt:formatDate value="${userDto.birth}" pattern="yyyy-MM-dd"/>" required>
+                </label>
             </div>
             <div class="input">
                 <label>
-                    <input type="email" name="email" value="<c:out value='${userDto.email}'/>" placeholder="example@example.com">
+                    <input type="email" name="email" value="<c:out value='${userDto.email}'/>" placeholder="Email">
                     <i class="bx bx-envelope"></i>
                 </label>
             </div>
             <div class="input">
                 <label>
-                    <input type="text" name="name" value="<c:out value='${userDto.name}'/>" placeholder="Please enter your name" required>
+                    <input type="text" name="name" value="<c:out value='${userDto.name}'/>" placeholder="Name" required>
                     <i class="bx bx-id-card"></i>
                 </label>
             </div>
-            <label>
-                <input type="hidden" id="birth" name="birth">
-            </label>
-            <button type="button" id="submitBtn">Sign Up</button>
+            <button type="submit" id="submitBtn">Sign Up</button>
         </form:form>
     </div>
 </body>

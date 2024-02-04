@@ -16,12 +16,12 @@ function displayMsg(msg) {
 
 function teamCrtMode() {
     $("input[name=name]").attr("readonly", false);
-    $("input[name=detail]").attr("readonly", false);
+    $("textarea[name=detail]").attr("readonly", false);
     $("input[name=tno]").hide();
-    $("input[name=leader]").hide();
+    $(".leader").hide();
     $("#teamWithdrawBtn").hide();
-    $("#goal-function").hide();
-    $("#task-function").hide();
+    $(".goal-container").hide();
+    $(".task-container").hide();
 }
 
 function teamReadMode() {
@@ -39,13 +39,16 @@ function setUpBtnClickEvents() {
 
     $("#teamUpdBtn").on("click", function() {
         let name = $("input[name=name]");
-        let detail = $("input[name=detail]");
+        let detail = $("textarea[name=detail]");
 
         if(name.attr("readonly") && detail.attr("readonly")) {
             name.attr("readonly", false);
             detail.attr("readonly", false);
             $("#teamUpdBtn").html("Write");
             $("#teamDelBtn").hide();
+            $("#teamWithdrawBtn").hide();
+            $(".task-container").hide();
+            $(".goal-container").hide();
         } else {
             submitForm("/collaborateam/team/update");
         }
@@ -79,20 +82,24 @@ function setUpBtnClickEvents() {
     });
 
     $("#member-list").on("click", "#dynTaskCrtBtn", function() {
-        $("#task-function").insertAfter($(this));
-        $("#task-function").show();
+        let memberValue = $(this).closest("li").find("span.member").text()
+
+        $("#task-function").hide();
         $("#taskUpdBtn").hide();
+        $("#task-function").show();
+        $("#taskCrtBtn").show();
+        $("#taskCrtBtn").attr("data-member", memberValue);
     });
 
     $("#member-list").on("click", "#dynMemberDelBtn", function () {
         let mnoValue= $(this).parent().attr("data-mno");
-        let idValue = $(this).parent().attr("data-id");
+        let memberValue = $(this).closest("li").find("span.member").text();
 
         if(!confirm("Would you like to delete this member?")) return;
 
         $.ajax({
             type: "DELETE",
-            url: "/collaborateam/members/delete/"+mnoValue+"?id="+idValue,
+            url: "/collaborateam/members/delete/"+mnoValue+"?id="+memberValue,
             success: function(result){
                 alert(result);
                 displayMemberList()
@@ -105,7 +112,7 @@ function setUpBtnClickEvents() {
 
     $("#taskCrtBtn").on("click", function() {
         let tnoValue = $("input[name=tno]").val();
-        let memberValue = $(this).closest("li").find("span.member").text();
+        let memberValue = $(this).attr("data-member");
         let taskValue = $("input[name=task]").val();
 
         if(taskValue.trim() === "") {
@@ -129,13 +136,13 @@ function setUpBtnClickEvents() {
         });
 
         $("input[name=task]").val("");
-        $("#task-function").appendTo("body");
+        $("#task-function").insertBefore(".member-list");
         $("#task-function").hide();
     });
 
     $("#member-list").on("click", "#dynTaskListBtn", function () {
         let tnoValue = $("input[name=tno]").val();
-        let memberValue = $("span.member", $(this).parent()).text();
+        let memberValue = $(this).closest("li").find("span.member").text();
         let taskListDir = $(".task-list", $(this).parent())
 
         if (taskListDir.html().trim() !== "") {
@@ -156,21 +163,23 @@ function setUpBtnClickEvents() {
     });
 
     $("#member-list").on("click", ".dynTaskUpdBtn", function () {
-        let tanoValue = $(this).parent().attr("data-tano")
-        let taskValue = $("span.task", $(this).parent()).text();
+        let tanoValue = $(this).closest("li").attr("data-tano")
+        let taskValue = $(this).closest("li").find("span.task").text();
+        let memberValue = $(this).closest("ul").closest("li").find("span.member").text();
 
+        $("#task-function").hide();
+        $("#taskUpdBtn").attr("data-member", memberValue);
         $("input[name=task]").attr("data-tano", tanoValue);
         $("input[name=task]").val(taskValue);
-        $("#task-function").insertBefore($(this).parent());
         $("#task-function").show();
         $("#taskCrtBtn").hide();
-        $("#taskUpdBtn").html("Write");
+        $("#taskUpdBtn").show();
     });
 
     $("#taskUpdBtn").on("click", function () {
         let tanoValue = $("input[name=task]").attr("data-tano");
-        let memberValue = $(this).closest("li").find("span.member").text();
         let taskValue = $("input[name=task]").val();
+        let memberValue = $(this).attr("data-member");
 
         if(taskValue.trim()==="") {
             alert("Write the task");
@@ -191,11 +200,14 @@ function setUpBtnClickEvents() {
                 alert(jqXHR.responseText);
             }
         });
+
+        $("input[name=task]").val("");
+        $("#task-function").hide();
     })
 
     $("#member-list").on("click", ".dynTaskDelBtn", function () {
-        let tanoValue = $(this).parent().attr("data-tano");
-        let memberValue = $(this).parent().parent().closest("li").find("span.member").text();
+        let tanoValue = $(this).closest("li").attr("data-tano");
+        let memberValue = $(this).closest("ul").closest("li").find("span.member").text();
 
         if(!confirm("Would you like to delete this task?")) return;
 
@@ -317,11 +329,11 @@ function formatMember(members) {
 
     members.forEach(function(member) {
         tmp += "<li data-mno=" + member.mno + ">"
-        tmp += " member : <span class='member'>" + member.id + "</span>"
-        tmp += "<button type='button' id='dynTaskListBtn' class='btn'>Show Task List</button>"
-        tmp += "<button type='button' id='dynTaskCrtBtn' class='btn'>New Task</button>"
+        tmp += " Member : <span class='member'>" + member.id + "</span>"
+        tmp += "<button type='button' id='dynTaskListBtn' class='btn'><i class='bx bx-show'></i>Show Task List</button>"
+        tmp += "<button type='button' id='dynTaskCrtBtn' class='btn'><i class='bx bx-pencil'></i>New Task</button>"
         if(leaderValue === user && leaderValue !== member.id)
-            tmp += " <button type='button' id='dynMemberDelBtn' class='btn'>Remove</button>"
+            tmp += " <button type='button' id='dynMemberDelBtn' class='btn'><i class='bx bx-trash'></i>Remove</button>"
         tmp += "<div class='task-list'></div>"
         tmp += "</li>"
     })
@@ -335,11 +347,12 @@ function formatTask(tasks)   {
     tasks.forEach(function(task) {
         tmp += "<ul>"
         tmp += "<li data-tano=" + task.tano + ">"
-        tmp += "-> task : <span class='task'>" + task.name + "</span>"
+        tmp += "<i class='bx bx-subdirectory-right'></i> Task : <span class='task'>" + task.name + "</span>"
+        tmp += "<div class='task-btn'>"
         tmp += " <button type='button' class='btn dynTaskUpdBtn'>Modify</button>"
         tmp += " <button type='button' class='btn dynTaskDelBtn'>Remove</button>"
         tmp += "</li>"
-        tmp += "</ul>"
+        tmp += "</div></ul>"
     })
     return tmp
 }
@@ -362,7 +375,7 @@ function formatGoal(goals) {
 
     goals.forEach(function(goal) {
         tmp += "<li data-gno=" + goal.gno + ">"
-        tmp += " goal : <span class='goal'>" + goal.name + "</span>"
+        tmp += " <i class='bx bx-subdirectory-right'></i>Goal : <span class='goal'>" + goal.name + "</span>"
         tmp += " <button type='button' id='dynGoalUpdBtn' class='btn'>Modify</button>"
         tmp += " <button type='button' id='dynGoalDelBtn' class='btn'>Remove</button>"
         tmp += "</li>"

@@ -15,11 +15,12 @@ function displayMsg(msg) {
 
 function boardCrtMode() {
     $("input[name=title]").attr("readonly", false);
-    $("input[name=content]").attr("readonly", false);
+    $("textarea[name=content]").attr("readonly", false);
+    $("input[name=writer]").closest("label").hide();
     $("input[name=writer]").hide();
     $("input[name=bno]").hide();
     $("#invite-function").hide();
-    $("#comment-function").hide();
+    $(".comment-container").hide();
 }
 
 function boardReadMode() {
@@ -38,14 +39,14 @@ function setUpBtnClickEvents() {
 
     $("#boardUpdBtn").on("click", function() {
         let title = $("input[name=title]");
-        let content = $("input[name=content]");
+        let content = $("textarea[name=content]");
 
         if(title.attr("readonly") && content.attr("readonly")) {
             $("#field").attr("disabled", false);
             $("#spec").attr("disabled", false);
             title.attr("readonly", false);
             content.attr("readonly", false);
-            $("#boardUpdBtn").html("Write");
+            $("#boardUpdBtn").html('<i class="bx bx-pencil"></i>Write');
             $("#boardDelBtn").hide();
         } else {
             submitForm("/collaborateam/board/update");
@@ -62,6 +63,9 @@ function setUpBtnClickEvents() {
     });
 
     $("#teamInviteBtn").on("click", function() {
+        $(".modal").show();
+        $(".close").show();
+
         $.ajax({
             type: "GET",
             url: "/collaborateam/team/teams",
@@ -72,6 +76,10 @@ function setUpBtnClickEvents() {
                 alert(jqXHR.responseText);
             }
         });
+    });
+
+    $(".close").on("click", function () {
+        $(".modal").hide();
     });
 
     $("#team-list").on("click", "li", function() {
@@ -94,15 +102,17 @@ function setUpBtnClickEvents() {
                 alert(jqXHR.responseText);
             }
         });
+
+        $(".modal").hide();
     })
 
     $("#commentCrtBtn").on("click", function() {
         let bnoValue = $("input[name=bno]").val();
-        let commentValue = $("input[name=comment]").val();
+        let commentValue = $("textarea[name=comment]").val();
 
         if(commentValue.trim()==="") {
             alert("Write the comment");
-            $("input[name=comment]").focus();
+            $("textarea[name=comment]").focus();
             return;
         }
 
@@ -120,26 +130,27 @@ function setUpBtnClickEvents() {
             }
         });
 
-        $("input[name=comment]").val("");
+        $("textarea[name=comment]").val("");
     });
 
     $("#comment-list").on("click", "#dynCommentUpdBtn", function() {
-        let cnoValue = $(this).parent().attr("data-cno");
-        let commentValue = $("span.comment", $(this).parent()).text();
+        let cnoValue = $(this).parent().parent().attr("data-cno");
+        let commentValue = $(this).closest(".comment-item").find(".comment").text();
 
         $("#commentCrtBtn").hide();
         $("#commentUpdBtn").show();
-        $("input[name=comment]").val(commentValue);
+        $("textarea[name=comment]").val(commentValue);
         $("#commentUpdBtn").attr("data-cno", cnoValue);
+
     });
 
     $("#commentUpdBtn").on("click", function() {
         let cnoValue = $(this).attr("data-cno");
-        let commentValue = $("input[name=comment]").val();
+        let commentValue = $("textarea[name=comment]").val();
 
         if(commentValue.trim() === "") {
             alert("Write the comment");
-            $("input[name=comment]").focus();
+            $("textarea[name=comment]").focus();
             return;
         }
 
@@ -156,11 +167,13 @@ function setUpBtnClickEvents() {
                 alert(jqXHR.responseText);
             }
         });
+
+        $("textarea[name=comment]").val("");
     });
 
     $("#comment-list").on("click", "#dynCommentDelBtn", function() {
-        let cnoValue = $(this).parent().attr("data-cno");
-        let bnoValue = $(this).parent().attr("data-bno");
+        let cnoValue = $(this).closest(".comment-item").attr("data-cno");
+        let bnoValue = $(this).closest(".comment-item").attr("data-bno");
 
         if(!confirm("Would you like to delete the comment?")) return;
 
@@ -178,18 +191,18 @@ function setUpBtnClickEvents() {
     });
 
     $("#comment-list").on("click", "#dynCommentRepBtn", function() {
-        $("#comment-reply").appendTo($(this).parent());
         $("#comment-reply").show();
+        $("#comment-reply").appendTo($(this).parent());
     });
 
     $("#commentRepCrtBtn").on("click", function() {
         let bnoValue = $("input[name=bno]").val();
-        let pcnoValue = $("#comment-reply").parent().attr("data-pcno");
-        let commentValue = $("input[name=commentRep]").val();
+        let pcnoValue = $(this).closest(".comment-item").attr("data-pcno");
+        let commentValue = $("textarea[name=commentRep]").val();
 
         if(commentValue.trim() === "") {
             alert("Write the comment");
-            $("input[name=commentRep]").focus();
+            $("textarea[name=commentRep]").focus();
             return;
         }
 
@@ -207,7 +220,7 @@ function setUpBtnClickEvents() {
             }
         });
 
-        $("input[name=commentRep]").val("");
+        $("textarea[name=commentRep]").val("");
         $("#comment-reply").appendTo("body");
         $("#comment-reply").hide();
     });
@@ -215,7 +228,7 @@ function setUpBtnClickEvents() {
 
 function isBoardEmpty() {
     let titleValue = $("input[name=title]").val().trim();
-    let contentValue = $("input[name=content]").val().trim();
+    let contentValue = $("textarea[name=content]").val().trim();
 
     if (titleValue === "" || contentValue === "") {
         alert("Please fill in the empty field");
@@ -236,11 +249,11 @@ function formatTeam(teams) {
 
     teams.forEach(function(team) {
         tmp += "<li data-tno=" + team.tno + ">"
-        tmp += " team : <span class='team'>" + team.name + "</span>"
+        tmp += " <div class='team'>" + team.name + "</div>"
         tmp += "</li>"
     })
     tmp += "</ul>"
-    tmp += "<button type='button' id='teamSelectBtn' class='btn'>Confirm</button>"
+    tmp += "<button type='button' id='teamSelectBtn'>Confirm</button>"
     return tmp
 }
 
@@ -264,25 +277,40 @@ function formatComment(comments) {
     let tmp = "<ul>";
 
     comments.forEach(function(comment) {
-        tmp += "<li data-cno=" + comment.cno
+        tmp += "<li class='comment-item' data-cno=" + comment.cno
         tmp += " data-bno=" + comment.bno
         tmp += " data-pcno=" + comment.pcno + ">"
-
+        tmp += " <div class='commenter'>"
         if(comment.cno !== comment.pcno)
-            tmp += '->';
-
-        tmp += " comment=<span class='comment'>" + comment.comment + "</span>"
-        tmp += " commenter=<span class='commenter'>" + comment.commenter + "</span>"
-        tmp += " up_date=" + comment.up_date
+            tmp += "<i class='bx bx-subdirectory-right'></i>";
+        tmp += comment.commenter + "</div>"
+        tmp += " <div class='comment'>" + comment.comment + "</div>"
+        tmp += " <div class='comment-detail'>"
+        tmp += " <span class='reg-date'>" + formatDate(comment.up_date) + "</span>"
+        tmp += " <button class='btn' id='dynCommentRepBtn'><i class='bx bx-chat'></i>Reply</button>"
 
         if(user === comment.commenter) {
-            tmp += " <button id='dynCommentDelBtn'>Remove</button>"
-            tmp += " <button id='dynCommentUpdBtn'>Modify</button>"
+            tmp += " <button class='btn' id='dynCommentUpdBtn'><i class='bx bx-edit'></i>Modify</button>"
+            tmp += " <button class='btn' id='dynCommentDelBtn'><i class='bx bx-trash'></i>Remove</button>"
         }
 
-        tmp += " <button id='dynCommentRepBtn'>Reply</button>"
-        tmp += "</li>"
+        tmp += "</div></li>"
     });
     tmp += "</ul>";
     return tmp;
+}
+
+function addZero(value) {
+    return value > 9 ? value : "0" + value;
+}
+
+function formatDate(ms) {
+    let date = new Date(ms);
+    let yyyy = date.getFullYear();
+    let mm = addZero(date.getMonth() + 1);
+    let dd = addZero(date.getDate());
+    let HH = addZero(date.getHours());
+    let MM = addZero(date.getMinutes());
+    let ss = addZero(date.getSeconds());
+    return yyyy + "." + mm + "." + dd + " " + HH + ":" + MM + ":" + ss;
 }

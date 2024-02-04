@@ -1,0 +1,42 @@
+.wrapper {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/collaborateam/img/home.jpg") no-repeat;
+    background-size: cover;
+}
+
+.container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+}
+
+.container h2 {
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.container p {
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.container button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    color: white;
+    font-weight: 600;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    outline: none;
+    cursor: pointer;
+    transition: all .4s;
+}
+
+.container button:hover {
+    background-color: rgba(255, 255, 255, 0.8   );
+    color: #6495ED;
+}

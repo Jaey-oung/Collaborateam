@@ -8,33 +8,32 @@
 <head>
 	<meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/home.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <script src="<c:url value='/js/home.js'/>"></script>
 </head>
 <body>
-<div>
-    <ul>
-        <li><a href="<c:url value='/'/>">Logo</a></li>
-        <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
-        <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
-        <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
-        ${loginId}
-    </ul>
-</div>
-<div>
-    <h1>This is HOME</h1>
-    <h1>This is HOME</h1>
-    <h1>This is HOME</h1>
-</div>
+    <div class="wrapper">
+        <div class="header">
+            <h1><a href="<c:url value='/'/>">Collaborateam</a></h1>
+            <div class="nav">
+                <ul>
+                    <li><a href="<c:url value='/'/>">Home</a></li>
+                    <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
+                    <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
+                    <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Together, We Achieve More</h2>
+            <p>Become a Member and Enhance Your Collaborative Skills</p>
+            <button id="joinBtn">Join Us</button>
+        </div>
+    </div>
 </body>
 <script>
-    $(document).ready(function() {
-        let msg = "${msg}";
-
-        if(msg === "SIGN_UP_OK") {
-            alert("Successfully created the user")
-        }
-    })
+    const msg = "${msg}";
 </script>
 </html>

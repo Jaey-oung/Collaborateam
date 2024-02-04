@@ -27,7 +27,7 @@ public class RegisterController {
     @InitBinder
     public void toDate(WebDataBinder binder) {  // Text -> Date
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(df, false));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
     }
 
     @GetMapping("/create")

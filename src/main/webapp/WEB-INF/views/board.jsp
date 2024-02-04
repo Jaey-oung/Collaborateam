@@ -8,64 +8,101 @@
 <head>
     <meta charset="UTF-8">
     <title>Board</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/board.css'/>">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="<c:url value='/js/board.js'/>"></script>
     <script src="<c:url value='/js/boardFilter.js'/>"></script>
 </head>
 <body>
-<div>
-    <ul>
-        <li><a href="<c:url value='/'/>">Logo</a></li>
-        <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
-        <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
-        <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
-        ${loginId}
-    </ul>
-</div>
-<div>
-    <form id="form">
-        <label>
-            <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
-        </label>
-        <label for="field">
-            <select name="field" id="field"></select>
-        </label>
-        <label for="spec">
-            <select name="spec" id="spec"></select>
-        </label>
-        <input type="hidden" name="bno" value="<c:out value='${boardDto.bno}'/>">
-        <label>
-            <input type="text" name="title" value="<c:out value='${boardDto.title}'/>" placeholder="title" readonly>
-        </label>
-        <label>
-            <input type="text" name="content" value="<c:out value='${boardDto.content}'/>" placeholder="content" readonly>
-        </label>
-        <button type="button" id="boardCrtBtn" class="btn">Write</button>
-        <c:if test="${loginId eq boardDto.writer}">
-            <button type="button" id="boardUpdBtn" class="btn">Modify</button>
-            <button type="button" id="boardDelBtn" class="btn">Remove</button>
-        </c:if>
-        <button type="button" id="boardListBtn" class="btn">List</button>
-    </form>
-</div>
-<c:if test="${loginId ne boardDto.writer}">
-    <div id="invite-function">
-        <button type="button" id="teamInviteBtn" class="btn">Invite</button>
-        <div id="team-list"></div>
+    <div class="wrapper">
+        <div class="header">
+            <h1><a href="<c:url value='/'/>">Collaborateam</a></h1>
+            <div class="nav">
+                <ul>
+                    <li><a href="<c:url value='/'/>">Home</a></li>
+                    <li><a href="<c:url value='/board/list'/>">Team Building</a></li>
+                    <li><a href="<c:url value='/team/list'/>">Team Management</a></li>
+                    <li><a href="<c:url value='${loginInOutLink}'/>"><c:out value="${loginInOut}"/></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-container">
+                <div class="board-btn">
+                    <div class="left-btn">
+                        <button type="button" id="boardListBtn" class="btn"><i class="bx bx-left-arrow-alt"></i>List</button>
+                    </div>
+                    <div class="center-btn">
+                        <c:if test="${loginId ne boardDto.writer}">
+                            <div id="invite-function">
+                                <button type="button" id="teamInviteBtn" class="btn"><i class="bx bx-envelope"></i>Invite</button>
+                                <div class="modal">
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <h1>Team List</h1>
+                                        <div id="team-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </div>
+                    <div class="right-btn">
+                        <button type="button" id="boardCrtBtn" class="btn"><i class="bx bx-pencil"></i>Write</button>
+                        <c:if test="${loginId eq boardDto.writer}">
+                            <button type="button" id="boardUpdBtn" class="btn"><i class="bx bx-edit"></i>Modify</button>
+                            <button type="button" id="boardDelBtn" class="btn"><i class="bx bx-trash"></i>Remove</button>
+                        </c:if>
+                    </div>
+                </div>
+                <div class="board-container">
+                    <form id="form">
+                        <label>
+                            <h2>Writer</h2>
+                            <input type="text" name="writer" value="<c:out value='${boardDto.writer}'/>" readonly>
+                        </label>
+                        <div class="board-option">
+                            <label for="field">
+                                <h2>Field</h2>
+                                <select name="field" id="field"></select>
+                            </label>
+                            <label for="spec">
+                                <h2>Specialization</h2>
+                                <select name="spec" id="spec"></select>
+                            </label>
+                        </div>
+                        <input type="hidden" name="bno" value="<c:out value='${boardDto.bno}'/>">
+                        <label>
+                            <h2>Title</h2>
+                            <input type="text" name="title" value="<c:out value='${boardDto.title}'/>" placeholder="Title" readonly>
+                        </label>
+                        <label>
+                            <h2>Content</h2>
+                            <textarea name="content" placeholder="Content" readonly><c:out value="${boardDto.content}"/></textarea>
+                        </label>
+                    </form>
+                    <div class="comment-container">
+                        <div id="comment-function">
+                            <label>
+                                <h2>Comment</h2>
+                                <textarea name="comment" placeholder="Write the comment"></textarea>
+                            </label>
+                            <button type="button" class="btn" id="commentCrtBtn"><i class="bx bx-pencil"></i>Write</button>
+                            <button type="button" class="btn" id="commentUpdBtn"><i class="bx bx-pencil"></i>Write</button>
+                        </div>
+                        <div id="comment-list"></div>
+                        <div id="comment-reply">
+                            <label>
+                                <textarea name="commentRep" placeholder="Write the comment"></textarea>
+                            </label>
+                            <button type="button" class="btn" id="commentRepCrtBtn"><i class="bx bx-pencil"></i>Write</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</c:if>
-<div id="comment-function">
-    comment: <input type="text" name="comment">
-    <button type="button" id="commentCrtBtn">Write</button>
-    <button type="button" id="commentUpdBtn">Write</button>
-    <div id="comment-list"></div>
-    <div id="comment-reply">
-        <input type="text" name="commentRep">
-        <button type="button" id="commentRepCrtBtn">Write</button>
-    </div>
-</div>
 </body>
 <script>
     const user = "${loginId}";

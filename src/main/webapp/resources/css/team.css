@@ -1,0 +1,110 @@
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/collaborateam/img/board.jpg");
+    background-size: cover;
+}
+
+.team {
+    width: 80%;
+    height: auto;
+    min-height: 800px;
+    border: 2px solid rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 40px;
+    background: transparent;
+    color: white;
+    margin: 0 auto;
+}
+
+.team-container {
+    width: 80%;
+    margin : auto;
+}
+
+.team-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+form {
+    width: 100%;
+}
+
+.team-container input {
+    width: 100%;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+textarea {
+    width: 100%;
+    height: 60px;
+    margin: 10px 0;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    resize: none;
+    padding: 8px;
+}
+
+.btn {
+    background-color: rgb(236, 236, 236);
+    border: none;
+    color: black;
+    padding: 6px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#member-list {
+    width : 100%;
+    margin : auto;
+}
+
+#member-list ul, #goal-list ul {
+    width: 100%;
+}
+
+#member-list li, #goal-list li {
+    list-style: none;
+    margin: 10px 0;
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+}
+
+#member-list li > button {
+    margin: 0 5px;
+}
+
+/*.commenter {*/
+/*    font-size: 36px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.comment {*/
+/*    font-size: 18px;*/
+/*    font-weight: 400;*/
+/*}*/
+
+/*.comment-detail {*/
+/*    padding: 10px 0;*/
+/*}*/
+
+/*.reg-date {*/
+/*    font-size: 16px;*/
+/*}*/

@@ -16,10 +16,16 @@ function setUpBtnClickEvents() {
     });
 
     $("#teamInviteBtn").on("click", function () {
+        $(".modal").show();
+        $(".close").show();
         displayInviteList();
     });
 
-    $("#invite-function").on("click", "#dynAcceptBtn", function () {
+    $(".close").on("click", function () {
+        $(".modal").hide();
+    });
+
+    $("#invite-list").on("click", "#dynAcceptBtn", function () {
         if(!confirm("Would you like to join the team?")) return;
 
         let inoValue = $(this).parent().attr("data-ino");
@@ -50,7 +56,7 @@ function setUpBtnClickEvents() {
         });
     });
 
-    $("#invite-function").on("click", "#dynDeclineBtn", function () {
+    $("#invite-list").on("click", "#dynDeclineBtn", function () {
         if(!confirm("Would you like to decline the team?")) return;
 
         let inoValue = $(this).parent().attr("data-ino");
@@ -73,7 +79,7 @@ function displayInviteList() {
         type: "GET",
         url: "/collaborateam/invites",
         success : function(result){
-            $("#invite-function").html(formatInvite(result));
+            $("#invite-list").html(formatInvite(result));
         },
         error : function(){
             alert("Failed to load the invite list");
@@ -87,9 +93,9 @@ function formatInvite(invites) {
     invites.forEach(function(invite) {
         tmp += "<li data-ino=" + invite.ino
         tmp += " data-tno=" + invite.tno + ">"
-        tmp += " Team: " + invite.name
-        tmp += " <button id='dynAcceptBtn'>Accept</button>"
-        tmp += " <button id='dynDeclineBtn'>Decline</button>"
+        tmp += invite.name
+        tmp += " <button class='btn' id='dynAcceptBtn'>Accept</button>"
+        tmp += " <button class='btn' id='dynDeclineBtn'>Decline</button>"
         tmp += "</li>"
     })
     tmp += "</ul>";
