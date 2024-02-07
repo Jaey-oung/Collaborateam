@@ -36,35 +36,54 @@
         <div class="board-list">
             <div class="search-container">
                 <form action="<c:url value="/board/list"/>" method="get">
-                    <button type="button" class="new-board" id="boardCrtBtn">
-                        <i class="bx bx-pencil"></i>New Board
-                    </button>
-                    <label for="field">
-                        <select class="search-option" name="field" id="field"></select>
-                    </label>
-                    <label for="spec">
-                        <select class="search-option" name="spec" id="spec"></select>
-                    </label>
-                    <label>
-                        <select class="search-option" name="zone">
-                            <c:forEach var="zone" items="${zones}">
-                                <option value="${zone.key}" ${zone.key == pagination.pc.zone ? "selected" : ""}>${zone.value}</option>
-                            </c:forEach>
-                        </select>
-                    </label>
-                    <label>
-                        <select class="search-option" name="option">
-                            <c:forEach var="option" items="${options}">
-                                <option value="${option.key}" ${option.key == pagination.pc.option ? "selected" : ""}>${option.value}</option>
-                            </c:forEach>
-                        </select>
-                    </label>
-                    <label>
-                        <input type="text" class="search-option" name="keyword" value="<c:out value='${pagination.pc.keyword}'/>" placeholder="Search">
-                    </label>
-                    <button type="submit" class="search-button">
-                        <i class="bx bx-search"></i>
-                    </button>
+                    <div class="search-box">
+                        <div class="search-element">
+                            <button type="button" class="new-board" id="boardCrtBtn">
+                                <i class="bx bx-pencil"></i>New Board
+                            </button>
+                        </div>
+                        <div class="search-element">
+                            <h2>Field</h2>
+                            <label for="field">
+                                <select class="search-option" name="field" id="field"></select>
+                            </label>
+                        </div>
+                        <div class="search-element">
+                            <h2>Specialization</h2>
+                            <label for="spec">
+                                <select class="search-option" name="spec" id="spec"></select>
+                            </label>
+                        </div>
+                        <div class="search-element">
+                            <h2>Zone</h2>
+                            <label>
+                                <select class="search-option" name="zone">
+                                    <c:forEach var="zone" items="${zones}">
+                                        <option value="${zone.key}" ${zone.key == pagination.pc.zone ? "selected" : ""}>${zone.value}</option>
+                                    </c:forEach>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="search-element">
+                            <h2>Criteria</h2>
+                            <label>
+                                <select class="search-option" name="option">
+                                    <c:forEach var="option" items="${options}">
+                                        <option value="${option.key}" ${option.key == pagination.pc.option ? "selected" : ""}>${option.value}</option>
+                                    </c:forEach>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="search-element">
+                            <h2>Keyword</h2>
+                            <label>
+                                <input type="text" class="search-option" name="keyword" value="<c:out value='${pagination.pc.keyword}'/>" placeholder="Search">
+                            </label>
+                            <button type="submit" class="search-button">
+                                <i class="bx bx-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <table>

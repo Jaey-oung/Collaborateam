@@ -28,6 +28,21 @@ body {
     align-items: center;
 }
 
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-element {
+    text-align: center;
+}
+
+.search-element h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
 .new-board {
     background: rgb(255, 255, 255, 0.8);
     font-size: 16px;
@@ -139,8 +154,21 @@ td.title:hover {
     }
 
     .search-container {
-        margin : 10px 0;
+        flex-direction: column;
         padding: 10px 0;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-element {
+        margin-bottom: 10px;
+    }
+
+    .search-element h2 {
+        font-size: 12px;
+        margin-bottom: 2px;
     }
 
     .new-board {

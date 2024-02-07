@@ -47,6 +47,7 @@
                 <label>
                     <input type="text" name="id" value="<c:out value='${userDto.id}'/>" placeholder="ID" required>
                     <i class="bx bxs-user"></i>
+                    <button type="button" id="checkIdBtn">Check ID</button>
                 </label>
             </div>
             <div class="input">
