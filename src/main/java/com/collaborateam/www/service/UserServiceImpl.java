@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
     public int delete(String id) throws Exception {
         return userDao.remove(id);
     }
+
+    @Override
+    public int updateToOldUser() throws Exception {
+        return userDao.modifyToOldUser();
+    }
 }

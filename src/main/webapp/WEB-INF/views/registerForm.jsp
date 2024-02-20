@@ -64,7 +64,7 @@
             </div>
             <div class="input">
                 <label>
-                    <input type="email" name="email" value="<c:out value='${userDto.email}'/>" placeholder="Email">
+                    <input type="email" name="email" value="<c:out value='${userDto.email}'/>" placeholder="Email is optional">
                     <i class="bx bx-envelope"></i>
                 </label>
             </div>

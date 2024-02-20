@@ -47,4 +47,9 @@ public class UserDaoImpl implements UserDao {
     public int remove(String id) throws Exception {
         return session.delete(namespace+"remove", id);
     }
+
+    @Override
+    public int modifyToOldUser() throws Exception {
+        return session.update(namespace+"modifyToOldUser");
+    }
 }

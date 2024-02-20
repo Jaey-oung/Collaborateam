@@ -91,7 +91,7 @@ h2 {
     margin: 0 5px;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1280px) {
     .team {
         padding: 20px;
     }

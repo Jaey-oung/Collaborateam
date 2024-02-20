@@ -9,8 +9,8 @@
     </select>
 
     <sql id="selectFromBoard">
-        SELECT bno, field, spec, title, content, writer, view_cnt, comment_cnt, reg_date, up_date
-        FROM board
+        SELECT b.bno, b.field, b.spec, b.title, b.content, b.writer, b.view_cnt, b.comment_cnt, b.reg_date, b.up_date
+        FROM board b
     </sql>
 
     <select id="selectAll" resultType="BoardDto">
@@ -53,41 +53,45 @@
 
     <sql id="boardListCondition">
         <if test='field!="A"'>
-            AND field = #{field}
+            AND b.field = #{field}
         </if>
         <if test='spec!="A"'>
-            AND spec = #{spec}
+            AND b.spec = #{spec}
         </if>
         <if test='option!="A"'>
             <choose>
                 <when test='option=="T"'>
-                    AND title LIKE concat('%', #{keyword}, '%')
+                    AND b.title LIKE concat('%', #{keyword}, '%')
                 </when>
                 <when test='option=="W"'>
-                    AND writer LIKE concat('%', #{keyword}, '%')
+                    AND b.writer LIKE concat('%', #{keyword}, '%')
                 </when>
                 <when test='option=="TC"'>
-                    AND (title LIKE concat('%', #{keyword}, '%')
-                    OR content LIKE concat('%', #{keyword}, '%'))
+                    AND (b.title LIKE concat('%', #{keyword}, '%')
+                    OR b.content LIKE concat('%', #{keyword}, '%'))
                 </when>
             </choose>
         </if>
         <if test='zone!="A"'>
-            AND reg_date >= now() - INTERVAL 1 WEEK
+            AND u.reg_date >= now() - INTERVAL 1 WEEK
         </if>
     </sql>
 
     <select id="boardPage" parameterType="BoardListCondition" resultType="BoardDto">
         <include refid="selectFromBoard"/>
+        JOIN user u
+            ON b.writer = u.id
         WHERE true
         <include refid="boardListCondition"/>
-        ORDER BY reg_date DESC, bno DESC
+        ORDER BY b.reg_date DESC, b.bno DESC
         LIMIT #{offset}, #{pageSize}
     </select>
 
     <select id="boardCnt" parameterType="BoardListCondition" resultType="int">
         SELECT count(*)
-        FROM board
+        FROM board b
+        JOIN user u
+            ON b.writer = u.id
         WHERE true
         <include refid="boardListCondition"/>
     </select>

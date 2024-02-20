@@ -29,20 +29,6 @@ public class SpecServiceImplTest {
     }
 
     @Test
-    public void insertData() throws Exception {
-        SpecDto specDto = new SpecDto("A", "All", "A");
-        specService.create(specDto);
-        specDto = new SpecDto("WD", "Web Development", "IT");
-        specService.create(specDto);
-        specDto = new SpecDto("SD", "Software Development", "IT");
-        specService.create(specDto);
-        specDto = new SpecDto("FA", "Financial Analysis", "FIN");
-        specService.create(specDto);
-        specDto = new SpecDto("RM", "Risk Management", "FIN");
-        specService.create(specDto);
-    }
-
-    @Test
     public void getCountTest() throws Exception {
         assertEquals(0, specService.getCount());
 

@@ -41,7 +41,7 @@
     color: #6495ED;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1280px) {
     .container h2 {
         font-size: 30px;
         margin-bottom: 10px;

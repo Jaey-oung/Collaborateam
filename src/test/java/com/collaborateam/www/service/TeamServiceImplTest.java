@@ -30,14 +30,6 @@ public class TeamServiceImplTest {
     }
 
     @Test
-    public void insertData() throws Exception {
-        for(int i=1; i<=50; i++) {
-            TeamDto teamDto = new TeamDto("leader1", "team"+i, "description"+i);
-            teamService.create(teamDto);
-        }
-    }
-
-    @Test
     public void getCountTest() throws Exception {
         assertEquals(0, teamService.getCount());
 
@@ -105,7 +97,7 @@ public class TeamServiceImplTest {
         assertEquals(1, teamService.create(teamDto2));
         assertEquals(2, teamService.getCount());
 
-        tno = teamService.getList().get(1).getTno();
+        tno = teamService.getList().get(0).getTno();
         teamDto2.setTno(tno);
 
         TeamDto teamDto4 = teamService.read(tno);

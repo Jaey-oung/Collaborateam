@@ -12,4 +12,5 @@ public interface UserDao {
     UserDto select(String id) throws Exception; // Read - R
     int modify(UserDto userDto) throws Exception;   // Update - U
     int remove(String id) throws Exception; // Delete - D
+    int modifyToOldUser() throws Exception;
 }

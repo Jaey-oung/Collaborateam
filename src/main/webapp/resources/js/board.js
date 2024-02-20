@@ -48,6 +48,7 @@ function setUpBtnClickEvents() {
             content.attr("readonly", false);
             $("#boardUpdBtn").html('<i class="bx bx-pencil"></i>Write');
             $("#boardDelBtn").hide();
+            $(".comment-container").hide();
         } else {
             submitForm("/collaborateam/board/update");
         }

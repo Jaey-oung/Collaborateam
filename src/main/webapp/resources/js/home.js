@@ -7,5 +7,5 @@ $(document).ready(function() {
 });
 
 function displayMsg(msg) {
-    if(msg === "SIGN_UP_OK") alert("Successfully created the user");
+    if(msg === "USER_CRT_OK") alert("Successfully created the user");
 }

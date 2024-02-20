@@ -12,4 +12,5 @@ public interface UserService {
     UserDto read(String id) throws Exception;
     int update(UserDto userDto) throws Exception;
     int delete(String id) throws Exception;
+    int updateToOldUser() throws Exception;
 }

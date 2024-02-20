@@ -69,6 +69,7 @@ public class LoginController {
         } catch (Exception e) {
             return false;
         }
-        return userDto!=null && passwordEncoder.matches(pwd, userDto.getPwd());
+        return userDto!=null && userDto.getPwd().equals(pwd);
+//        return userDto!=null && passwordEncoder.matches(pwd, userDto.getPwd());
     }
 }

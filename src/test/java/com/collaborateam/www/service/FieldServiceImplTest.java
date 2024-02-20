@@ -29,16 +29,6 @@ public class FieldServiceImplTest {
     }
 
     @Test
-    public void insertData() throws Exception {
-        FieldDto fieldDto = new FieldDto("A", "All");
-        fieldService.create(fieldDto);
-        fieldDto = new FieldDto("IT", "Information Technology");
-        fieldService.create(fieldDto);
-        fieldDto = new FieldDto("FIN", "Finance");
-        fieldService.create(fieldDto);
-    }
-
-    @Test
     public void getCountTest() throws Exception {
         assertEquals(0, fieldService.getCount());
 

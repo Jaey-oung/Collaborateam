@@ -42,11 +42,11 @@ function isIdDuplicate() {
         url: "/collaborateam/register/isIdDuplicate?id="+idValue,
         success: function(result){
             alert(result);
-            $("#submitBtn").removeAttr("disabled").removeClass("button-disabled").addClass("button-enabled");
+            $("#submitBtn").removeAttr("disabled").removeClass("disabled-btn").addClass("enabled-btn");
         },
         error: function(jqXHR) {
             alert(jqXHR.responseText);
-            $("#submitBtn").attr("disabled", "disabled").removeClass("button-enabled").addClass("button-disabled");
+            $("#submitBtn").attr("disabled", "disabled").removeClass("enabled-btn").addClass("disabled-btn");
         }
     });
 }

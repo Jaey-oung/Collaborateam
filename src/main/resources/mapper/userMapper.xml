@@ -49,4 +49,9 @@
         FROM user
         WHERE id = #{id}
     </delete>
+
+    <update id="modifyToOldUser">
+        UPDATE user
+        SET reg_date = '2024-01-01';
+    </update>
 </mapper>
