@@ -2,6 +2,7 @@ package com.collaborateam.www.service;
 
 import com.collaborateam.www.domain.BoardDto;
 import com.collaborateam.www.domain.BoardListCondition;
+import com.collaborateam.www.domain.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -17,14 +19,30 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class BoardServiceImplTest {
     @Autowired
+    UserService userService;
+    UserDto userDto1;
+    UserDto userDto2;
+    Calendar birth;
+
+    @Autowired
     BoardService boardService;
     BoardDto boardDto1;
     BoardDto boardDto2;
 
     @Before
     public void init() throws Exception {
-        boardDto1 = new BoardDto("", "", "title1", "content1", "writer1");
-        boardDto2 = new BoardDto("", "", "title2", "content2", "writer2");
+        birth = Calendar.getInstance();
+        birth.clear();
+        birth.set(2000, Calendar.DECEMBER, 19);
+
+        userDto1 = new UserDto("id1", "pwd1", "email1", "id1", birth.getTime());
+        userDto2 = new UserDto("id2", "pwd2", "email2", "id2", birth.getTime());
+        boardDto1 = new BoardDto("", "", "title1", "content1", userDto1.getId());
+        boardDto2 = new BoardDto("", "", "title2", "content2", userDto2.getId());
+
+        userService.deleteAll();
+        userService.create(userDto1);
+        userService.create(userDto2);
 
         boardService.deleteAll();
     }
@@ -179,13 +197,13 @@ public class BoardServiceImplTest {
     @Test
     public void getBoardPageTest() throws Exception {
         BoardDto[] boardDtos = new BoardDto[] {
-                new BoardDto("A", "A", "title1", "content1", "writer1"),
-                new BoardDto("IT", "A", "title2", "content2", "writer2"),
-                new BoardDto("IT", "WD", "title3", "content3", "writer3"),
-                new BoardDto("IT", "SD", "title4", "content4", "writer4"),
-                new BoardDto("FIN", "A", "title5", "content5", "writer5"),
-                new BoardDto("FIN", "RM", "title6", "content6", "writer6"),
-                new BoardDto("FIN", "FA", "title7", "content7", "writer7")
+                new BoardDto("A", "A", "title1", "content1", userDto1.getId()),
+                new BoardDto("IT", "A", "title2", "content2", userDto1.getId()),
+                new BoardDto("IT", "WD", "title3", "content3", userDto1.getId()),
+                new BoardDto("IT", "SD", "title4", "content4", userDto2.getId()),
+                new BoardDto("FIN", "A", "title5", "content5", userDto2.getId()),
+                new BoardDto("FIN", "RM", "title6", "content6", userDto2.getId()),
+                new BoardDto("FIN", "FA", "title7", "content7", userDto2.getId())
         };
 
         for (BoardDto boardDto : boardDtos) {
@@ -194,15 +212,19 @@ public class BoardServiceImplTest {
 
         // All field
 
-        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "");
+        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "A");
         List<BoardDto> list = boardService.getBoardPage(blc);
+        assertEquals(7, list.size());
+
+        blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "");
+        list = boardService.getBoardPage(blc);
         assertEquals(7, list.size());
 
         blc = new BoardListCondition(1, 10, "A", "A", "T", "title", "");
         list = boardService.getBoardPage(blc);
         assertEquals(7, list.size());
 
-        blc = new BoardListCondition(1, 10, "A", "A", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "A", "A", "W", "id", "");
         list = boardService.getBoardPage(blc);
         assertEquals(7, list.size());
 
@@ -224,7 +246,7 @@ public class BoardServiceImplTest {
         list = boardService.getBoardPage(blc);
         assertEquals(3, list.size());
 
-        blc = new BoardListCondition(1, 10, "IT", "A", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "IT", "A", "W", "id", "");
         list = boardService.getBoardPage(blc);
         assertEquals(3, list.size());
 
@@ -246,7 +268,7 @@ public class BoardServiceImplTest {
         list = boardService.getBoardPage(blc);
         assertEquals(1, list.size());
 
-        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "id", "");
         list = boardService.getBoardPage(blc);
         assertEquals(1, list.size());
 
@@ -262,13 +284,13 @@ public class BoardServiceImplTest {
     @Test
     public void getBoardCntTest() throws Exception {
         BoardDto[] boardDtos = new BoardDto[] {
-                new BoardDto("A", "A", "title1", "content1", "writer1"),
-                new BoardDto("IT", "A", "title2", "content2", "writer2"),
-                new BoardDto("IT", "WD", "title3", "content3", "writer3"),
-                new BoardDto("IT", "SD", "title4", "content4", "writer4"),
-                new BoardDto("FIN", "A", "title5", "content5", "writer5"),
-                new BoardDto("FIN", "RM", "title6", "content6", "writer6"),
-                new BoardDto("FIN", "FA", "title7", "content7", "writer7")
+                new BoardDto("A", "A", "title1", "content1", userDto1.getId()),
+                new BoardDto("IT", "A", "title2", "content2", userDto1.getId()),
+                new BoardDto("IT", "WD", "title3", "content3", userDto1.getId()),
+                new BoardDto("IT", "SD", "title4", "content4", userDto2.getId()),
+                new BoardDto("FIN", "A", "title5", "content5", userDto2.getId()),
+                new BoardDto("FIN", "RM", "title6", "content6", userDto2.getId()),
+                new BoardDto("FIN", "FA", "title7", "content7", userDto2.getId())
         };
 
         for (BoardDto boardDto : boardDtos) {
@@ -277,15 +299,19 @@ public class BoardServiceImplTest {
 
         // All field
 
-        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "");
+        BoardListCondition blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "A");
         int rowCnt = boardService.getBoardCnt(blc);
+        assertEquals(7, rowCnt);
+
+        blc = new BoardListCondition(1, 10, "A", "A", "A", "all", "A");
+        rowCnt = boardService.getBoardCnt(blc);
         assertEquals(7, rowCnt);
 
         blc = new BoardListCondition(1, 10, "A", "A", "T", "title", "");
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(7, rowCnt);
 
-        blc = new BoardListCondition(1, 10, "A", "A", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "A", "A", "W", "id", "");
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(7, rowCnt);
 
@@ -307,7 +333,7 @@ public class BoardServiceImplTest {
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(3, rowCnt);
 
-        blc = new BoardListCondition(1, 10, "IT", "A", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "IT", "A", "W", "id", "");
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(3, rowCnt);
 
@@ -329,7 +355,7 @@ public class BoardServiceImplTest {
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(1, rowCnt);
 
-        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "writer", "");
+        blc = new BoardListCondition(1, 10, "IT", "WD", "W", "id", "");
         rowCnt = boardService.getBoardCnt(blc);
         assertEquals(1, rowCnt);
 
